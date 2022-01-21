@@ -14,6 +14,8 @@ let animals = [];
 let sausageDogImage = undefined;
 let sausageDog = undefined;
 
+let barkWav;
+
 function preload() {
   for (let i = 0; i < NUM_ANIMAL_IMAGES; i++) {
     let animalImage = loadImage(`assets/images/animal${i}.png`);
@@ -21,6 +23,8 @@ function preload() {
   }
 
   sausageDogImage = loadImage(`assets/images/sausage-dog.png`);
+
+  barkWav = loadSound(`assets/sounds/bark.wav`);
 }
 
 function setup() {

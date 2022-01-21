@@ -6,6 +6,7 @@ class SausageDog extends Animal {
     this.rotationSpeed = 0.1;
     this.foundSpeedX = 5;
     this.foundSpeedY = 5;
+    this.noBark = true;
   }
 
   update() {
@@ -22,6 +23,10 @@ class SausageDog extends Animal {
 
       if (this.y >= height || this.y <= 0) {
         this.foundSpeedY = -this.foundSpeedY;
+      }
+      if (this.noBark) {
+        barkWav.loop();
+        this.noBark = false;
       }
     }
   }
