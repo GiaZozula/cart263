@@ -1,8 +1,9 @@
 class Animal {
-  constructor(x, y, image) {
+  constructor(x, y, image, rotation) {
     this.x = x;
     this.y = y;
     this.image = image;
+    this.rotation = rotation;
 
     this.angle = 0;
   }
@@ -15,7 +16,7 @@ class Animal {
     push();
     imageMode(CENTER);
     translate(this.x, this.y);
-    rotate(this.angle);
+    rotate(this.rotation);
     image(this.image, 0, 0);
     pop();
   }

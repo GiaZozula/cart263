@@ -1,6 +1,6 @@
 class SausageDog extends Animal {
-  constructor(x, y, image) {
-    super(x, y, image);
+  constructor(x, y, image, rotation) {
+    super(x, y, image, rotation);
 
     this.found = false;
     this.rotationSpeed = 0.25;
@@ -10,7 +10,7 @@ class SausageDog extends Animal {
     super.update();
 
     if (this.found) {
-      this.angle += this.rotationSpeed;
+      this.rotation += this.rotationSpeed;
     }
   }
 
