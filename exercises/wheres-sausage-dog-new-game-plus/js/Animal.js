@@ -4,8 +4,6 @@ class Animal {
     this.y = y;
     this.image = image;
     this.rotation = rotation;
-
-    this.angle = 0;
   }
 
   update() {

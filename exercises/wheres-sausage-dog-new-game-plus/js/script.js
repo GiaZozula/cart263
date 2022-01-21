@@ -14,8 +14,6 @@ let animals = [];
 let sausageDogImage = undefined;
 let sausageDog = undefined;
 
-let errorMp3 = undefined;
-
 function preload() {
   for (let i = 0; i < NUM_ANIMAL_IMAGES; i++) {
     let animalImage = loadImage(`assets/images/animal${i}.png`);
@@ -23,8 +21,6 @@ function preload() {
   }
 
   sausageDogImage = loadImage(`assets/images/sausage-dog.png`);
-
-  errorMp3 = loadSound(`assets/sounds/error.mp3`);
 }
 
 function setup() {
@@ -47,7 +43,7 @@ function setup() {
 }
 
 function draw() {
-  background(255, 255, 255);
+  // background(0);
 
   for (let i = 0; i < animals.length; i++) {
     animals[i].update();
