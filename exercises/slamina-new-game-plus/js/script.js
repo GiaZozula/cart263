@@ -153,12 +153,16 @@ let state = "title";
 let font;
 let fireworks;
 let animalsImage;
+let jungleSound = {
+  isplaying: false,
+};
 
 //preloadddd
 function preload() {
   font = loadFont("assets/fonts/font.otf");
   fireworks = loadImage("assets/images/fireworks.gif");
   animalsImage = loadImage("assets/images/animalsImage.png");
+  jungleSound = loadSound("assets/sounds/jungle.wav");
 }
 
 //setupppp
@@ -194,6 +198,11 @@ function draw() {
   //draw title ---------------------------------------
 
   function drawTitle() {
+    if (!jungleSound.isplaying) {
+      jungleSound.play();
+      jungleSound.isplaying = true;
+    }
+
     background(animalsImage);
     push();
     stroke(255);
