@@ -1,9 +1,11 @@
 /**
-Title of Project
-Author Name
+Slamina New Game ++
+Gia
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+This is my submission for the Slamina new game plus exercise.
+I have added start and end screens,
+more visual flair when the answer is right or wrong,
+and sound effects when the answer is right or wrong.
 */
 
 "use strict";
@@ -147,6 +149,7 @@ const animals = [
 
 let currentAnimal = ``;
 let currentAnswer = ``;
+let state = "title";
 
 /**
 Description of setup
@@ -171,20 +174,49 @@ function setup() {
 Description of draw()
 */
 function draw() {
-  background(0);
-
-  if (currentAnswer === currentAnimal) {
-    fill(0, 255, 0);
-  } else {
-    fill(255, 0, 0);
+  //switch those states
+  if (state === "title") {
+    drawTitle();
+  } else if (state === "game") {
+    drawGame();
+  } else if (state === `end`) {
+    drawEnd();
   }
-  text(currentAnswer, width / 2, height / 2);
+
+  //draw title ---------------------------------------
+
+  function drawTitle() {
+    background(0);
+    fill(255);
+    text(
+      `I have one question for you. Click to continue.`,
+      windowWidth / 2,
+      windowHeight / 2
+    );
+  }
+
+  function drawGame() {
+    background(0);
+    text(`I just said an animal backwards. What animal was it?`);
+
+    //check if the answer is correct
+    if (currentAnswer === currentAnimal) {
+      fill(0, 255, 0);
+    } else {
+      fill(255, 0, 0);
+    }
+    text(currentAnswer, width / 2, height / 2);
+  }
 }
 
 function mousePressed() {
-  currentAnimal = random(animals);
-  let reverseAnimal = reverseString(currentAnimal);
-  responsiveVoice.speak(reverseAnimal);
+  //check if we're out of the title screen
+  if (state === "game") {
+    currentAnimal = random(animals);
+    let reverseAnimal = reverseString(currentAnimal);
+    responsiveVoice.speak(reverseAnimal);
+  } // if not, lets get there
+  else state = "game";
 }
 
 function guessAnimal(animal) {
