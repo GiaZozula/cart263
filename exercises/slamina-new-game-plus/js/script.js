@@ -150,10 +150,18 @@ const animals = [
 let currentAnimal = ``;
 let currentAnswer = ``;
 let state = "title";
+let font;
+let fireworks;
+let animalsImage;
 
-/**
-Description of setup
-*/
+//preloadddd
+function preload() {
+  font = loadFont("assets/fonts/font.otf");
+  fireworks = loadImage("assets/images/fireworks.gif");
+  animalsImage = loadImage("assets/images/animalsImage.png");
+}
+
+//setupppp
 function setup() {
   createCanvas(windowWidth, windowHeight);
   if (annyang) {
@@ -164,15 +172,15 @@ function setup() {
     annyang.addCommands(commands);
     annyang.start();
 
+    textFont(font);
     textSize(32);
-    textStyle(BOLD);
     textAlign(CENTER, CENTER);
+
+    rectMode(CENTER);
   }
 }
 
-/**
-Description of draw()
-*/
+//drawwww
 function draw() {
   //switch those states
   if (state === "title") {
@@ -186,13 +194,17 @@ function draw() {
   //draw title ---------------------------------------
 
   function drawTitle() {
-    background(0);
+    background(animalsImage);
+    push();
+    stroke(255);
+    strokeWeight(4);
+    fill(0, 0, 100);
+    rect(windowWidth / 2, windowHeight / 2, 500, 100, 10);
+    pop();
+    push(0);
     fill(255);
-    text(
-      `I have one question for you. Click to continue.`,
-      windowWidth / 2,
-      windowHeight / 2
-    );
+    text(`Click to continue!!`, windowWidth / 2, windowHeight / 2);
+    pop();
   }
 
   function drawGame() {
