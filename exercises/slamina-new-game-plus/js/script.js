@@ -149,20 +149,30 @@ const animals = [
 
 let currentAnimal = ``;
 let currentAnswer = ``;
-let state = "title";
+let state = "lose";
 let font;
 let fireworks;
 let animalsImage;
+let loseImage;
 let jungleSound = {
   isplaying: false,
 };
-
+let winSound = {
+  isplaying: false,
+};
+let loseSound = {
+  isplaying: false,
+};
 //preloadddd
+
 function preload() {
   font = loadFont("assets/fonts/font.otf");
   fireworks = loadImage("assets/images/fireworks.gif");
   animalsImage = loadImage("assets/images/animalsImage.png");
+  loseImage = loadImage("assets/images/lose.png");
   jungleSound = loadSound("assets/sounds/jungle.wav");
+  winSound = loadSound("assets/sounds/win.wav");
+  loseSound = loadSound("assets/sounds/lose.wav");
 }
 
 //setupppp
@@ -191,8 +201,10 @@ function draw() {
     drawTitle();
   } else if (state === "game") {
     drawGame();
-  } else if (state === `end`) {
-    drawEnd();
+  } else if (state === "win") {
+    drawWin();
+  } else if (state === "lose") {
+    drawLose();
   }
 
   //draw title ---------------------------------------
@@ -217,17 +229,55 @@ function draw() {
   }
 
   function drawGame() {
-    background(0);
-    text(`I just said an animal backwards. What animal was it?`);
+    if (jungleSound.isplaying) {
+      jungleSound.stop();
+    }
+    background(animalsImage);
+    push();
+    stroke(255);
+    strokeWeight(4);
+    fill(0, 0, 100);
+    rect(windowWidth / 2, windowHeight / 2, 2000, 100, 10);
+    pop();
+    push();
+    fill(255);
+    text(
+      `I just said an animal backwards. What animal was it?`,
+      windowWidth / 2,
+      windowHeight / 2
+    );
+    pop();
 
     //check if the answer is correct
     if (currentAnswer === currentAnimal) {
-      fill(0, 255, 0);
+      drawWin();
     } else {
-      fill(255, 0, 0);
+      drawLose();
     }
     text(currentAnswer, width / 2, height / 2);
   }
+}
+
+function drawWin() {
+  if (!winSound.isplaying) {
+    winSound.play();
+    winSound.isplaying = true;
+  }
+  background(animalsImage);
+  push();
+  imageMode(CORNER);
+  image(fireworks, 1000, 0, 1000, 1000);
+  image(fireworks, 500, 0, 1000, 1000);
+  image(fireworks, 0, 0, 1000, 1000);
+  pop();
+}
+
+function drawLose() {
+  if (!loseSound.isplaying) {
+    loseSound.play();
+    loseSound.isplaying = true;
+  }
+  background(loseImage);
 }
 
 function mousePressed() {
