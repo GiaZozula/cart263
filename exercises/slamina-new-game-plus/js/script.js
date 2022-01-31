@@ -220,7 +220,7 @@ function draw() {
     stroke(255);
     strokeWeight(4);
     fill(0, 0, 100);
-    rect(windowWidth / 2, windowHeight / 2, 500, 100, 10);
+    rect(windowWidth / 2, windowHeight / 2, 1000, 100, 10);
     pop();
     push(0);
     fill(255);
