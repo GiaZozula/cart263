@@ -147,9 +147,9 @@ const animals = [
   "zebra",
 ];
 
-let currentAnimal = ``;
+let currentAnimal = `nothingyet`;
 let currentAnswer = ``;
-let state = "lose";
+let state = "title";
 let font;
 let fireworks;
 let animalsImage;
@@ -163,8 +163,8 @@ let winSound = {
 let loseSound = {
   isplaying: false,
 };
-//preloadddd
 
+//preloadddd
 function preload() {
   font = loadFont("assets/fonts/font.otf");
   fireworks = loadImage("assets/images/fireworks.gif");
@@ -224,7 +224,7 @@ function draw() {
     pop();
     push(0);
     fill(255);
-    text(`Click to continue!!`, windowWidth / 2, windowHeight / 2);
+    text(`press any key to continue!!`, windowWidth / 2, windowHeight / 2);
     pop();
   }
 
@@ -233,6 +233,7 @@ function draw() {
       jungleSound.stop();
     }
     background(animalsImage);
+
     push();
     stroke(255);
     strokeWeight(4);
@@ -241,20 +242,15 @@ function draw() {
     pop();
     push();
     fill(255);
-    text(
-      `I just said an animal backwards. What animal was it?`,
-      windowWidth / 2,
-      windowHeight / 2
-    );
+    text(`click for backwards animal!!`, windowWidth / 2, windowHeight / 2);
     pop();
 
     //check if the answer is correct
     if (currentAnswer === currentAnimal) {
       drawWin();
-    } else {
+    } else if (currentAnswer != `` && currentAnswer != currentAnimal) {
       drawLose();
     }
-    text(currentAnswer, width / 2, height / 2);
   }
 }
 
@@ -280,14 +276,20 @@ function drawLose() {
   background(loseImage);
 }
 
+function keyPressed() {
+  //check if we're on of the title screen
+  if (state === "title") {
+    state = "game";
+  }
+}
+
 function mousePressed() {
-  //check if we're out of the title screen
   if (state === "game") {
     currentAnimal = random(animals);
     let reverseAnimal = reverseString(currentAnimal);
     responsiveVoice.speak(reverseAnimal);
-  } // if not, lets get there
-  else state = "game";
+    console.log(currentAnimal);
+  }
 }
 
 function guessAnimal(animal) {
