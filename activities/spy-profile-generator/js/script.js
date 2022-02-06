@@ -13,7 +13,6 @@ let spyProfile = {
   name: `**REDACTED**`,
   alias: `**REDACTED**`,
   secretWeapon: `**REDACTED**`,
-  safeHouseLocation: `**REDACTED**`,
   currentBenefactor: `**REDACTED**`,
   currentTarget: `**REDACTED**`,
   password: `**REDACTED**`,
@@ -22,10 +21,9 @@ let spyProfile = {
 let instrumentData = undefined;
 let objectData = undefined;
 let tarotData = undefined;
-let countriesData = undefined;
-let richPeopleData = undefined;
-let corporationsData = undefined;
-let secretSocietiesData = undefined;
+let lovecraftData = undefined;
+
+let backgroundImg;
 
 function preload() {
   instrumentData = loadJSON(
@@ -37,17 +35,8 @@ function preload() {
   tarotData = loadJSON(
     `https://raw.githubusercontent.com/dariusk/corpora/master/data/divination/tarot_interpretations.json`
   );
-  countriesData = loadJSON(
-    `https://raw.githubusercontent.com/dariusk/corpora/master/data/geography/countries_with_capitals.json`
-  );
-  richpeopleData = loadJSON(
-    `https://raw.githubusercontent.com/dariusk/corpora/master/data/humans/richpeople.json`
-  );
-  corporationsData = loadJSON(
-    `https://github.com/dariusk/corpora/blob/master/data/corporations/fortune500.json`
-  );
-  secretSocietiesData = loadJSON(
-    `https://raw.githubusercontent.com/dariusk/corpora/master/data/societies_and_groups/semi_secret.json`
+  lovecraftData = loadJSON(
+    `https://raw.githubusercontent.com/dariusk/corpora/master/data/mythology/lovecraft.json`
   );
 }
 
@@ -62,7 +51,6 @@ function setup() {
       spyProfile.alias = data.alias;
       spyProfile.secretWeapon = data.secretWeapon;
       spyProfile.password = data.password;
-      spyProfile.safeHouseLocation = data.safeHouseLocation;
       spyProfile.currentBenefactor = data.currentBenefactor;
       spyProfile.currentTarget = data.currentTarget;
     }
@@ -76,18 +64,15 @@ function generateSpyProfile() {
   let instrument = random(instrumentData.instruments);
   spyProfile.alias = `The ${instrument}`;
   spyProfile.secretWeapon = random(objectData.objects);
+
   let card = random(tarotData.tarot_interpretations);
   spyProfile.password = random(card.keywords);
-  let safeHouse = random(countriesData.countries);
-  spyProfile.safeHouseLocation = `${safeHouse}`;
-  let currentBenefactor = random(richpeopleData.richPeople.name);
+
+  let currentBenefactor = random(lovecraftData.deities);
   spyProfile.currentBenefactor = `${currentBenefactor}`;
-  let benefactorOrg = random(secretSocietiesData);
-  spyProfile.benefactorOrg = `${benefactorOrg}`;
-  let currentTarget = random(richpeopleData.richPeople.name);
+
+  let currentTarget = random(lovecraftData.supernatural_creatures);
   spyProfile.currentTarget = `${currentTarget}`;
-  let targetOrg = random(corporationsData.companies);
-  spyProfile.targetOrg = `${targetOrg}`;
 
   localStorage.setItem(`spy-profile-data`, JSON.stringify(spyProfile));
 }
@@ -101,11 +86,9 @@ Name: ${spyProfile.name}
 Alias: ${spyProfile.alias}
 Secret Weapon: ${spyProfile.secretWeapon}
 Password: ${spyProfile.password}
-Safe House Location: ${spyProfile.safeHouseLocation}
 Current Benefactor: ${spyProfile.currentBenefactor}
-Benefactor Organization:
 Current Target: ${spyProfile.currentTarget}
-Target Organization:
+
 
 `;
 
@@ -116,4 +99,10 @@ Target Organization:
   textAlign(LEFT, TOP);
   text(profile, 100, 100);
   pop();
+}
+
+function keyPressed() {
+  if (key === `c`) {
+    localStorage.removeItem(`spy-profile-data`);
+  }
 }
