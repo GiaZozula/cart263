@@ -1,10 +1,9 @@
 /**
-SPY PROFILE GENERATOR
+SPY PROFILE GENERATOR++++
 Gia <3
 
 Generates a randomized spy profile for the user, and password protects it.
 
-perspective is my password :)
 */
 
 "use strict";
