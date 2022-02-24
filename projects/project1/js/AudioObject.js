@@ -1,14 +1,15 @@
 class AudioObject {
   //basic properties of the AudioObject class
-  constructor(x, y, size, sound) {
+  constructor(x, y, sound) {
     this.x = x;
     this.y = y;
     this.vx = 0;
     this.vy = 0;
-    this.sound = undefined;
+    this.sound = sound;
     this.size = undefined;
     this.speed = 0;
     this.changeDirection = 0.2;
+    this.sound.loop();
   }
 
   move() {
@@ -36,5 +37,11 @@ class AudioObject {
     if (d < this.size / 2) {
       console.log("hover over");
     }
+  }
+
+  spatialVolume() {
+    let volume = map(dist(mouseX, mouseY, this.x, this.y), 0, 250, 1, 0);
+    volume = constrain(volume, 0, 1);
+    this.sound.setVolume(volume);
   }
 }

@@ -19,22 +19,27 @@ let dogSound;
 //   size: 30,
 // };
 
+let dogSound2;
+
 function preload() {
   dogSound = loadSound(`assets/sounds/bark.wav`);
+  dogSound2 = loadSound(`assets/sounds/bark2.wav`);
 }
 
 function setup() {
   createCanvas(900, 900);
 
   //adding Dogs
-  for (let i = 0; i < numDogs; i++) {
-    let x = random(0, width);
-    let y = random(0, height);
-    let sound = dogSound;
-    // let sound = dogSound;
-    let dog = new Dog(x, y, sound);
-    dogs.push(dog);
-  }
+  //  for (let i = 0; i < numDogs; i++) {
+  let x = random(0, width);
+  let y = random(0, height);
+  let sound = dogSound;
+  let dog = new Dog(x, y, sound);
+  dogs.push(dog);
+
+  let dog2 = new Dog(random(0, width), random(0, height), dogSound2);
+  dogs.push(dog2);
+  //  }
 }
 
 function draw() {
@@ -46,6 +51,7 @@ function draw() {
     dog.display();
     dog.move();
     dog.mouseOver();
+    dog.spatialVolume();
   }
 
   // let volume = map(dist(mouseX, mouseY, dog.x, dog.y), 0, 250, 1, 0);
@@ -60,6 +66,8 @@ function draw() {
 function mousePressed() {
   // dog.sound.loop();
 }
+
+function spatialVolume() {}
 
 // function drawHarry() {
 //   push();

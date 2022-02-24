@@ -1,7 +1,7 @@
 class Dog extends AudioObject {
   //extend the Dog as a child of the AudioObject Parent
-  constructor(x, y, size, sound) {
-    super(x, y, size, sound);
+  constructor(x, y, sound) {
+    super(x, y, sound);
     //Give the dog specific qualities
     this.vx = 2;
     this.vy = 2;
