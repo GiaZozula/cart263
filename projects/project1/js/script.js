@@ -10,21 +10,21 @@ let dogs = [];
 let numDogs = 3;
 let dogSound;
 
-let harrySaul = {
-  x: 0,
-  y: 0,
-  vx: 0,
-  vy: 0,
-  speed: 1,
-  size: 30,
-};
+// let harrySaul = {
+//   x: 0,
+//   y: 0,
+//   vx: 0,
+//   vy: 0,
+//   speed: 1,
+//   size: 30,
+// };
 
 function preload() {
   dogSound = loadSound(`assets/sounds/bark.wav`);
 }
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(900, 900);
 
   //adding Dogs
   for (let i = 0; i < numDogs; i++) {
@@ -47,47 +47,47 @@ function draw() {
     dog.move();
   }
 
-  drawHarry();
-  moveHarry();
-  userControls();
-
   // let volume = map(dist(mouseX, mouseY, dog.x, dog.y), 0, 250, 1, 0);
   // volume = constrain(volume, 0, 1);
   // dog.sound.setVolume(volume);
+
+  // drawHarry();
+  // moveHarry();
+  // userControls();
 }
 
 function mousePressed() {
   // dog.sound.loop();
 }
 
-function drawHarry() {
-  push();
-  ellipse(harrySaul.x, harrySaul.y, harrySaul.size);
-  pop();
-}
-
-function moveHarry() {
-  harrySaul.x += harrySaul.vx;
-  harrySaul.y += harrySaul.vy;
-}
-
-function userControls() {
-  if (keyIsDown(LEFT_ARROW)) {
-    harrySaul.vx = -harrySaul.speed;
-  } else if (keyIsDown(RIGHT_ARROW)) {
-    harrySaul.vx = harrySaul.speed;
-  } else {
-    harrySaul.vx = 0;
-  }
-
-  if (keyIsDown(UP_ARROW)) {
-    harrySaul.vy = -harrySaul.speed;
-  } else if (keyIsDown(DOWN_ARROW)) {
-    harrySaul.vy = harrySaul.speed;
-  } else {
-    harrySaul.vy = 0;
-  }
-  // Constrain to the bounds of the canvas
-  harrySaul.x = constrain(harrySaul.x, 0, width);
-  harrySaul.y = constrain(harrySaul.y, 0, height);
-}
+// function drawHarry() {
+//   push();
+//   ellipse(harrySaul.x, harrySaul.y, harrySaul.size);
+//   pop();
+// }
+//
+// function moveHarry() {
+//   harrySaul.x += harrySaul.vx;
+//   harrySaul.y += harrySaul.vy;
+// }
+//
+// function userControls() {
+//   if (keyIsDown(LEFT_ARROW)) {
+//     harrySaul.vx = -harrySaul.speed;
+//   } else if (keyIsDown(RIGHT_ARROW)) {
+//     harrySaul.vx = harrySaul.speed;
+//   } else {
+//     harrySaul.vx = 0;
+//   }
+//
+//   if (keyIsDown(UP_ARROW)) {
+//     harrySaul.vy = -harrySaul.speed;
+//   } else if (keyIsDown(DOWN_ARROW)) {
+//     harrySaul.vy = harrySaul.speed;
+//   } else {
+//     harrySaul.vy = 0;
+//   }
+//   // Constrain to the bounds of the canvas
+//   harrySaul.x = constrain(harrySaul.x, 0, width);
+//   harrySaul.y = constrain(harrySaul.y, 0, height);
+// }

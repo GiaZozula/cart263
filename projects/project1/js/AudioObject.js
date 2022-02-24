@@ -28,5 +28,6 @@ class AudioObject {
     this.y = constrain(this.y, 0, height);
   }
 
+  //this will be defined in each child class
   display() {}
 }
