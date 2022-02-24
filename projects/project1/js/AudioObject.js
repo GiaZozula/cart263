@@ -1,6 +1,6 @@
 class AudioObject {
   //basic properties of the AudioObject class
-  constructor(x, y) {
+  constructor(x, y, sound) {
     this.x = x;
     this.y = y;
     this.vx = 0;

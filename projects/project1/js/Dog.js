@@ -1,6 +1,6 @@
 class Dog extends AudioObject {
-  constructor(x, y) {
-    super(x, y);
+  constructor(x, y, sound) {
+    super(x, y, sound);
     this.vx = 2;
     this.vy = 2;
     this.size = 20;

@@ -8,10 +8,10 @@ Gia <3
 
 let dogs = [];
 let numDogs = 3;
-// let dogSound;
+let dogSound;
 
 function preload() {
-  // dogSound = loadSound(`assets/sounds/bark.wav`);
+  dogSound = loadSound(`assets/sounds/bark.wav`);
 }
 
 function setup() {
@@ -21,9 +21,9 @@ function setup() {
   for (let i = 0; i < numDogs; i++) {
     let x = random(0, width);
     let y = random(0, height);
-
+    let sound = dogSound;
     // let sound = dogSound;
-    let dog = new Dog(x, y);
+    let dog = new Dog(x, y, sound);
     dogs.push(dog);
   }
 }
@@ -41,12 +41,8 @@ function draw() {
   // let volume = map(dist(mouseX, mouseY, dog.x, dog.y), 0, 250, 1, 0);
   // volume = constrain(volume, 0, 1);
   // dog.sound.setVolume(volume);
-
-  // ellipse(dog.x, dog.y, 100);
-  // dog.y += dog.vy;
 }
 
 function mousePressed() {
   // dog.sound.loop();
-  // dog.vy = 1;
 }
