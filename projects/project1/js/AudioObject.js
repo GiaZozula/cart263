@@ -1,6 +1,6 @@
 class AudioObject {
   //basic properties of the AudioObject class
-  constructor(x, y, sound) {
+  constructor(x, y, size, sound) {
     this.x = x;
     this.y = y;
     this.vx = 0;
@@ -30,4 +30,11 @@ class AudioObject {
 
   //this will be defined in each child class
   display() {}
+
+  mouseOver() {
+    let d = dist(mouseX, mouseY, this.x, this.y);
+    if (d < this.size / 2) {
+      console.log("hover over");
+    }
+  }
 }

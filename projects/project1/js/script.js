@@ -45,6 +45,7 @@ function draw() {
     let dog = dogs[i];
     dog.display();
     dog.move();
+    dog.mouseOver();
   }
 
   // let volume = map(dist(mouseX, mouseY, dog.x, dog.y), 0, 250, 1, 0);
