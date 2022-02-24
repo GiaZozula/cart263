@@ -8,8 +8,6 @@ class Dog extends AudioObject {
   }
 
   display() {
-    push();
     ellipse(this.x, this.y, this.size);
-    pop();
   }
 }

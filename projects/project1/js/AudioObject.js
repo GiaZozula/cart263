@@ -20,8 +20,8 @@ class AudioObject {
     }
 
     // add the velocity to the positon to get move the object
-    this.x = this.x + this.vx;
-    this.y = this.y + this.vy;
+    this.x += this.vx;
+    this.y += this.vy;
 
     // Constrain to the bounds of the canvas
     this.x = constrain(this.x, 0, width);
