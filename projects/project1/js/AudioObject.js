@@ -9,7 +9,7 @@ class AudioObject {
     this.size = undefined;
     this.speed = 0;
     this.changeDirection = 0.2;
-    this.sound.loop();
+    // this.sound.loop();
   }
 
   move() {

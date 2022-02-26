@@ -6,31 +6,40 @@ Gia <3
 
 "use strict";
 
+let state = "title";
+let backgroundImg;
+let themeSong = {
+  isplaying: false,
+};
+
+let font;
+
 let dogs = [];
 let numDogs = 3;
 let dogSound;
-
-// let harrySaul = {
-//   x: 0,
-//   y: 0,
-//   vx: 0,
-//   vy: 0,
-//   speed: 1,
-//   size: 30,
-// };
-
 let dogSound2;
 
+let people = [];
+let numPeople = 20;
+let peopleSound;
+let peopleSound2;
+let peopleSound3;
+let peopleSound4;
+
 function preload() {
+  themeSong = loadSound(`assets/sounds/themesong.mp3`);
+
+  font = loadFont(`assets/fonts/font.ttf`);
+
+  backgroundImg = loadImage(`assets/images/background.png`);
   dogSound = loadSound(`assets/sounds/bark.wav`);
   dogSound2 = loadSound(`assets/sounds/bark2.wav`);
 }
 
 function setup() {
-  createCanvas(900, 900);
+  createCanvas(1920, 800);
 
   //adding Dogs
-  //  for (let i = 0; i < numDogs; i++) {
   let x = random(0, width);
   let y = random(0, height);
   let sound = dogSound;
@@ -39,11 +48,31 @@ function setup() {
 
   let dog2 = new Dog(random(0, width), random(0, height), dogSound2);
   dogs.push(dog2);
-  //  }
 }
 
 function draw() {
-  background(0);
+  //State switching !
+  if (state === "title") {
+    drawTitle();
+  } else if (state === "game") {
+    drawGame();
+  } else if (state === "end") {
+    drawEnd();
+  }
+}
+
+function drawTitle() {
+  background(125);
+
+  if (!themeSong.isplaying) {
+    themeSong.loop();
+    themeSong.isplaying = true;
+  }
+}
+
+function drawGame() {
+  background(backgroundImg);
+  themeSong.stop();
 
   // Go through the dogs array and display and move each
   for (let i = 0; i < dogs.length; i++) {
@@ -53,50 +82,8 @@ function draw() {
     dog.mouseOver();
     dog.spatialVolume();
   }
-
-  // let volume = map(dist(mouseX, mouseY, dog.x, dog.y), 0, 250, 1, 0);
-  // volume = constrain(volume, 0, 1);
-  // dog.sound.setVolume(volume);
-
-  // drawHarry();
-  // moveHarry();
-  // userControls();
 }
 
-function mousePressed() {
-  // dog.sound.loop();
-}
+function mousePressed() {}
 
 function spatialVolume() {}
-
-// function drawHarry() {
-//   push();
-//   ellipse(harrySaul.x, harrySaul.y, harrySaul.size);
-//   pop();
-// }
-//
-// function moveHarry() {
-//   harrySaul.x += harrySaul.vx;
-//   harrySaul.y += harrySaul.vy;
-// }
-//
-// function userControls() {
-//   if (keyIsDown(LEFT_ARROW)) {
-//     harrySaul.vx = -harrySaul.speed;
-//   } else if (keyIsDown(RIGHT_ARROW)) {
-//     harrySaul.vx = harrySaul.speed;
-//   } else {
-//     harrySaul.vx = 0;
-//   }
-//
-//   if (keyIsDown(UP_ARROW)) {
-//     harrySaul.vy = -harrySaul.speed;
-//   } else if (keyIsDown(DOWN_ARROW)) {
-//     harrySaul.vy = harrySaul.speed;
-//   } else {
-//     harrySaul.vy = 0;
-//   }
-//   // Constrain to the bounds of the canvas
-//   harrySaul.x = constrain(harrySaul.x, 0, width);
-//   harrySaul.y = constrain(harrySaul.y, 0, height);
-// }
