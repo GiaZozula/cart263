@@ -6,8 +6,8 @@ class AudioObject {
     this.vx = 2;
     this.vy = 2;
     this.sound = sound;
-    this.size = 60;
-    this.speed = 2;
+    this.size = 200;
+    this.speed = 3;
     this.changeDirection = 0.2;
     this.sound.loop();
   }
