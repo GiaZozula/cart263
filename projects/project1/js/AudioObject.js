@@ -3,13 +3,13 @@ class AudioObject {
   constructor(x, y, sound) {
     this.x = x;
     this.y = y;
-    this.vx = 0;
-    this.vy = 0;
+    this.vx = 2;
+    this.vy = 2;
     this.sound = sound;
-    this.size = undefined;
-    this.speed = 0;
+    this.size = 60;
+    this.speed = 2;
     this.changeDirection = 0.2;
-    // this.sound.loop();
+    this.sound.loop();
   }
 
   move() {
@@ -30,7 +30,9 @@ class AudioObject {
   }
 
   //this will be defined in each child class
-  display() {}
+  display() {
+    ellipse(this.x, this.y, this.size);
+  }
 
   mouseOver() {
     let d = dist(mouseX, mouseY, this.x, this.y);
