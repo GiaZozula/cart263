@@ -21,6 +21,10 @@ let ambientSound = {
 let audioObjects = [];
 let numAudioObjects = 10;
 
+let convoObjects = [];
+let numConvoObjects = 1;
+let convoSound;
+
 //these are the individual sound sources that will be loaded with specific sound files
 let dogSound;
 let dogSound2;
@@ -40,6 +44,9 @@ function preload() {
   //preload a general, background ambience
   ambientSound = loadSound(`assets/sounds/ambientsound.mp3`);
 
+  //preload the conversation
+  convoSound = loadSound(`assets/sounds/theconvo.mp3`);
+
   //preload the individual spatialized sound effects
   dogSound = loadSound(`assets/sounds/bark.mp3`);
   dogSound2 = loadSound(`assets/sounds/bark2.mp3`);
@@ -52,6 +59,14 @@ function preload() {
 
 function setup() {
   createCanvas(800, 600);
+
+  //set up the conversation as an audio object
+  let theConvo = new ConvoObject(
+    random(0, width),
+    random(0, height),
+    convoSound
+  );
+  convoObjects.push(theConvo);
 
   //adding dogs, layered with a couple park ambience recordings
   let dog = new AudioObject(random(0, width), random(0, height), dogSound);
@@ -116,6 +131,7 @@ function draw() {
 function drawTitle() {
   background(125);
 
+  //make sure to only play the theme song as a single loop
   if (!themeSong.isplaying) {
     themeSong.loop();
     themeSong.isplaying = true;
@@ -126,21 +142,25 @@ function drawGame() {
   background(backgroundImg);
   themeSong.stop();
 
+  //make sure to only play the ambient sound as a single loop
   if (!ambientSound.isplaying) {
     ambientSound.loop();
     ambientSound.isplaying = true;
   }
 
-  // Go through the dogs array and display and move each
+  // Display the ConvoObject
+  for (let i = 0; i < convoObjects.length; i++) {
+    let convoObject = convoObjects[i];
+    convoObject.display();
+    convoObject.move();
+    convoObject.mouseOver();
+    convoObject.spatialVolume();
+  }
+
+  // Go through the audioObject array and display and move each
   for (let i = 0; i < audioObjects.length; i++) {
     let audioObject = audioObjects[i];
-    audioObject.display();
     audioObject.move();
-    audioObject.mouseOver();
     audioObject.spatialVolume();
   }
 }
-
-function mousePressed() {}
-
-function spatialVolume() {}

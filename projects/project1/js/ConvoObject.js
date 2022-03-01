@@ -1,4 +1,4 @@
-class AudioObject {
+class ConvoObject {
   //basic properties of the AudioObject class
   constructor(x, y, sound) {
     this.x = x;
@@ -27,6 +27,17 @@ class AudioObject {
     // Constrain to the bounds of the canvas
     this.x = constrain(this.x, 0, width);
     this.y = constrain(this.y, 0, height);
+  }
+
+  display() {
+    ellipse(this.x, this.y, this.size);
+  }
+
+  mouseOver() {
+    let d = dist(mouseX, mouseY, this.x, this.y);
+    if (d < this.size / 2) {
+      this.display();
+    }
   }
 
   spatialVolume() {
