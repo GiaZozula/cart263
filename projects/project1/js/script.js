@@ -1,33 +1,50 @@
 /**
 Project 1 - The Conversation
-Gia <3
+by Gia
+
+This is my first attempt at using spatial sound in p5 in order to create an approximation of the titular scene from the movie, "The Conversation" (1974).
+
+Notes on how to play:
+- Takes 10 seconds to switch from the title screen to the main game
+- The goal/controls are very simple, just move the mouse and attempt to hover over the conversation
+- After the conversation is over, an end screen will display
 
 */
 
 "use strict";
 
-let state = "game";
+//begin with the title state
+let state = "title";
 
+//defining a timer that will be used to switch between states
+let timer;
+
+//defining the themesong soundloop and giving it a "isplaying" property to stop harsh noise
 let themeSong = {
   isplaying: false,
 };
 
+//defining a font
 let font;
-let titleImg;
 
+//defining an ambient soundloop and giving it a "isplaying" property to stop harsh noise
 let ambientSound = {
   isplaying: false,
 };
 
-let backgroundImg;
-let endImg;
-
+//defining audioObejcts array and properties
 let audioObjects = [];
 let numAudioObjects = 10;
 
+//defining convo array and properties
 let convoObjects = [];
 let numConvoObjects = 1;
 let convoSound;
+
+//defining image assets
+let titleImg;
+let backgroundImg;
+let endImg;
 let convoImg;
 let scopeImg;
 
@@ -41,10 +58,13 @@ let voicesSound;
 let skatersSound;
 
 function preload() {
+  //preload the theme, a total banger
   themeSong = loadSound(`assets/sounds/themesong.mp3`);
 
+  //preload a font
   font = loadFont(`assets/fonts/font.ttf`);
 
+  //preload the images
   titleImg = loadImage(`assets/images/titleImg.png`);
   backgroundImg = loadImage(`assets/images/background.gif`);
   convoImg = loadImage(`assets/images/convoImg.gif`);
@@ -66,6 +86,8 @@ function preload() {
   voicesSound = loadSound(`assets/sounds/voices.mp3`);
   skatersSound = loadSound(`assets/sounds/skaters.mp3`);
 }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SETUP
 
 function setup() {
   createCanvas(800, 600);
@@ -128,7 +150,16 @@ function setup() {
   audioObjects.push(skaters);
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DRAW
+
 function draw() {
+  //begins the timer that will be used to switch states
+  timer = millis();
+
+  //divide the millis into an integer for ease of use
+  timer = int(timer / 1000);
+  console.log(timer);
+
   //State switching !
   if (state === "title") {
     drawTitle();
@@ -139,12 +170,17 @@ function draw() {
   }
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TITLE
 function drawTitle() {
   background(titleImg);
-  push();
-  textSize(40);
-  text("The Conversation - an interactive scene from the film", 0, 0);
-  pop();
+
+  //a little counter to show that this is time-based
+  text(timer, 765, 565);
+
+  //after 10 seconds, switch states
+  if (timer == 10) {
+    state = "game";
+  }
 
   //make sure to only play the theme song as a single loop
   if (!themeSong.isplaying) {
@@ -153,10 +189,22 @@ function drawTitle() {
   }
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GAME
+
 function drawGame() {
   background(backgroundImg);
+
+  //stop the theme music :(
   themeSong.stop();
+  themeSong.isplaying = false;
+
+  //get a scope on the mouse
   mouseScope();
+
+  //at 230 seconds, after the conversation finishes, switch states to the end
+  if (timer == 230) {
+    state = "end";
+  }
 
   //make sure to only play the ambient sound as a single loop
   if (!ambientSound.isplaying) {
@@ -164,7 +212,7 @@ function drawGame() {
     ambientSound.isplaying = true;
   }
 
-  // Display the ConvoObject
+  // go through the convoObjects array and begin all necessary functions
   for (let i = 0; i < convoObjects.length; i++) {
     let convoObject = convoObjects[i];
     convoObject.play();
@@ -173,7 +221,7 @@ function drawGame() {
     convoObject.spatialVolume();
   }
 
-  // Go through the audioObject array and display and move each
+  // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
     let audioObject = audioObjects[i];
     audioObject.play();
@@ -182,13 +230,36 @@ function drawGame() {
   }
 }
 
-function drawEnd() {
-  background(endImg);
-}
-
+//a function that will put a scope on the mouse (for during the game state)
 function mouseScope() {
   push();
   imageMode(CENTER);
-  image(scopeImg, mouseX, mouseY);
+  image(scopeImg, mouseX, mouseY, 450, 275);
   pop();
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ END
+function drawEnd() {
+  background(endImg);
+
+  //stop the ambient loop,
+  ambientSound.stop();
+
+  //stop the conversation from playing,
+  for (let i = 0; i < convoObjects.length; i++) {
+    let convoObject = convoObjects[i];
+    convoObject.stop();
+  }
+
+  // stop all the sound I say!
+  for (let i = 0; i < audioObjects.length; i++) {
+    let audioObject = audioObjects[i];
+    audioObject.stop();
+  }
+
+  //and let's get this rippin' theme loop going again \m/,
+  if (!themeSong.isplaying) {
+    themeSong.loop();
+    themeSong.isplaying = true;
+  }
 }

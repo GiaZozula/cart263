@@ -1,21 +1,30 @@
 class ConvoObject {
-  //basic properties of the AudioObject class
+  //basic properties of the ConvoObject class
   constructor(x, y, sound) {
     this.x = x;
     this.y = y;
     this.vx = 2;
     this.vy = 2;
     this.sound = sound;
-    this.size = 200;
+    this.size = 400;
     this.speed = 3.25;
     this.changeDirection = 0.2;
     this.isplaying = false;
   }
 
+  //check to see if it is playing!
   play() {
     if (!this.isplaying) {
       this.sound.loop();
       this.isplaying = true;
+    }
+  }
+
+  //adding a stop ability for the end state
+  stop() {
+    if (this.isplaying) {
+      this.sound.stop();
+      this.isplaying = false;
     }
   }
 
@@ -36,13 +45,7 @@ class ConvoObject {
     this.y = constrain(this.y, 0, height);
   }
 
-  display() {
-    {
-      imageMode(CORNER);
-      image(convoImg, 0, 0, 800, 600);
-    }
-  }
-
+  //check if the mouse is hovering over the conversation
   mouseOver() {
     let d = dist(mouseX, mouseY, this.x, this.y);
     if (d < this.size / 2) {
@@ -50,6 +53,15 @@ class ConvoObject {
     }
   }
 
+  //if the mouse hovers over the conversation, this image is displayed
+  display() {
+    {
+      imageMode(CORNER);
+      image(convoImg, 0, 0, 800, 600);
+    }
+  }
+
+  //Pippin's wonderful code that got me started on spatial audio
   spatialVolume() {
     let volume = map(dist(mouseX, mouseY, this.x, this.y), 0, 250, 1, 0);
     volume = constrain(volume, 0, 1);

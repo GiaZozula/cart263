@@ -12,10 +12,19 @@ class AudioObject {
     this.isplaying = false;
   }
 
+  //check to see if it is playing!
   play() {
     if (!this.isplaying) {
       this.sound.loop();
       this.isplaying = true;
+    }
+  }
+
+  //adding a stop ability for the end state
+  stop() {
+    if (this.isplaying) {
+      this.sound.stop();
+      this.isplaying = false;
     }
   }
 
@@ -36,6 +45,7 @@ class AudioObject {
     this.y = constrain(this.y, 0, height);
   }
 
+  //Pippin's wonderful code that got me started on spatial audio
   spatialVolume() {
     let volume = map(dist(mouseX, mouseY, this.x, this.y), 0, 250, 1, 0);
     volume = constrain(volume, 0, 1);
