@@ -7,16 +7,19 @@ Gia <3
 "use strict";
 
 let state = "game";
-let backgroundImg;
+
 let themeSong = {
   isplaying: false,
 };
 
 let font;
+let titleImg;
 
 let ambientSound = {
   isplaying: false,
 };
+
+let backgroundImg;
 
 let audioObjects = [];
 let numAudioObjects = 10;
@@ -24,6 +27,7 @@ let numAudioObjects = 10;
 let convoObjects = [];
 let numConvoObjects = 1;
 let convoSound;
+let convoImg;
 
 //these are the individual sound sources that will be loaded with specific sound files
 let dogSound;
@@ -39,7 +43,9 @@ function preload() {
 
   font = loadFont(`assets/fonts/font.ttf`);
 
+  titleImg = loadImage(`assets/images/titleImg.png`);
   backgroundImg = loadImage(`assets/images/background.png`);
+  convoImg = loadImage(`assets/images/convoImg.gif`);
 
   //preload a general, background ambience
   ambientSound = loadSound(`assets/sounds/ambientsound.mp3`);
@@ -59,6 +65,7 @@ function preload() {
 
 function setup() {
   createCanvas(800, 600);
+  textFont(font);
 
   //set up the conversation as an audio object
   let theConvo = new ConvoObject(
@@ -129,7 +136,11 @@ function draw() {
 }
 
 function drawTitle() {
-  background(125);
+  background(titleImg);
+  push();
+  textSize(40);
+  text("The Conversation - an interactive scene from the film", 0, 0);
+  pop();
 
   //make sure to only play the theme song as a single loop
   if (!themeSong.isplaying) {
@@ -151,7 +162,7 @@ function drawGame() {
   // Display the ConvoObject
   for (let i = 0; i < convoObjects.length; i++) {
     let convoObject = convoObjects[i];
-    convoObject.display();
+    convoObject.play();
     convoObject.move();
     convoObject.mouseOver();
     convoObject.spatialVolume();
@@ -160,6 +171,7 @@ function drawGame() {
   // Go through the audioObject array and display and move each
   for (let i = 0; i < audioObjects.length; i++) {
     let audioObject = audioObjects[i];
+    audioObject.play();
     audioObject.move();
     audioObject.spatialVolume();
   }

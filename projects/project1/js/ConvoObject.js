@@ -9,7 +9,14 @@ class ConvoObject {
     this.size = 200;
     this.speed = 3.25;
     this.changeDirection = 0.2;
-    this.sound.loop();
+    this.isplaying = false;
+  }
+
+  play() {
+    if (!this.isplaying) {
+      this.sound.loop();
+      this.isplaying = true;
+    }
   }
 
   move() {
@@ -30,7 +37,9 @@ class ConvoObject {
   }
 
   display() {
-    ellipse(this.x, this.y, this.size);
+    {
+      image(convoImg, 0, 0);
+    }
   }
 
   mouseOver() {
