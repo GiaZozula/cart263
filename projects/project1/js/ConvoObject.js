@@ -38,7 +38,8 @@ class ConvoObject {
 
   display() {
     {
-      image(convoImg, 0, 0);
+      imageMode(CORNER);
+      image(convoImg, 0, 0, 800, 600);
     }
   }
 

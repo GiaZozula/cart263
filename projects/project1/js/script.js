@@ -20,6 +20,7 @@ let ambientSound = {
 };
 
 let backgroundImg;
+let endImg;
 
 let audioObjects = [];
 let numAudioObjects = 10;
@@ -46,6 +47,7 @@ function preload() {
   titleImg = loadImage(`assets/images/titleImg.png`);
   backgroundImg = loadImage(`assets/images/background.png`);
   convoImg = loadImage(`assets/images/convoImg.gif`);
+  endImg = loadImage(`assets/images/end.png`);
 
   //preload a general, background ambience
   ambientSound = loadSound(`assets/sounds/ambientsound.mp3`);
@@ -175,4 +177,8 @@ function drawGame() {
     audioObject.move();
     audioObject.spatialVolume();
   }
+}
+
+function drawEnd() {
+  background(endImg);
 }
