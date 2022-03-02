@@ -29,6 +29,7 @@ let convoObjects = [];
 let numConvoObjects = 1;
 let convoSound;
 let convoImg;
+let scopeImg;
 
 //these are the individual sound sources that will be loaded with specific sound files
 let dogSound;
@@ -45,9 +46,10 @@ function preload() {
   font = loadFont(`assets/fonts/font.ttf`);
 
   titleImg = loadImage(`assets/images/titleImg.png`);
-  backgroundImg = loadImage(`assets/images/background.png`);
+  backgroundImg = loadImage(`assets/images/background.gif`);
   convoImg = loadImage(`assets/images/convoImg.gif`);
   endImg = loadImage(`assets/images/end.png`);
+  scopeImg = loadImage(`assets/images/scope.png`);
 
   //preload a general, background ambience
   ambientSound = loadSound(`assets/sounds/ambientsound.mp3`);
@@ -154,6 +156,7 @@ function drawTitle() {
 function drawGame() {
   background(backgroundImg);
   themeSong.stop();
+  mouseScope();
 
   //make sure to only play the ambient sound as a single loop
   if (!ambientSound.isplaying) {
@@ -181,4 +184,11 @@ function drawGame() {
 
 function drawEnd() {
   background(endImg);
+}
+
+function mouseScope() {
+  push();
+  imageMode(CENTER);
+  image(scopeImg, mouseX, mouseY);
+  pop();
 }
