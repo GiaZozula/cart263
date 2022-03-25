@@ -1,16 +1,45 @@
 body {
   font-family: "Libre Barcode 128", cursive;
+  cursor: cell;
+  background-image: url("https://media.giphy.com/media/l4KihuqeuJEi9qLSM/giphy.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #poem {
+  text-align: center;
   font-size: 2rem;
   text-shadow: 3px 3px 3px #ababab;
+  color: #fbfbfb;
+  letter-spacing: 40px;
+  background: rgba(0, 128, 0, 0.45);
+  position: fixed;
+  bottom: 10%;
+  right: 30%;
+  padding: 10px;
+  outline-style: ridge;
+  outline-color: #b4c3fa;
+  outline-width: 5px;
+  border-radius: 25px;
+  width: 60%;
+  height: 80%;
 }
 
 #answer {
   width: 10rem;
-  height: 2rem;
-  border: 1px dashed black;
+  height: 30rem;
+  font-size: 2rem;
+  position: fixed;
+  bottom: 20%;
+  right: 10%;
+  text-shadow: 3px 3px 3px #ababab;
+  color: #fbfbfb;
+  background: rgba(0, 128, 0, 0.45);
+  padding: 30px;
+  outline-style: ridge;
+  outline-color: #b4c3fa;
+  outline-width: 5px;
+  border-radius: 25px;
 }
 
 .found {
