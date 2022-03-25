@@ -11,7 +11,7 @@ body {
   font-size: 2rem;
   text-shadow: 3px 3px 3px #ababab;
   color: #fbfbfb;
-  letter-spacing: 40px;
+  letter-spacing: 9px;
   background: rgba(0, 128, 0, 0.45);
   position: fixed;
   bottom: 10%;
@@ -22,7 +22,7 @@ body {
   outline-width: 5px;
   border-radius: 25px;
   width: 60%;
-  height: 80%;
+  height: 85%;
 }
 
 #answer {
