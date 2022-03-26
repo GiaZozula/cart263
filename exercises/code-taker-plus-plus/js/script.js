@@ -31,7 +31,11 @@ $(`#answer`).droppable({
     ui.draggable.removeClass(`found`);
 
     //check if they got it
-    if ($(this).text() === `Theremin`) {
+    if ($(this).text() === `futurity`) {
+      document.getElementById("poem").style.fontFamily = "monospace,sans-serif";
+      document.getElementById("answer").style.fontFamily =
+        "monospace,sans-serif";
+      document.getElementById("answer").style.writingMode = "vertical-lr";
       $(`#solved-dialog`).dialog(`open`);
     }
   },
