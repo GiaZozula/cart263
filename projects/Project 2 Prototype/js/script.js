@@ -7,9 +7,15 @@ Gia
 
 "use strict";
 
-//this determines which viewer the user is currently in control of
-let viewer1 = true;
-let viewer2 = false;
+let viewer1 = {
+  x: 400,
+  y: 400,
+  userControl: true,
+};
+
+// //this determines which viewer the user is currently in control of
+// let viewer1Control = true;
+// let viewer2Control = false;
 
 //defining audioObejcts array and properties
 let audioObjects = [];
@@ -31,7 +37,10 @@ function preload() {}
 /**
 Description of setup
 */
-function setup() {}
+function setup() {
+  createCanvas(800, 800);
+  background(0);
+}
 
 /**
 Description of draw()
