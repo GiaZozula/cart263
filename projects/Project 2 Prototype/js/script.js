@@ -10,6 +10,8 @@ Gia
 let viewer1 = {
   x: 400,
   y: 400,
+  width: 20,
+  height: 20,
   userControl: true,
 };
 
@@ -39,13 +41,22 @@ Description of setup
 */
 function setup() {
   createCanvas(800, 800);
-  background(0);
 }
 
 /**
 Description of draw()
 */
-function draw() {}
+function draw() {
+  background(0);
+  viewer1Display();
+}
+
+function viewer1Display() {
+  push();
+  fill(255, 255, 255);
+  rect(viewer1.x, viewer1.y, viewer1.width, viewer1.height);
+  pop();
+}
 
 //this handles the controls when the user is in Viewer1 mode
 function viewer1Input() {
