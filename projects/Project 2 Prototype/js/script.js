@@ -31,17 +31,54 @@ let south = false;
 let east = false;
 let west = false;
 
+let dogSound;
+let bandSound;
+let germansSound;
+let voicesSound;
+
 /**
 Description of preload
 */
-function preload() {}
+function preload() {
+  //All of the audio code was taken from my Project 1
+  //preload the individual spatialized sound effects
+  dogSound = loadSound(`assets/sounds/bark.mp3`);
+  bandSound = loadSound(`assets/sounds/band.mp3`);
+  germansSound = loadSound(`assets/sounds/germans.mp3`);
+  voicesSound = loadSound(`assets/sounds/voices.mp3`);
+}
 
 /**
 Description of setup
 */
 function setup() {
   createCanvas(800, 800);
+
+  //All of these audio objects were taken from my Project 1
+  //adding dogs, layered with a couple park ambience recordings
+  let dog = new AudioObject(random(0, width), random(0, height), dogSound);
+  audioObjects.push(dog);
 }
+
+//adding the marching band
+let marchingBand = new AudioObject(
+  random(0, width),
+  random(0, height),
+  bandSound
+);
+audioObjects.push(marchingBand);
+
+//add some German tourists
+let germans = new AudioObject(
+  random(0, width),
+  random(0, height),
+  germansSound
+);
+audioObjects.push(germans);
+
+//some voices, layered with other ambient sounds
+let voices = new AudioObject(random(0, width), random(0, height), voicesSound);
+audioObjects.push(voices);
 
 /**
 Description of draw()

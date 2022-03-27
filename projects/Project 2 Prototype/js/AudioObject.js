@@ -1,3 +1,4 @@
+//This code was taken from my Project 1
 class AudioObject {
   //basic properties of the AudioObject class
   constructor(x, y, sound) {
@@ -48,7 +49,7 @@ class AudioObject {
 
   //Pippin's wonderful code that got me started on spatial audio
   spatialVolume() {
-    let volume = map(dist(mouseX, mouseY, this.x, this.y), 0, 250, 1, 0);
+    let volume = map(dist(viewer1.x, viewer1.y, this.x, this.y), 0, 250, 1, 0);
     volume = constrain(volume, 0, 1);
     this.sound.setVolume(volume);
   }
