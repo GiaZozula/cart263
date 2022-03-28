@@ -78,6 +78,7 @@ function spirit1Position() {
 
 function spirit1Display() {
   push();
+  noStroke();
   fill(255);
   ellipse(spirit1.x, spirit1.y, spirit1.size);
   pop();
