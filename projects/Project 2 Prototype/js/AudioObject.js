@@ -4,12 +4,12 @@ class AudioObject {
   constructor(x, y, sound) {
     this.x = x;
     this.y = y;
-    this.vx = 2;
-    this.vy = 2;
+    this.vx = 0;
+    this.vy = 0;
     this.sound = sound;
-    this.size = 100;
-    this.speed = 10.25;
-    this.changeDirection = 1;
+    this.size = 200;
+    this.speed = 3.25;
+    this.changeDirection = 0.2;
     this.isPlaying = false;
   }
 
@@ -29,27 +29,27 @@ class AudioObject {
     }
   }
 
-  move() {
-    // First have a randomized chance of direction change
-    let r = random(0, 1);
-    if (r < this.changeDirection) {
-      this.vx = random(-this.speed, this.speed);
-      this.vy = random(-this.speed, this.speed);
+  userInput() {
+    if (keyIsDown(RIGHT_ARROW)) {
+      this.vx = this.speed;
+    } else if (keyIsDown(LEFT_ARROW)) {
+      this.vx = -this.speed;
+    } else if (keyIsDown(UP_ARROW)) {
+      this.vy = this.speed;
+    } else if (keyIsDown(DOWN_ARROW)) {
+      this.vy = -this.speed;
+    } else {
+      this.vx = 0;
+      this.vy = 0;
     }
-
-    // add the velocity to the positon to get move the object
-    this.x += this.vx;
-    this.y += this.vy;
-
-    // Constrain to the bounds of the canvas
-    this.x = constrain(this.x, 0, width);
-    this.y = constrain(this.y, 0, height);
+    this.x = this.x + this.vx;
+    this.y = this.y + this.vy;
   }
 
   //Pippin's wonderful code that got me started on spatial audio
   spatialVolume() {
     let volume = map(dist(viewer1.x, viewer1.y, this.x, this.y), 0, 250, 1, 0);
-    volume = constrain(volume, 0.25, 1);
+    volume = constrain(volume, 0, 1);
     this.sound.setVolume(volume);
   }
 }
