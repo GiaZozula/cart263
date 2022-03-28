@@ -31,10 +31,11 @@ let south = false;
 let east = false;
 let west = false;
 
-let dogSound;
-let bandSound;
-let germansSound;
-let voicesSound;
+let bassSound;
+let malletsSound;
+let raveSound;
+let stringSound;
+let voiceSound;
 
 /**
 Description of preload
@@ -42,10 +43,11 @@ Description of preload
 function preload() {
   //All of the audio code was taken from my Project 1
   //preload the individual spatialized sound effects
-  dogSound = loadSound(`assets/sounds/bark.mp3`);
-  bandSound = loadSound(`assets/sounds/band.mp3`);
-  germansSound = loadSound(`assets/sounds/germans.mp3`);
-  voicesSound = loadSound(`assets/sounds/voices.mp3`);
+  bassSound = loadSound(`assets/sounds/bass.mp3`);
+  malletsSound = loadSound(`assets/sounds/mallets.mp3`);
+  raveSound = loadSound(`assets/sounds/rave.mp3`);
+  stringSound = loadSound(`assets/sounds/string.mp3`);
+  voiceSound = loadSound(`assets/sounds/voice.mp3`);
 }
 
 /**
@@ -54,33 +56,33 @@ Description of setup
 function setup() {
   createCanvas(800, 800);
 
-  //All of these audio objects were taken from my Project 1
-  //adding dogs, layered with a couple park ambience recordings
-  let dog = new AudioObject(random(0, width), random(0, height), dogSound);
-  audioObjects.push(dog);
+  //The code for these audio objects were adapted from my Project 1 code
+  //adding
+  let bass = new AudioObject(random(0, width), random(0, height), bassSound);
+  audioObjects.push(bass);
 
-  let marchingBand = new AudioObject(
+  let mallets = new AudioObject(
     random(0, width),
     random(0, height),
-    bandSound
+    malletsSound
   );
-  audioObjects.push(marchingBand);
+  audioObjects.push(mallets);
 
   //add some German tourists
-  let germans = new AudioObject(
-    random(0, width),
-    random(0, height),
-    germansSound
-  );
-  audioObjects.push(germans);
+  let rave = new AudioObject(random(0, width), random(0, height), raveSound);
+  audioObjects.push(rave);
 
   //some voices, layered with other ambient sounds
-  let voices = new AudioObject(
+  let string = new AudioObject(
     random(0, width),
     random(0, height),
-    voicesSound
+    stringSound
   );
-  audioObjects.push(voices);
+  audioObjects.push(string);
+
+  //some voices, layered with other ambient sounds
+  let voice = new AudioObject(random(0, width), random(0, height), voiceSound);
+  audioObjects.push(voice);
 }
 
 /**

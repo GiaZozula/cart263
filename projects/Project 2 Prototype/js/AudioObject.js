@@ -7,9 +7,9 @@ class AudioObject {
     this.vx = 2;
     this.vy = 2;
     this.sound = sound;
-    this.size = 500;
-    this.speed = 3.25;
-    this.changeDirection = 0.2;
+    this.size = 100;
+    this.speed = 10.25;
+    this.changeDirection = 1;
     this.isPlaying = false;
   }
 
@@ -49,7 +49,7 @@ class AudioObject {
   //Pippin's wonderful code that got me started on spatial audio
   spatialVolume() {
     let volume = map(dist(viewer1.x, viewer1.y, this.x, this.y), 0, 250, 1, 0);
-    volume = constrain(volume, 0, 1);
+    volume = constrain(volume, 0.25, 1);
     this.sound.setVolume(volume);
   }
 }
