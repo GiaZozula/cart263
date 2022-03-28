@@ -11,7 +11,7 @@ class AudioObject {
     this.boundsYLeft = 249;
     this.boundsYBottom = 749;
     this.sound = sound;
-    this.size = 20;
+    this.size = 7;
     this.speed = 0.75;
     this.changeDirection = 0.2;
     this.isPlaying = false;

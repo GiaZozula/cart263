@@ -26,16 +26,32 @@ let miniMap = {
 let audioObjects = [];
 let numAudioObjects = 4;
 
-//
-let userAudioObject;
+//defining the array for foreground images
+let foregroundImages = [];
+let numForegroundImages = 2;
+
+//defining the array for background images
+let backgroundImages = [];
+let numbackgroundImages = 2;
 
 let voiceSound;
+
+let foregroundImage1;
+let foregroundImage2;
+let backgroundImage1;
+let backgroundImage2;
 
 /**
 Description of preload
 */
 function preload() {
   voiceSound = loadSound(`assets/sounds/ghostvoice.mp3`);
+
+  foregroundImage1 = loadImage(`assets/images/grass.gif`);
+  foregroundImage2 = loadImage(`assets/images/mountain.gif`);
+
+  backgroundImage1 = loadImage(`assets/images/night.png`);
+  backgroundImage2 = loadImage(`assets/images/day.png`);
 }
 /**
 Description of setup
