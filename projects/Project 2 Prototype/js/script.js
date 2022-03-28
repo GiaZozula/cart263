@@ -7,10 +7,17 @@ Gia
 
 "use strict";
 
-let viewer1 = {
+let spirit1 = {
   x: 0,
   y: 0,
   size: 200,
+};
+
+let miniMap = {
+  x: 450,
+  y: 250,
+  height: 500,
+  width: 300,
 };
 
 //defining audioObejcts array and properties
@@ -35,10 +42,10 @@ function setup() {
   createCanvas(800, 800);
 
   //The code for the audio object was adapted from my Project 1 code
-  let voice1 = new AudioObject(random(0, width), random(0, height), voiceSound);
+  let voice1 = new AudioObject(miniMap.x + 20, miniMap.y + 20, voiceSound);
   audioObjects.push(voice1);
 
-  viewer1Position();
+  spirit1Position();
 }
 
 /**
@@ -46,8 +53,8 @@ Description of draw()
 */
 function draw() {
   background(0);
-  viewer1Display();
-
+  spirit1Display();
+  miniMapDisplay();
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
     let audioObject = audioObjects[i];
@@ -58,17 +65,22 @@ function draw() {
   }
 }
 
-function viewer1Position() {
-  viewer1.x = random(height);
-  viewer1.y = random(width);
+function spirit1Position() {
+  spirit1.x = random(height);
+  spirit1.y = random(width);
 }
 
-function viewer1Display() {
+function spirit1Display() {
   push();
   noStroke();
-  fill(0, 0, 0);
-  ellipse(viewer1.x, viewer1.y, viewer1.size);
+  fill(255);
+  ellipse(spirit1.x, spirit1.y, spirit1.size);
   pop();
 }
 
-//this handles the controls when the user is in Viewer2 mode
+function miniMapDisplay() {
+  push();
+  fill(255);
+  rect(miniMap.x, miniMap.y, miniMap.width, miniMap.height);
+  pop();
+}

@@ -6,9 +6,13 @@ class AudioObject {
     this.y = y;
     this.vx = 0;
     this.vy = 0;
+    this.boundsXLeft = 449;
+    this.boundsXRight = 749;
+    this.boundsYLeft = 249;
+    this.boundsYBottom = 749;
     this.sound = sound;
-    this.size = 200;
-    this.speed = 3.25;
+    this.size = 20;
+    this.speed = 0.75;
     this.changeDirection = 0.2;
     this.isPlaying = false;
   }
@@ -21,8 +25,8 @@ class AudioObject {
     }
   }
 
-  //adding a stop ability for the end state
-  stop() {
+  //adding a stop sound ability for the end state
+  stopSound() {
     if (this.isPlaying) {
       this.sound.stop();
       this.isPlaying = false;
@@ -35,20 +39,29 @@ class AudioObject {
     } else if (keyIsDown(LEFT_ARROW)) {
       this.vx = -this.speed;
     } else if (keyIsDown(UP_ARROW)) {
-      this.vy = this.speed;
-    } else if (keyIsDown(DOWN_ARROW)) {
       this.vy = -this.speed;
+    } else if (keyIsDown(DOWN_ARROW)) {
+      this.vy = this.speed;
     } else {
       this.vx = 0;
       this.vy = 0;
     }
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
-  }
 
+    if (this.x < this.boundsXLeft) {
+      this.x = this.boundsXLeft;
+    } else if (this.x > this.boundsXRight) {
+      this.x = this.boundsXRight;
+    } else if (this.y < this.boundsYLeft) {
+      this.y = this.boundsYLeft;
+    } else if (this.y > this.boundsYBottom) {
+      this.y = this.boundsYBottom;
+    }
+  }
   //Pippin's wonderful code that got me started on spatial audio
   spatialVolume() {
-    let volume = map(dist(viewer1.x, viewer1.y, this.x, this.y), 0, 250, 1, 0);
+    let volume = map(dist(spirit1.x, spirit1.y, this.x, this.y), 0, 250, 1, 0);
     volume = constrain(volume, 0, 1);
     this.sound.setVolume(volume);
   }
