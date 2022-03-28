@@ -1,10 +1,15 @@
 class ImageObject {
   //These are the properties of the Image Object class
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
+  constructor(x, y, image) {
+    this.x = 50;
+    this.y = 50;
+    this.image = image;
     this.effects = false;
+    this.width = 600;
+    this.height = 600;
   }
 
-  display() {}
+  display() {
+    image(this.image, this.x, this.y);
+  }
 }

@@ -6,8 +6,8 @@ class AudioObject {
     this.y = y;
     this.vx = 0;
     this.vy = 0;
-    this.boundsXLeft = 449;
-    this.boundsXRight = 749;
+    this.boundsXLeft = 599;
+    this.boundsXRight = 949;
     this.boundsYLeft = 249;
     this.boundsYBottom = 749;
     this.sound = sound;

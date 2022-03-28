@@ -14,12 +14,19 @@ let spirit1 = {
 };
 
 let miniMap = {
-  x: 450,
+  x: 600,
   y: 250,
-  boundsXRight: 750,
+  boundsXRight: 950,
   boundsYBottom: 550,
+  width: 350,
   height: 500,
-  width: 300,
+};
+
+let viewport = {
+  x: 50,
+  y: 50,
+  width: 600,
+  height: 600,
 };
 
 //defining audioObejcts array and properties
@@ -32,14 +39,16 @@ let numForegroundImages = 2;
 
 //defining the array for background images
 let backgroundImages = [];
-let numbackgroundImages = 2;
+let numBackgroundImages = 2;
 
+//declaring variables for the audio
 let voiceSound;
 
-let foregroundImage1;
-let foregroundImage2;
-let backgroundImage1;
-let backgroundImage2;
+//declaring variables for the images
+let grassImage;
+let mountainImage;
+let nightImage;
+let dayImage;
 
 /**
 Description of preload
@@ -47,17 +56,19 @@ Description of preload
 function preload() {
   voiceSound = loadSound(`assets/sounds/ghostvoice.mp3`);
 
-  foregroundImage1 = loadImage(`assets/images/grass.gif`);
-  foregroundImage2 = loadImage(`assets/images/mountain.gif`);
+  //images that will end up in the foreground
+  grassImage = loadImage(`assets/images/grass.gif`);
+  mountainImage = loadImage(`assets/images/mountain.gif`);
 
-  backgroundImage1 = loadImage(`assets/images/night.png`);
-  backgroundImage2 = loadImage(`assets/images/day.png`);
+  //images that will end up in the background
+  nightImage = loadImage(`assets/images/night.png`);
+  dayImage = loadImage(`assets/images/day.png`);
 }
 /**
 Description of setup
 */
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(1000, 800);
 
   //The code for the audio object was adapted from my Project 1 code
   let voice1 = new AudioObject(
@@ -67,6 +78,17 @@ function setup() {
   );
   audioObjects.push(voice1);
 
+  //populating the foregroundImages array
+  let backgroundImage1 = new ImageObject(viewport.x, viewport.y, dayImage);
+  backgroundImages.push(backgroundImage1);
+
+  let backgroundImage2 = new ImageObject(viewport.x, viewport.y, nightImage);
+  backgroundImages.push(backgroundImage2);
+
+  //populating the foregroundImages array
+  let foregroundImage1 = new ImageObject(viewport.x, viewport.y, grassImage);
+  foregroundImages.push(foregroundImage1);
+
   spirit1Position();
 }
 
@@ -75,6 +97,7 @@ Description of draw()
 */
 function draw() {
   background(0);
+
   miniMapDisplay();
   spirit1Display();
   // Go through the audioObject array and begin all necessary functions
@@ -84,6 +107,18 @@ function draw() {
     audioObject.userInput();
     audioObject.spatialVolume();
     audioObject.display();
+  }
+
+  //Pull a background image out of the array and display it
+  for (let i = 0; i < backgroundImages.length; i++) {
+    let imageObject = backgroundImages[i];
+    imageObject.display();
+  }
+
+  // Go through the foregroundImages array and display the image
+  for (let i = 0; i < foregroundImages.length; i++) {
+    let imageObject = foregroundImages[i];
+    imageObject.display();
   }
 }
 
