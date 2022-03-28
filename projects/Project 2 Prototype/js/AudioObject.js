@@ -7,11 +7,10 @@ class AudioObject {
     this.vx = 2;
     this.vy = 2;
     this.sound = sound;
-    this.size = 200;
+    this.size = 500;
     this.speed = 3.25;
     this.changeDirection = 0.2;
     this.isPlaying = false;
-    this.isControlled = false;
   }
 
   //check to see if it is playing!

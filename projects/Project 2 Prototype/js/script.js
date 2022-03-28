@@ -10,8 +10,8 @@ Gia
 let viewer1 = {
   x: 400,
   y: 400,
-  width: 20,
-  height: 20,
+  width: 400,
+  height: 400,
   userControl: true,
 };
 
@@ -58,27 +58,30 @@ function setup() {
   //adding dogs, layered with a couple park ambience recordings
   let dog = new AudioObject(random(0, width), random(0, height), dogSound);
   audioObjects.push(dog);
+
+  let marchingBand = new AudioObject(
+    random(0, width),
+    random(0, height),
+    bandSound
+  );
+  audioObjects.push(marchingBand);
+
+  //add some German tourists
+  let germans = new AudioObject(
+    random(0, width),
+    random(0, height),
+    germansSound
+  );
+  audioObjects.push(germans);
+
+  //some voices, layered with other ambient sounds
+  let voices = new AudioObject(
+    random(0, width),
+    random(0, height),
+    voicesSound
+  );
+  audioObjects.push(voices);
 }
-
-//adding the marching band
-let marchingBand = new AudioObject(
-  random(0, width),
-  random(0, height),
-  bandSound
-);
-audioObjects.push(marchingBand);
-
-//add some German tourists
-let germans = new AudioObject(
-  random(0, width),
-  random(0, height),
-  germansSound
-);
-audioObjects.push(germans);
-
-//some voices, layered with other ambient sounds
-let voices = new AudioObject(random(0, width), random(0, height), voicesSound);
-audioObjects.push(voices);
 
 /**
 Description of draw()
@@ -86,11 +89,20 @@ Description of draw()
 function draw() {
   background(0);
   viewer1Display();
+
+  // Go through the audioObject array and begin all necessary functions
+  for (let i = 0; i < audioObjects.length; i++) {
+    let audioObject = audioObjects[i];
+    audioObject.play();
+    audioObject.move();
+    audioObject.spatialVolume();
+  }
 }
 
 function viewer1Display() {
   push();
   fill(255, 255, 255);
+  rectMode(CENTER);
   rect(viewer1.x, viewer1.y, viewer1.width, viewer1.height);
   pop();
 }
