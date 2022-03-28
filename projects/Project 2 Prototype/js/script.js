@@ -8,15 +8,14 @@ Gia
 "use strict";
 
 let viewer1 = {
-  x: 400,
-  y: 400,
+  x: 0,
+  y: 0,
   size: 200,
-  userControl: true,
 };
 
 //defining audioObejcts array and properties
 let audioObjects = [];
-let numAudioObjects = 10;
+let numAudioObjects = 4;
 
 //
 let userAudioObject;
@@ -35,10 +34,11 @@ Description of setup
 function setup() {
   createCanvas(800, 800);
 
-  //The code for these audio objects were adapted from my Project 1 code
-  //adding
+  //The code for the audio object was adapted from my Project 1 code
   let voice1 = new AudioObject(random(0, width), random(0, height), voiceSound);
   audioObjects.push(voice1);
+
+  viewer1Position();
 }
 
 /**
@@ -46,7 +46,7 @@ Description of draw()
 */
 function draw() {
   background(0);
-  viewer1Position();
+  viewer1Display();
 
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
@@ -58,6 +58,11 @@ function draw() {
 }
 
 function viewer1Position() {
+  viewer1.x = random(height);
+  viewer1.y = random(width);
+}
+
+function viewer1Display() {
   push();
   fill(255, 255, 255);
   rectMode(CENTER);
