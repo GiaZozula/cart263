@@ -47,8 +47,14 @@ let voiceSound;
 //declaring variables for the images
 let grassImage;
 let mountainImage;
-let nightImage;
-let dayImage;
+
+// let backgroundImage = {
+//   x: 50,
+//   y: 50,
+//   isDisplayed: false,
+// };
+// let nightImage;
+// let dayImage;
 
 /**
 Description of preload
@@ -61,8 +67,11 @@ function preload() {
   mountainImage = loadImage(`assets/images/mountain.gif`);
 
   //images that will end up in the background
-  nightImage = loadImage(`assets/images/night.png`);
-  dayImage = loadImage(`assets/images/day.png`);
+  for (let i = 0; i < numBackgroundImages; i++) {
+    backgroundImages[i] = loadImage(
+      `assets/images/backgroundImage` + i + `.png`
+    );
+  }
 }
 /**
 Description of setup
@@ -78,12 +87,19 @@ function setup() {
   );
   audioObjects.push(voice1);
 
-  //populating the foregroundImages array
-  let backgroundImage1 = new ImageObject(viewport.x, viewport.y, dayImage);
-  backgroundImages.push(backgroundImage1);
+  // //populating the backgroundImages array
+  //
+  // let backgroundImage1 = new ImageObject(viewport.x, viewport.y, dayImage);
+  // backgroundImages.push(backgroundImage1);
+  //
+  // let backgroundImage2 = new ImageObject(viewport.x, viewport.y, nightImage);
+  // backgroundImages.push(backgroundImage2);
 
-  let backgroundImage2 = new ImageObject(viewport.x, viewport.y, nightImage);
-  backgroundImages.push(backgroundImage2);
+  for (let i = 0; i < numBackgroundImages; i++) {
+    let background = random(backgroundImages);
+    let backgroundImage = new ImageObject(50, 50, background);
+    backgroundImages.push(backgroundImage);
+  }
 
   //populating the foregroundImages array
   let foregroundImage1 = new ImageObject(viewport.x, viewport.y, grassImage);
@@ -103,17 +119,16 @@ function draw() {
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
     let audioObject = audioObjects[i];
-    audioObject.play();
+    // audioObject.play();
     audioObject.userInput();
     audioObject.spatialVolume();
     audioObject.display();
   }
 
-  //Pull a background image out of the array and display it
-  for (let i = 0; i < backgroundImages.length; i++) {
-    let imageObject = backgroundImages[i];
-    imageObject.display();
-  }
+  // for (let i = 0; i < backgroundImages.length; i++) {
+  //   let imageObject = backgroundImages[i];
+  //   imageObject.display();
+  // }
 
   // Go through the foregroundImages array and display the image
   for (let i = 0; i < foregroundImages.length; i++) {
