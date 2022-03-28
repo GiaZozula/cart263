@@ -54,6 +54,7 @@ function draw() {
     audioObject.play();
     audioObject.userInput();
     audioObject.spatialVolume();
+    audioObject.display();
   }
 }
 
@@ -64,8 +65,8 @@ function viewer1Position() {
 
 function viewer1Display() {
   push();
-  fill(255, 255, 255);
-  rectMode(CENTER);
+  noStroke();
+  fill(0, 0, 0);
   ellipse(viewer1.x, viewer1.y, viewer1.size);
   pop();
 }

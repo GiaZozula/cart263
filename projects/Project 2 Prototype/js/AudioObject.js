@@ -52,4 +52,9 @@ class AudioObject {
     volume = constrain(volume, 0, 1);
     this.sound.setVolume(volume);
   }
+
+  display() {
+    fill(255);
+    ellipse(this.x, this.y, this.size);
+  }
 }
