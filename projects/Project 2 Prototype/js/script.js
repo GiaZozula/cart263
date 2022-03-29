@@ -87,8 +87,7 @@ function setup() {
   );
   audioObjects.push(voice1);
 
-  // //populating the backgroundImages array
-  //
+  // Previous code for the background images, before I tried to implement randomization.
   // let backgroundImage1 = new ImageObject(viewport.x, viewport.y, dayImage);
   // backgroundImages.push(backgroundImage1);
   //
