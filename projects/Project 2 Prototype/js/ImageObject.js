@@ -5,11 +5,11 @@ class ImageObject {
     this.y = 50;
     this.image = image;
     this.effects = false;
-    this.width = 600;
-    this.height = 600;
+    this.width = 525;
+    this.height = 525;
   }
 
   display() {
-    image(this.image, this.x, this.y);
+    image(this.image, this.x, this.y, this.width, this.height);
   }
 }

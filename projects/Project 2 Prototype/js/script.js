@@ -33,11 +33,13 @@ let viewport = {
 let audioObjects = [];
 let numAudioObjects = 4;
 
-//defining the array for foreground images
+//defining the arrays for foreground images
 let foregroundImages = [];
 let numForegroundImages = 2;
+let foregroundImageObjects = [];
+let numForeGroundImageObjects = 2;
 
-//defining the array for background images
+//defining the arrays for background images
 let backgroundImages = [];
 let numBackgroundImages = 2;
 let backgroundImageObjects = [];
@@ -46,19 +48,18 @@ let numBackgroundImageObjects = 2;
 //declaring variables for the audio
 let voiceSound;
 
-//declaring variables for the images
-let grassImage;
-let mountainImage;
-
 /**
 Description of preload
 */
 function preload() {
   voiceSound = loadSound(`assets/sounds/ghostvoice.mp3`);
 
-  //images that will end up in the foreground
-  grassImage = loadImage(`assets/images/grass.gif`);
-  mountainImage = loadImage(`assets/images/mountain.gif`);
+  //preload images that will end up in the foreground in an array
+  for (let i = 0; i < numForegroundImages; i++) {
+    foregroundImages[i] = loadImage(
+      `assets/images/foregroundImage` + i + `.gif`
+    );
+  }
 
   //preload images that will end up in the background in an array
   for (let i = 0; i < numBackgroundImages; i++) {
@@ -81,9 +82,13 @@ function setup() {
   );
   audioObjects.push(voice1);
 
-  //populating the foregroundImages array
-  let foregroundImage1 = new ImageObject(viewport.x, viewport.y, grassImage);
-  foregroundImages.push(foregroundImage1);
+  //Go through with a for loop and pick at random an image, place it in the "foreground"
+  //variable, and then pass that on to the ImageObject
+  for (let i = 0; i < numForegroundImages; i++) {
+    let foreground = random(foregroundImages);
+    let foregroundImage = new ImageObject(viewport.x, viewport.y, foreground);
+    foregroundImageObjects.push(foregroundImage);
+  }
 
   //Go through with a for loop and pick at random an image, place it in the "background"
   //variable, and then pass that on to the ImageObject
@@ -120,8 +125,8 @@ function draw() {
   }
 
   // Go through the foregroundImages array and display the image
-  for (let i = 0; i < foregroundImages.length; i++) {
-    let imageObject = foregroundImages[i];
+  for (let i = 0; i < foregroundImageObjects.length; i++) {
+    let imageObject = foregroundImageObjects[i];
     imageObject.display();
   }
 }
