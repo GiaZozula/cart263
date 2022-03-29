@@ -40,6 +40,8 @@ let numForegroundImages = 2;
 //defining the array for background images
 let backgroundImages = [];
 let numBackgroundImages = 2;
+let backgroundImageObjects = [];
+let numBackgroundImageObjects = 2;
 
 //declaring variables for the audio
 let voiceSound;
@@ -79,13 +81,6 @@ function setup() {
   );
   audioObjects.push(voice1);
 
-  // Previous code for the background images, before I tried to implement randomization.
-  // let backgroundImage1 = new ImageObject(viewport.x, viewport.y, dayImage);
-  // backgroundImages.push(backgroundImage1);
-  //
-  // let backgroundImage2 = new ImageObject(viewport.x, viewport.y, nightImage);
-  // backgroundImages.push(backgroundImage2);
-
   //populating the foregroundImages array
   let foregroundImage1 = new ImageObject(viewport.x, viewport.y, grassImage);
   foregroundImages.push(foregroundImage1);
@@ -95,7 +90,7 @@ function setup() {
   for (let i = 0; i < numBackgroundImages; i++) {
     let background = random(backgroundImages);
     let backgroundImage = new ImageObject(viewport.x, viewport.y, background);
-    backgroundImages.push(backgroundImage);
+    backgroundImageObjects.push(backgroundImage);
   }
 
   spirit1Position();
@@ -112,15 +107,15 @@ function draw() {
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
     let audioObject = audioObjects[i];
-    // audioObject.play();
+    audioObject.play();
     audioObject.userInput();
     audioObject.spatialVolume();
     audioObject.display();
   }
 
   //cycle through the background images array, pull one out, and display it!
-  for (let i = 0; i < backgroundImages.length; i++) {
-    let imageObject = backgroundImages[i];
+  for (let i = 0; i < backgroundImageObjects.length; i++) {
+    let imageObject = backgroundImageObjects[i];
     imageObject.display();
   }
 
