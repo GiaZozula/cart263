@@ -48,14 +48,6 @@ let voiceSound;
 let grassImage;
 let mountainImage;
 
-// let backgroundImage = {
-//   x: 50,
-//   y: 50,
-//   isDisplayed: false,
-// };
-// let nightImage;
-// let dayImage;
-
 /**
 Description of preload
 */
@@ -94,17 +86,17 @@ function setup() {
   // let backgroundImage2 = new ImageObject(viewport.x, viewport.y, nightImage);
   // backgroundImages.push(backgroundImage2);
 
-  //Go through with a for loop and pick at random an image
-  //and place in the "background" variable
-  for (let i = 0; i < numBackgroundImages; i++) {
-    let background = random(backgroundImages);
-    let backgroundImage = new ImageObject(50, 50, background);
-    backgroundImages.push(backgroundImage);
-  }
-
   //populating the foregroundImages array
   let foregroundImage1 = new ImageObject(viewport.x, viewport.y, grassImage);
   foregroundImages.push(foregroundImage1);
+
+  //Go through with a for loop and pick at random an image, place it in the "background"
+  //variable, and then pass that on to the ImageObject
+  for (let i = 0; i < numBackgroundImages; i++) {
+    let background = random(backgroundImages);
+    let backgroundImage = new ImageObject(viewport.x, viewport.y, background);
+    backgroundImages.push(backgroundImage);
+  }
 
   spirit1Position();
 }
