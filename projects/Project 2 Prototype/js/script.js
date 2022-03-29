@@ -66,7 +66,7 @@ function preload() {
   grassImage = loadImage(`assets/images/grass.gif`);
   mountainImage = loadImage(`assets/images/mountain.gif`);
 
-  //images that will end up in the background
+  //preload images that will end up in the background in an array
   for (let i = 0; i < numBackgroundImages; i++) {
     backgroundImages[i] = loadImage(
       `assets/images/backgroundImage` + i + `.png`
@@ -95,6 +95,8 @@ function setup() {
   // let backgroundImage2 = new ImageObject(viewport.x, viewport.y, nightImage);
   // backgroundImages.push(backgroundImage2);
 
+  //Go through with a for loop and pick at random an image
+  //and place in the "background" variable
   for (let i = 0; i < numBackgroundImages; i++) {
     let background = random(backgroundImages);
     let backgroundImage = new ImageObject(50, 50, background);
@@ -125,10 +127,11 @@ function draw() {
     audioObject.display();
   }
 
-  // for (let i = 0; i < backgroundImages.length; i++) {
-  //   let imageObject = backgroundImages[i];
-  //   imageObject.display();
-  // }
+  //cycle through the background images array, pull one out, and display it!
+  for (let i = 0; i < backgroundImages.length; i++) {
+    let imageObject = backgroundImages[i];
+    imageObject.display();
+  }
 
   // Go through the foregroundImages array and display the image
   for (let i = 0; i < foregroundImages.length; i++) {
