@@ -33,6 +33,7 @@ class AudioObject {
     }
   }
 
+  //keyboard controls for movement
   userInput() {
     if (keyIsDown(RIGHT_ARROW)) {
       this.vx = this.speed;
@@ -49,6 +50,7 @@ class AudioObject {
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
 
+    //adding the boundaries of the minimap
     if (this.x < this.boundsXLeft) {
       this.x = this.boundsXLeft;
     } else if (this.x > this.boundsXRight) {

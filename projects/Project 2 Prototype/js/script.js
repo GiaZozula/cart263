@@ -2,10 +2,15 @@
 Project 2 Prototype
 Gia
 
+This is a prototype for my final project, tentatively titled "Reunited at Last".
 
+Use the regular keyboard controls and attempt to guide the "searching spirit"
+to the "stationary spirit".
 */
 
 "use strict";
+
+//GLOBAL VARIABLES ------------------------------------------------------------
 
 let spirit1 = {
   x: 0,
@@ -48,9 +53,7 @@ let numBackgroundImageObjects = 2;
 //declaring variables for the audio
 let voiceSound;
 
-/**
-Description of preload
-*/
+// PRELOAD --------------------------------------------------------------------
 function preload() {
   voiceSound = loadSound(`assets/sounds/ghostvoice.mp3`);
 
@@ -68,9 +71,8 @@ function preload() {
     );
   }
 }
-/**
-Description of setup
-*/
+
+//SETUP -----------------------------------------------------------------------
 function setup() {
   createCanvas(1000, 800);
 
@@ -101,9 +103,7 @@ function setup() {
   spirit1Position();
 }
 
-/**
-Description of draw()
-*/
+//DRAW ------------------------------------------------------------------------
 function draw() {
   background(0);
 
