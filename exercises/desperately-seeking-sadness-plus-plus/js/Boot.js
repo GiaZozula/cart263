@@ -8,6 +8,7 @@ class Boot extends Phaser.Scene {
   preload() {
     //load assets here!
     this.load.audio(`yay`, "assets/sounds/yay.wav");
+    this.load.image(`background`, `assets/images/crying.jpg`);
     this.load.image(`smileavatar`, `assets/images/smileavatar.png`);
     this.load.image(`cute`, `assets/images/cute.jpg`);
     this.load.image(`pill`, `assets/images/pill.png`);

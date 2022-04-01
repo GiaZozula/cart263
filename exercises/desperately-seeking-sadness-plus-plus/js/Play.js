@@ -6,6 +6,10 @@ class Play extends Phaser.Scene {
   }
 
   create() {
+    //add a background
+    this.bg = this.add.image(400, 500, `background`);
+    this.bg.setDepth(-2);
+
     //add the "yay" audio file to be called later
     this.yay = this.sound.add(`yay`, { loop: false });
 
