@@ -2,10 +2,14 @@
 Desperately Seeking Happiness PLUSSS PLUSSS
 Gia
 
-In a hard world, one lil' emoji desperately searches for some happiness.
+In a hard world, a lil' emoji desperately searches for some happiness in the form
+of a shitty clip art image depicting a smiling sun sitting on a rainbow.
 
-Thankfully the emoji is medicated, which means the path to happiness is
-easier to achieve!
+Rainy days try and get in the way, but thankfully the emoji is medicated.
+A pill helps clear a path to happiness.
+
+In the end, however, there's nothing like some cute animal pics to bring out a smile.
+Life's greatest reward.
 
 */
 
