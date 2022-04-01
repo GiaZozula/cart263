@@ -6,11 +6,15 @@ class Play extends Phaser.Scene {
   }
 
   create() {
+    //add the "yay" audio file to be called later
+    this.yay = this.sound.add(`yay`, { loop: false });
+
+    //create the sadness group
     this.sadness = this.physics.add.group({
       key: `thumbs-down`,
-      quantity: 120,
-      bounceX: 0.5,
-      bounceY: 0.5,
+      quantity: 50,
+      bounceX: 0.1,
+      bounceY: 0.1,
       collideWorldBounds: true,
       dragX: 50,
       dragY: 50,
@@ -21,7 +25,6 @@ class Play extends Phaser.Scene {
     );
 
     // make some random variables to position the pill and Happiness
-
     let x = Math.random() * this.sys.canvas.width;
     let y = Math.random() * this.sys.canvas.height;
 
@@ -29,14 +32,14 @@ class Play extends Phaser.Scene {
     this.pill = this.physics.add
       .sprite(x, y, `pill`)
       .setVelocity(1000, 2000)
-      .setBounce(2.5, 2.5)
+      .setBounce(2, 2)
       .setCollideWorldBounds(true);
 
     //create happiness at a random position
     this.happiness = this.physics.add.sprite(x, y, `thumbs-up`);
 
     //create the avatar
-    this.avatar = this.physics.add.sprite(400, 300, `avatar`);
+    this.avatar = this.physics.add.sprite(400, 300, `smileavatar`);
     this.avatar.setCollideWorldBounds(true);
 
     this.physics.add.overlap(
@@ -58,6 +61,13 @@ class Play extends Phaser.Scene {
     let x = Math.random() * this.sys.canvas.width;
     let y = Math.random() * this.sys.canvas.height;
     this.happiness.setPosition(x, y);
+
+    // play the yay sound effect
+    this.yay.play();
+
+    //add a cute puppy pic, with a depth of -1 so its below everything else
+    this.cute = this.add.image(x, y, `cute`);
+    this.cute.setDepth(-1);
   }
 
   update() {
