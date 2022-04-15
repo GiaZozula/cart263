@@ -25,6 +25,17 @@ let stationarySpirit = {
   y: 0,
   size: 10,
 };
+let stationarySpiritHBox1 = {
+  x: 0,
+  y: 0,
+  size: 125,
+};
+
+let stationarySpiritHBox2 = {
+  x: 0,
+  y: 0,
+  size: 250,
+};
 
 let miniMap = {
   x: 600,
@@ -183,9 +194,33 @@ function drawGame() {
 function stationarySpiritPosition() {
   stationarySpirit.x = random(miniMap.x, miniMap.boundsXRight);
   stationarySpirit.y = random(miniMap.y, miniMap.boundsYBottom);
+  stationarySpiritHBox1.x = stationarySpirit.x;
+  stationarySpiritHBox1.y = stationarySpirit.y;
+  stationarySpiritHBox2.x = stationarySpirit.x;
+  stationarySpiritHBox2.y = stationarySpirit.y;
 }
 
 function stationarySpiritDisplay() {
+  push();
+  noStroke();
+  fill(150);
+  ellipse(
+    stationarySpiritHBox2.x,
+    stationarySpiritHBox2.y,
+    stationarySpiritHBox2.size
+  );
+  pop();
+
+  push();
+  noStroke();
+  fill(100);
+  ellipse(
+    stationarySpiritHBox1.x,
+    stationarySpiritHBox1.y,
+    stationarySpiritHBox1.size
+  );
+  pop();
+
   push();
   noStroke();
   fill(0);
