@@ -63,14 +63,20 @@ class AudioObject {
   }
   //Pippin's wonderful code that got me started on spatial audio
   spatialVolume() {
-    let volume = map(dist(spirit1.x, spirit1.y, this.x, this.y), 0, 250, 1, 0);
+    let volume = map(
+      dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y),
+      0,
+      250,
+      1,
+      0
+    );
     volume = constrain(volume, 0, 1);
     this.sound.setVolume(volume);
   }
 
   checkOverlap() {
-    let d = dist(spirit1.x, spirit1.y, this.x, this.y);
-    if (d < spirit1.size / 2 + this.size / 2) {
+    let d = dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y);
+    if (d < stationarySpirit.size / 2 + this.size / 2) {
       console.log("overlap");
     }
   }

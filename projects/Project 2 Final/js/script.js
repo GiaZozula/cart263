@@ -20,7 +20,7 @@ let state = "game";
 //this timer will be used to move through the intro title cards
 let timer;
 
-let spirit1 = {
+let stationarySpirit = {
   x: 0,
   y: 0,
   size: 10,
@@ -93,12 +93,12 @@ function setup() {
   createCanvas(1000, 800);
 
   //The code for the audio object was adapted from my Project 1 code
-  let voice1 = new AudioObject(
+  let searchingSpirit = new AudioObject(
     random(miniMap.x, miniMap.boundsXRight),
     random(miniMap.y, miniMap.boundsYBottom),
     voiceSound
   );
-  audioObjects.push(voice1);
+  audioObjects.push(searchingSpirit);
 
   //Go through with a for loop and pick at random an image, place it in the "foreground"
   //variable, and then pass that on to the ImageObject
@@ -116,7 +116,7 @@ function setup() {
     backgroundImageObjects.push(backgroundImage);
   }
 
-  spirit1Position();
+  stationarySpiritPosition();
 }
 
 //DRAW ------------------------------------------------------------------------
@@ -155,7 +155,7 @@ function drawIntro() {
 function drawGame() {
   background(0);
   miniMapDisplay();
-  spirit1Display();
+  stationarySpiritDisplay();
 
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
@@ -180,16 +180,16 @@ function drawGame() {
   }
 }
 
-function spirit1Position() {
-  spirit1.x = random(miniMap.x, miniMap.boundsXRight);
-  spirit1.y = random(miniMap.y, miniMap.boundsYBottom);
+function stationarySpiritPosition() {
+  stationarySpirit.x = random(miniMap.x, miniMap.boundsXRight);
+  stationarySpirit.y = random(miniMap.y, miniMap.boundsYBottom);
 }
 
-function spirit1Display() {
+function stationarySpiritDisplay() {
   push();
   noStroke();
   fill(0);
-  ellipse(spirit1.x, spirit1.y, spirit1.size);
+  ellipse(stationarySpirit.x, stationarySpirit.y, stationarySpirit.size);
   pop();
 }
 
