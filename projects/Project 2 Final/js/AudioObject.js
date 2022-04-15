@@ -12,7 +12,7 @@ class AudioObject {
     this.boundsYBottom = 749;
     this.sound = sound;
     this.size = 7;
-    this.speed = 0.25;
+    this.speed = 1.25;
     this.changeDirection = 0.2;
     this.isPlaying = false;
   }
@@ -66,6 +66,13 @@ class AudioObject {
     let volume = map(dist(spirit1.x, spirit1.y, this.x, this.y), 0, 250, 1, 0);
     volume = constrain(volume, 0, 1);
     this.sound.setVolume(volume);
+  }
+
+  checkOverlap() {
+    let d = dist(spirit1.x, spirit1.y, this.x, this.y);
+    if (d < spirit1.size / 2 + this.size / 2) {
+      console.log("overlap");
+    }
   }
 
   display() {

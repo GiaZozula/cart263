@@ -15,7 +15,7 @@ to the "stationary spirit".
 
 //GLOBAL VARIABLES ------------------------------------------------------------
 
-let state = "title";
+let state = "game";
 
 //this timer will be used to move through the intro title cards
 let timer;
@@ -146,6 +146,7 @@ function drawTitle() {
 //DRAWINTRO -------------------------------------------------------------------
 function drawIntro() {
   background(0);
+  fill(255);
   textFont(font);
   text("intro state", width / 2, height / 2);
 }
@@ -155,6 +156,7 @@ function drawGame() {
   background(0);
   miniMapDisplay();
   spirit1Display();
+
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
     let audioObject = audioObjects[i];
@@ -162,6 +164,7 @@ function drawGame() {
     audioObject.userInput();
     audioObject.spatialVolume();
     audioObject.display();
+    audioObject.checkOverlap();
   }
 
   //cycle through the background images array, pull one out, and display it!
@@ -185,7 +188,7 @@ function spirit1Position() {
 function spirit1Display() {
   push();
   noStroke();
-  fill(255);
+  fill(0);
   ellipse(spirit1.x, spirit1.y, spirit1.size);
   pop();
 }
@@ -200,6 +203,7 @@ function miniMapDisplay() {
 //DRAWOUTRO -------------------------------------------------------------------
 function drawOutro() {
   background(0);
+  fill(255);
   textFont(font);
   text("Outro", width / 2, height / 2);
 }
