@@ -73,28 +73,33 @@ let numBackgroundImageObjects = 2;
 let voiceSound;
 
 //declaring other assets
+let darknessImg;
 let font;
 
 let titleText = "Reunited At Last";
 
 // PRELOAD --------------------------------------------------------------------
 function preload() {
-  voiceSound = loadSound(`assets/sounds/ghostvoice.mp3`);
+  //preload the sounds
+  voiceSound = loadSound("assets/sounds/ghostvoice.mp3");
+
+  //preload the image assets (that aren't in arrays)
+  darknessImg = loadImage("assets/images/darknessImg.gif");
 
   //preload the fonts
-  font = loadFont(`assets/fonts/font.ttf`);
+  font = loadFont("assets/fonts/font.ttf");
 
   //preload images that will end up in the foreground in an array
   for (let i = 0; i < numForegroundImages; i++) {
     foregroundImages[i] = loadImage(
-      `assets/images/foregroundImage` + i + `.gif`
+      "assets/images/foregroundImage" + i + ".gif"
     );
   }
 
   //preload images that will end up in the background in an array
   for (let i = 0; i < numBackgroundImages; i++) {
     backgroundImages[i] = loadImage(
-      `assets/images/backgroundImage` + i + `.png`
+      "assets/images/backgroundImage" + i + ".png"
     );
   }
 }
@@ -165,18 +170,6 @@ function drawIntro() {
 //DRAWGAME --------------------------------------------------------------------
 function drawGame() {
   background(0);
-  miniMapDisplay();
-  stationarySpiritDisplay();
-
-  // Go through the audioObject array and begin all necessary functions
-  for (let i = 0; i < audioObjects.length; i++) {
-    let audioObject = audioObjects[i];
-    audioObject.play();
-    audioObject.userInput();
-    audioObject.spatialVolume();
-    audioObject.display();
-    audioObject.checkOverlap();
-  }
 
   //cycle through the background images array, pull one out, and display it!
   for (let i = 0; i < backgroundImageObjects.length; i++) {
@@ -188,6 +181,20 @@ function drawGame() {
   for (let i = 0; i < foregroundImageObjects.length; i++) {
     let imageObject = foregroundImageObjects[i];
     imageObject.display();
+  }
+
+  miniMapDisplay();
+  stationarySpiritDisplay();
+
+  // Go through the audioObject array and begin all necessary functions
+  for (let i = 0; i < audioObjects.length; i++) {
+    let audioObject = audioObjects[i];
+    audioObject.play();
+    audioObject.userInput();
+    audioObject.spatialVolume();
+    audioObject.display();
+    audioObject.checkOverlap();
+    audioObject.darknessImgDisplay();
   }
 }
 

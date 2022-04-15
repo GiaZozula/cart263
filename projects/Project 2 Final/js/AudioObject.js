@@ -74,6 +74,13 @@ class AudioObject {
     this.sound.setVolume(volume);
   }
 
+  darknessImgDisplay() {
+    image(darknessImg, viewport.x, viewport.y, viewport.width, viewport.height);
+    let opacity =
+      dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y) - 100;
+    tint(150, opacity);
+  }
+
   checkOverlap() {
     let d = dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y);
     if (d < stationarySpirit.size / 2 + this.size / 2) {
