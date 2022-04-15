@@ -1,6 +1,11 @@
 /**
-Project 2 Final - Reunited At Last
-Gia
+
+██████████████████████████████████████████████████████████████████████████████████████████
+█▄─▄▄▀█▄─▄▄─█▄─██─▄█▄─▀█▄─▄█▄─▄█─▄─▄─█▄─▄▄─█▄─▄▄▀████▀▄─██─▄─▄─███▄─▄████▀▄─██─▄▄▄▄█─▄─▄─█
+██─▄─▄██─▄█▀██─██─███─█▄▀─███─████─████─▄█▀██─██─████─▀─████─██████─██▀██─▀─██▄▄▄▄─███─███
+▀▄▄▀▄▄▀▄▄▄▄▄▀▀▄▄▄▄▀▀▄▄▄▀▀▄▄▀▄▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀▄▄▄▄▀▀▀▀▄▄▀▄▄▀▀▄▄▄▀▀▀▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▀▄▄▄▀▀
+
+by Gia
 
 Use the regular keyboard controls and attempt to guide the "searching spirit"
 to the "stationary spirit".
@@ -10,7 +15,10 @@ to the "stationary spirit".
 
 //GLOBAL VARIABLES ------------------------------------------------------------
 
-let state = "game";
+let state = "title";
+
+//this timer will be used to move through the intro title cards
+let timer;
 
 let spirit1 = {
   x: 0,
@@ -53,9 +61,17 @@ let numBackgroundImageObjects = 2;
 //declaring variables for the audio
 let voiceSound;
 
+//declaring other assets
+let font;
+
+let titleText = "Reunited At Last";
+
 // PRELOAD --------------------------------------------------------------------
 function preload() {
   voiceSound = loadSound(`assets/sounds/ghostvoice.mp3`);
+
+  //preload the fonts
+  font = loadFont(`assets/fonts/font.ttf`);
 
   //preload images that will end up in the foreground in an array
   for (let i = 0; i < numForegroundImages; i++) {
@@ -108,13 +124,30 @@ function draw() {
   background(0);
 
   //State switcher
-  if (state === "intro") {
+  if (state === "title") {
+    drawTitle();
+  } else if (state === "intro") {
     drawIntro();
   } else if (state === "game") {
     drawGame();
   } else if (state === "end") {
     drawEnd();
   }
+}
+
+//DRAWTITLE -------------------------------------------------------------------
+function drawTitle() {
+  background(0);
+  fill(255);
+  textFont(font);
+  text(titleText, width / 2, height / 2);
+}
+
+//DRAWINTRO -------------------------------------------------------------------
+function drawIntro() {
+  background(0);
+  textFont(font);
+  text("intro state", width / 2, height / 2);
 }
 
 //DRAWGAME --------------------------------------------------------------------
@@ -162,4 +195,11 @@ function miniMapDisplay() {
   fill(255);
   rect(miniMap.x, miniMap.y, miniMap.width, miniMap.height);
   pop();
+}
+
+//DRAWOUTRO -------------------------------------------------------------------
+function drawOutro() {
+  background(0);
+  textFont(font);
+  text("Outro", width / 2, height / 2);
 }
