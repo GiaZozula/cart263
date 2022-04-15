@@ -12,7 +12,7 @@ class AudioObject {
     this.boundsYBottom = 749;
     this.sound = sound;
     this.size = 7;
-    this.speed = 0.75;
+    this.speed = 0.25;
     this.changeDirection = 0.2;
     this.isPlaying = false;
   }

@@ -1,8 +1,6 @@
 /**
-Project 2 Prototype
+Project 2 Final - Reunited At Last
 Gia
-
-This is a prototype for my final project, tentatively titled "Reunited at Last".
 
 Use the regular keyboard controls and attempt to guide the "searching spirit"
 to the "stationary spirit".
@@ -11,6 +9,8 @@ to the "stationary spirit".
 "use strict";
 
 //GLOBAL VARIABLES ------------------------------------------------------------
+
+let state = "game";
 
 let spirit1 = {
   x: 0,
@@ -107,6 +107,19 @@ function setup() {
 function draw() {
   background(0);
 
+  //State switcher
+  if (state === "intro") {
+    drawIntro();
+  } else if (state === "game") {
+    drawGame();
+  } else if (state === "end") {
+    drawEnd();
+  }
+}
+
+//DRAWGAME --------------------------------------------------------------------
+function drawGame() {
+  background(0);
   miniMapDisplay();
   spirit1Display();
   // Go through the audioObject array and begin all necessary functions
