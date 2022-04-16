@@ -1,6 +1,6 @@
 //This code was taken from my Project 1
 class AudioObject {
-  //basic properties of the AudioObject class
+  //basic properties of the AudioObject class that will be used for the "Searching Spirit"
   constructor(x, y, sound) {
     this.x = x;
     this.y = y;
@@ -74,13 +74,17 @@ class AudioObject {
     this.sound.setVolume(volume);
   }
 
+  //this controls the opacity of the darknessImg overlay that disappears as the searchingSpirit gets closer to the stationary spirit
   darknessImgDisplay() {
-    image(darknessImg, viewport.x, viewport.y, viewport.width, viewport.height);
     let opacity =
       dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y) - 100;
+    push();
     tint(150, opacity);
+    image(darknessImg, viewport.x, viewport.y, viewport.width, viewport.height);
+    pop();
   }
 
+  //check if the searchingSpirit is overlapping with the stationarySpirit or its wider hitboxes
   checkOverlap() {
     let d = dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y);
     if (d < stationarySpirit.size / 2 + this.size / 2) {
@@ -108,6 +112,7 @@ class AudioObject {
     }
   }
 
+  //display the searchingSpirit
   display() {
     fill(255);
     ellipse(this.x, this.y, this.size);
