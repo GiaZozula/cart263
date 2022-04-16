@@ -51,15 +51,15 @@ let miniMap = {
 };
 
 let viewport = {
-  x: 50,
-  y: 50,
+  x: 300,
+  y: 300,
   width: 525,
   height: 525,
 };
 
 let eyePosition = {
-  x: 600,
-  y: 20,
+  x: 750,
+  y: 120,
   width: 250,
   height: 200,
 };
@@ -163,13 +163,14 @@ function setup() {
     backgroundImageObjects.push(backgroundImage);
   }
 
-  //take a button image from the buttonImage array, and place it in a variable
+  //take a button image from the buttonImage array, place it in a variable, and add it to the buttonObjects array
   let eyeButton = new ImageObject(
     eyePosition.x,
     eyePosition.y,
     eyeOpenImg,
     eyePosition.width,
-    eyePosition.height
+    eyePosition.height,
+    "true"
   );
   buttonObjects.push(eyeButton);
 
@@ -230,14 +231,14 @@ function drawGame() {
   //display the stationarySpirit (although this will be invisible in the final build, just here for testing purposes)
   stationarySpiritDisplay();
 
-  //display the eye (that acts as a switch between the two controls)
-  // eyeDisplay();
-  eyeMouseOver();
-
   // go through the buttonObjects array and begin all necessary functions
   for (let i = 0; i < buttonObjects.length; i++) {
     let buttonObject = buttonObjects[i];
     buttonObject.display();
+    buttonObject.mouseOver();
+    if (buttonObject.overlap && mouseIsPressed) {
+      console.log("pressed");
+    }
   }
 
   // Go through the audioObject array and begin all necessary functions
@@ -251,6 +252,8 @@ function drawGame() {
     audioObject.darknessImgDisplay();
   }
 }
+
+// FUCNTIONS FOR DRAWGAME
 
 //place the stationarySpirit at a random starting location, along with its two wider hitboxes
 function stationarySpiritPosition() {
@@ -297,31 +300,6 @@ function miniMapDisplay() {
   fill(255);
   rect(miniMap.x, miniMap.y, miniMap.width, miniMap.height);
   pop();
-}
-
-// function eyeDisplay() {
-//   push();
-//   imageMode(CENTER);
-//   image(
-//     eyeOpenImg,
-//     eyePosition.x,
-//     eyePosition.y,
-//     eyePosition.width,
-//     eyePosition.height
-//   );
-//   pop();
-// }
-
-function eyeMouseOver() {
-  if (
-    mouseX > eyePosition.x - eyePosition.width / 2 &&
-    mouseX < eyePosition.x + eyePosition.width / 2 &&
-    mouseY > eyePosition.y - eyePosition.height / 2 &&
-    mouseY < eyePosition.y + eyePosition.height / 2
-  ) {
-    console.log("EYEEEE");
-  } else {
-  }
 }
 
 //DRAWOUTRO -------------------------------------------------------------------
