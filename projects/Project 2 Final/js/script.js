@@ -20,6 +20,10 @@ let state = "game";
 //this timer will be used to move through the intro title cards
 let timer;
 
+//this will be used to switch the controls between the two spirits
+let searchingSpiritActive = true;
+let stationarySpiritActive = false;
+
 let stationarySpirit = {
   x: 0,
   y: 0,
@@ -49,11 +53,18 @@ let miniMap = {
 let viewport = {
   x: 50,
   y: 50,
-  width: 600,
-  height: 600,
+  width: 525,
+  height: 525,
 };
 
-//defining audioObejcts array and properties
+let eyePosition = {
+  x: 600,
+  y: 20,
+  width: 250,
+  height: 200,
+};
+
+//defining audioObjects array and properties
 let audioObjects = [];
 let numAudioObjects = 4;
 
@@ -69,11 +80,18 @@ let numBackgroundImages = 2;
 let backgroundImageObjects = [];
 let numBackgroundImageObjects = 2;
 
+//defining an array for clickable "buttons" on the GUI
+let buttonImages = [];
+let numButtonImages = 1;
+let buttonObjects = [];
+let numButtonObjects = 1;
+
 //declaring variables for the audio
 let voiceSound;
 
 //declaring other assets
 let darknessImg;
+let eyeOpenImg;
 let font;
 
 let titleText = "Reunited At Last";
@@ -85,6 +103,7 @@ function preload() {
 
   //preload the image assets (that aren't in arrays)
   darknessImg = loadImage("assets/images/darknessImg.gif");
+  eyeOpenImg = loadImage("assets/images/buttonImage0.jpg");
 
   //preload the fonts
   font = loadFont("assets/fonts/font.ttf");
@@ -120,7 +139,13 @@ function setup() {
   //variable, and then pass that on to the ImageObject
   for (let i = 0; i < numForegroundImages; i++) {
     let foreground = random(foregroundImages);
-    let foregroundImage = new ImageObject(viewport.x, viewport.y, foreground);
+    let foregroundImage = new ImageObject(
+      viewport.x,
+      viewport.y,
+      foreground,
+      viewport.width,
+      viewport.height
+    );
     foregroundImageObjects.push(foregroundImage);
   }
 
@@ -128,9 +153,25 @@ function setup() {
   //variable, and then pass that on to the ImageObject
   for (let i = 0; i < numBackgroundImages; i++) {
     let background = random(backgroundImages);
-    let backgroundImage = new ImageObject(viewport.x, viewport.y, background);
+    let backgroundImage = new ImageObject(
+      viewport.x,
+      viewport.y,
+      background,
+      viewport.width,
+      viewport.height
+    );
     backgroundImageObjects.push(backgroundImage);
   }
+
+  //take a button image from the buttonImage array, and place it in a variable
+  let eyeButton = new ImageObject(
+    eyePosition.x,
+    eyePosition.y,
+    eyeOpenImg,
+    eyePosition.width,
+    eyePosition.height
+  );
+  buttonObjects.push(eyeButton);
 
   stationarySpiritPosition();
 }
@@ -183,8 +224,21 @@ function drawGame() {
     imageObject.display();
   }
 
+  //display the mini map
   miniMapDisplay();
+
+  //display the stationarySpirit (although this will be invisible in the final build, just here for testing purposes)
   stationarySpiritDisplay();
+
+  //display the eye (that acts as a switch between the two controls)
+  // eyeDisplay();
+  eyeMouseOver();
+
+  // go through the buttonObjects array and begin all necessary functions
+  for (let i = 0; i < buttonObjects.length; i++) {
+    let buttonObject = buttonObjects[i];
+    buttonObject.display();
+  }
 
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
@@ -198,6 +252,7 @@ function drawGame() {
   }
 }
 
+//place the stationarySpirit at a random starting location, along with its two wider hitboxes
 function stationarySpiritPosition() {
   stationarySpirit.x = random(miniMap.x, miniMap.boundsXRight);
   stationarySpirit.y = random(miniMap.y, miniMap.boundsYBottom);
@@ -207,6 +262,7 @@ function stationarySpiritPosition() {
   stationarySpiritHBox2.y = stationarySpirit.y;
 }
 
+//function for the display of the stationarySpirit (this will be made invisible, only here for testing purposes)
 function stationarySpiritDisplay() {
   push();
   noStroke();
@@ -235,11 +291,37 @@ function stationarySpiritDisplay() {
   pop();
 }
 
+//function for the display of the miniMap
 function miniMapDisplay() {
   push();
   fill(255);
   rect(miniMap.x, miniMap.y, miniMap.width, miniMap.height);
   pop();
+}
+
+// function eyeDisplay() {
+//   push();
+//   imageMode(CENTER);
+//   image(
+//     eyeOpenImg,
+//     eyePosition.x,
+//     eyePosition.y,
+//     eyePosition.width,
+//     eyePosition.height
+//   );
+//   pop();
+// }
+
+function eyeMouseOver() {
+  if (
+    mouseX > eyePosition.x - eyePosition.width / 2 &&
+    mouseX < eyePosition.x + eyePosition.width / 2 &&
+    mouseY > eyePosition.y - eyePosition.height / 2 &&
+    mouseY < eyePosition.y + eyePosition.height / 2
+  ) {
+    console.log("EYEEEE");
+  } else {
+  }
 }
 
 //DRAWOUTRO -------------------------------------------------------------------

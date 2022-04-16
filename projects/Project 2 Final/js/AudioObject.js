@@ -35,21 +35,28 @@ class AudioObject {
 
   //keyboard controls for movement
   userInput() {
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.vx = this.speed;
-    } else if (keyIsDown(LEFT_ARROW)) {
-      this.vx = -this.speed;
-    } else if (keyIsDown(UP_ARROW)) {
-      this.vy = -this.speed;
-    } else if (keyIsDown(DOWN_ARROW)) {
-      this.vy = this.speed;
-    } else {
+    // first check if the searchingSpirit switch is on
+    if (searchingSpiritActive) {
+      if (keyIsDown(RIGHT_ARROW)) {
+        this.vx = this.speed;
+      } else if (keyIsDown(LEFT_ARROW)) {
+        this.vx = -this.speed;
+      } else if (keyIsDown(UP_ARROW)) {
+        this.vy = -this.speed;
+      } else if (keyIsDown(DOWN_ARROW)) {
+        this.vy = this.speed;
+      } else {
+        this.vx = 0;
+        this.vy = 0;
+      }
+      this.x = this.x + this.vx;
+      this.y = this.y + this.vy;
+    }
+    //if the stationarySpirit is currently switched on, take away these controls
+    else if (!searchingSpiritActive) {
       this.vx = 0;
       this.vy = 0;
     }
-    this.x = this.x + this.vx;
-    this.y = this.y + this.vy;
-
     //adding the boundaries of the minimap
     if (this.x < this.boundsXLeft) {
       this.x = this.boundsXLeft;
