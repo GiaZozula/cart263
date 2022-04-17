@@ -51,17 +51,17 @@ let miniMap = {
 };
 
 let viewport = {
-  x: 1400,
+  x: 1500,
   y: 320,
-  width: 525,
+  width: 725,
   height: 525,
 };
 
 let eyePosition = {
-  x: 1150,
-  y: 800,
+  x: 200,
+  y: 100,
   width: 250,
-  height: 200,
+  height: 100,
 };
 
 //defining audioObjects array and properties
