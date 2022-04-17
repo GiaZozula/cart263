@@ -50,11 +50,23 @@ let miniMap = {
   height: 700,
 };
 
+let miniMapFrame = {
+  x: 400,
+  y: 50,
+  width: 750,
+  height: 900,
+};
+
 let viewport = {
   x: 1500,
   y: 320,
   width: 725,
   height: 525,
+};
+
+let viewportFrame = {
+  width: 975,
+  height: 755,
 };
 
 let eyePosition = {
@@ -100,22 +112,28 @@ let gateL = {
   y: 300,
   xClose: 1300,
   xOpen: 900,
-  speed: 10,
+  speed: 2,
+  width: 775,
+  height: 725,
 };
 
 let gateRImg;
 let gateR = {
-  x: 1400,
+  x: 1700,
   y: 300,
-  xClose: 1400,
-  xOpen: 1800,
-  speed: 10,
+  xClose: 1700,
+  xOpen: 2100,
+  speed: 2,
+  width: 775,
+  height: 725,
 };
 
 //declaring variables for the audio
 let voiceSound;
 
 //declaring other assets
+let viewportFrameImg;
+let miniMapFrameImg;
 let darknessImg;
 let eyeOpenImg;
 let earImg;
@@ -132,8 +150,10 @@ function preload() {
   darknessImg = loadImage("assets/images/darknessImg.gif");
   eyeOpenImg = loadImage("assets/images/buttonImage0.jpg");
   earImg = loadImage("assets/images/buttonImage1.jpg");
-  gateLImg = loadImage("assets/images/gateL.jpg");
-  gateRImg = loadImage("assets/images/gateL.jpg");
+  gateLImg = loadImage("assets/images/gateL.png");
+  gateRImg = loadImage("assets/images/gateL.png");
+  viewportFrameImg = loadImage("assets/images/frametest.png");
+  miniMapFrameImg = loadImage("assets/images/frametest.png");
 
   //preload the fonts
   font = loadFont("assets/fonts/font.ttf");
@@ -299,9 +319,10 @@ function drawGame() {
     audioObject.checkOverlap();
     audioObject.darknessImgDisplay();
   }
+  drawHUD();
 }
 
-// FUCNTIONS FOR DRAWGAME
+// FUCNTIONS FOR DRAWGAME ----------------------------------------------------
 
 //place the stationarySpirit at a random starting location, along with its two wider hitboxes
 function stationarySpiritPosition() {
@@ -353,8 +374,8 @@ function miniMapDisplay() {
 
 //display the Gates
 function gateDisplay() {
-  image(gateLImg, gateL.x, gateL.y);
-  image(gateRImg, gateR.x, gateR.y);
+  image(gateLImg, gateL.x, gateL.y, gateL.width, gateL.height);
+  image(gateRImg, gateR.x, gateR.y, gateR.width, gateR.height);
 }
 
 //function for the opening movement of the gates
@@ -381,6 +402,26 @@ function gateClose() {
   if (gateR.x <= gateR.xClose) {
     gateR.x = gateR.xClose;
   }
+}
+
+function drawHUD() {
+  image(
+    viewportFrameImg,
+    viewport.x,
+    viewport.y,
+    viewportFrame.width,
+    viewportFrame.height
+  );
+  push();
+  imageMode(CORNER);
+  image(
+    miniMapFrameImg,
+    miniMapFrame.x,
+    miniMapFrame.y,
+    miniMapFrame.width,
+    miniMapFrame.height
+  );
+  pop();
 }
 
 //DRAWOUTRO -------------------------------------------------------------------
