@@ -42,24 +42,24 @@ let stationarySpiritHBox2 = {
 };
 
 let miniMap = {
-  x: 400,
-  y: 350,
-  boundsXRight: 750,
-  boundsYBottom: 650,
-  width: 350,
-  height: 500,
+  x: 500,
+  y: 150,
+  boundsXRight: 1050,
+  boundsYBottom: 850,
+  width: 550,
+  height: 700,
 };
 
 let viewport = {
-  x: 1200,
-  y: 400,
+  x: 1400,
+  y: 320,
   width: 525,
   height: 525,
 };
 
 let eyePosition = {
-  x: 450,
-  y: 150,
+  x: 1150,
+  y: 800,
   width: 250,
   height: 200,
 };
