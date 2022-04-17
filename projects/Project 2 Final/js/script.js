@@ -64,6 +64,13 @@ let eyePosition = {
   height: 100,
 };
 
+let earPosition = {
+  x: 200,
+  y: 600,
+  width: 250,
+  height: 100,
+};
+
 //defining audioObjects array and properties
 let audioObjects = [];
 let numAudioObjects = 4;
@@ -82,9 +89,9 @@ let numBackgroundImageObjects = 2;
 
 //defining an array for clickable "buttons" on the GUI
 let buttonImages = [];
-let numButtonImages = 1;
+let numButtonImages = 2;
 let buttonObjects = [];
-let numButtonObjects = 1;
+let numButtonObjects = 2;
 
 //defining the gates covering the viewport
 let gateLImg;
@@ -111,6 +118,7 @@ let voiceSound;
 //declaring other assets
 let darknessImg;
 let eyeOpenImg;
+let earImg;
 let font;
 
 let titleText = "Reunited At Last";
@@ -123,6 +131,7 @@ function preload() {
   //preload the image assets (that aren't in arrays)
   darknessImg = loadImage("assets/images/darknessImg.gif");
   eyeOpenImg = loadImage("assets/images/buttonImage0.jpg");
+  earImg = loadImage("assets/images/buttonImage1.jpg");
   gateLImg = loadImage("assets/images/gateL.jpg");
   gateRImg = loadImage("assets/images/gateL.jpg");
 
@@ -194,6 +203,17 @@ function setup() {
     "true"
   );
   buttonObjects.push(eyeButton);
+
+  //take a button image from the buttonImage array, place it in a variable, and add it to the buttonObjects array
+  let earButton = new ImageObject(
+    earPosition.x,
+    earPosition.y,
+    earImg,
+    earPosition.width,
+    earPosition.height,
+    "true"
+  );
+  buttonObjects.push(earButton);
 
   stationarySpiritPosition();
 }
