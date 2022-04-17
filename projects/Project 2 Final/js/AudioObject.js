@@ -9,7 +9,7 @@ class AudioObject {
     this.boundsXLeft = 499;
     this.boundsXRight = 1049;
     this.boundsYLeft = 149;
-    this.boundsYBottom = 1049;
+    this.boundsYBottom = 849;
     this.sound = sound;
     this.size = 7;
     this.speed = 1;
@@ -19,6 +19,8 @@ class AudioObject {
     this.isOverlapping2 = false;
     this.isOverlapping3 = false;
     this.hasSpawned = false;
+    this.darknessBegin = 425;
+    this.darknessTint = 225;
   }
 
   //check to see if it is playing!
@@ -88,9 +90,10 @@ class AudioObject {
   //this controls the opacity of the darknessImg overlay that disappears as the searchingSpirit gets closer to the stationary spirit
   darknessImgDisplay() {
     let opacity =
-      dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y) - 250;
+      dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y) -
+      this.darknessBegin;
     push();
-    tint(150, opacity);
+    tint(this.darknessTint, opacity);
     image(darknessImg, viewport.x, viewport.y, viewport.width, viewport.height);
     pop();
   }

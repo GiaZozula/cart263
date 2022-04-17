@@ -92,6 +92,7 @@ let voiceSound;
 //declaring other assets
 let darknessImg;
 let eyeOpenImg;
+let gateL;
 let font;
 
 let titleText = "Reunited At Last";
@@ -104,6 +105,7 @@ function preload() {
   //preload the image assets (that aren't in arrays)
   darknessImg = loadImage("assets/images/darknessImg.gif");
   eyeOpenImg = loadImage("assets/images/buttonImage0.jpg");
+  gateL = loadImage("assets/images/gateL.jpg");
 
   //preload the fonts
   font = loadFont("assets/fonts/font.ttf");
@@ -238,6 +240,7 @@ function drawGame() {
     buttonObject.mouseOver();
     if (buttonObject.overlap && mouseIsPressed) {
       console.log("pressed");
+      gateMove();
     }
   }
 
@@ -300,6 +303,11 @@ function miniMapDisplay() {
   fill(255);
   rect(miniMap.x, miniMap.y, miniMap.width, miniMap.height);
   pop();
+}
+
+//function for the movement of the gates
+function gateMove() {
+  image(gateL, viewport.x, viewport.y);
 }
 
 //DRAWOUTRO -------------------------------------------------------------------
