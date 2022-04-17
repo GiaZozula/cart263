@@ -159,7 +159,7 @@ function setup() {
   //Go through with a for loop and pick at random an image, place it in the "foreground"
   //variable, and then pass that on to the ImageObject
   for (let i = 0; i < numForegroundImages; i++) {
-    let foreground = random(foregroundImages);
+    let foreground = foregroundImages[i];
     let foregroundImage = new ImageObject(
       viewport.x,
       viewport.y,
@@ -173,7 +173,7 @@ function setup() {
   //Go through with a for loop and pick at random an image, place it in the "background"
   //variable, and then pass that on to the ImageObject
   for (let i = 0; i < numBackgroundImages; i++) {
-    let background = random(backgroundImages);
+    let background = backgroundImages[i];
     let backgroundImage = new ImageObject(
       viewport.x,
       viewport.y,
@@ -294,6 +294,7 @@ function stationarySpiritPosition() {
 }
 
 //function for the display of the stationarySpirit (this will be made invisible, only here for testing purposes)
+//Also displays all of its hitboxes
 function stationarySpiritDisplay() {
   push();
   noStroke();
@@ -330,6 +331,7 @@ function miniMapDisplay() {
   pop();
 }
 
+//display the Gates
 function gateDisplay() {
   image(gateLImg, gateL.x, gateL.y);
   image(gateRImg, gateR.x, gateR.y);
@@ -348,7 +350,7 @@ function gateOpen() {
   }
 }
 
-//function for the opening movement of the gates
+//function for the closing movement of the gates
 function gateClose() {
   gateL.x += gateL.speed;
   if (gateL.x >= gateL.xClose) {

@@ -24,7 +24,9 @@ class ImageObject {
       mouseY < eyePosition.y + eyePosition.height / 2
     ) {
       this.overlap = true;
+      console.log("mouseOverButton");
     } else {
+      this.overlap = false;
     }
   }
 }
