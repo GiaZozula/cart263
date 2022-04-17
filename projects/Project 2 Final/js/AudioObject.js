@@ -15,6 +15,8 @@ class AudioObject {
     this.speed = 1;
     this.changeDirection = 0.2;
     this.isPlaying = false;
+    this.isOverlapping = false;
+    this.hasSpawned = false;
   }
 
   //check to see if it is playing!
@@ -84,7 +86,7 @@ class AudioObject {
   //this controls the opacity of the darknessImg overlay that disappears as the searchingSpirit gets closer to the stationary spirit
   darknessImgDisplay() {
     let opacity =
-      dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y) - 100;
+      dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y) - 250;
     push();
     tint(150, opacity);
     image(darknessImg, viewport.x, viewport.y, viewport.width, viewport.height);
@@ -96,6 +98,9 @@ class AudioObject {
     let d = dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y);
     if (d < stationarySpirit.size / 2 + this.size / 2) {
       console.log("overlap");
+      this.isOverlapping = true;
+    } else {
+      this.isOverlapping = false;
     }
 
     let d2 = dist(
@@ -106,6 +111,9 @@ class AudioObject {
     );
     if (d2 < stationarySpiritHBox1.size / 2 + this.size / 2) {
       console.log("overlap2");
+      this.isOverlapping = true;
+    } else {
+      this.isOverlapping = false;
     }
 
     let d3 = dist(
@@ -116,6 +124,9 @@ class AudioObject {
     );
     if (d3 < stationarySpiritHBox2.size / 2 + this.size / 2) {
       console.log("overlap3");
+      this.isOverlapping = true;
+    } else {
+      this.isOverlapping = false;
     }
   }
 
@@ -123,5 +134,10 @@ class AudioObject {
   display() {
     fill(255);
     ellipse(this.x, this.y, this.size);
+    //an if statement that ensures that the searchingSpirit spawns somewhere not in a hitbox
+    if (this.isOverlapping && !this.hasSpawned) {
+      this.x = random(miniMap.x, miniMap.boundsXRight);
+      this.y = random(miniMap.y, miniMap.boundsYBottom);
+    }
   }
 }

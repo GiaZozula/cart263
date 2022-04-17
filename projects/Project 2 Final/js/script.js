@@ -32,13 +32,13 @@ let stationarySpirit = {
 let stationarySpiritHBox1 = {
   x: 0,
   y: 0,
-  size: 125,
+  size: 150,
 };
 
 let stationarySpiritHBox2 = {
   x: 0,
   y: 0,
-  size: 250,
+  size: 325,
 };
 
 let miniMap = {
