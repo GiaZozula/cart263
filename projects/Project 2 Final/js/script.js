@@ -86,13 +86,31 @@ let numButtonImages = 1;
 let buttonObjects = [];
 let numButtonObjects = 1;
 
+//defining the gates covering the viewport
+let gateLImg;
+let gateL = {
+  x: 1300,
+  y: 300,
+  xClose: 1300,
+  xOpen: 900,
+  speed: 10,
+};
+
+let gateRImg;
+let gateR = {
+  x: 1400,
+  y: 300,
+  xClose: 1400,
+  xOpen: 1800,
+  speed: 10,
+};
+
 //declaring variables for the audio
 let voiceSound;
 
 //declaring other assets
 let darknessImg;
 let eyeOpenImg;
-let gateL;
 let font;
 
 let titleText = "Reunited At Last";
@@ -105,7 +123,8 @@ function preload() {
   //preload the image assets (that aren't in arrays)
   darknessImg = loadImage("assets/images/darknessImg.gif");
   eyeOpenImg = loadImage("assets/images/buttonImage0.jpg");
-  gateL = loadImage("assets/images/gateL.jpg");
+  gateLImg = loadImage("assets/images/gateL.jpg");
+  gateRImg = loadImage("assets/images/gateL.jpg");
 
   //preload the fonts
   font = loadFont("assets/fonts/font.ttf");
@@ -227,6 +246,9 @@ function drawGame() {
     imageObject.display();
   }
 
+  //display the gate
+  gateDisplay();
+
   //display the mini map
   miniMapDisplay();
 
@@ -240,8 +262,11 @@ function drawGame() {
     buttonObject.mouseOver();
     if (buttonObject.overlap && mouseIsPressed) {
       console.log("pressed");
-      gateMove();
+      gateOpen();
     }
+  }
+  if (!mouseIsPressed) {
+    gateClose();
   }
 
   // Go through the audioObject array and begin all necessary functions
@@ -305,9 +330,35 @@ function miniMapDisplay() {
   pop();
 }
 
-//function for the movement of the gates
-function gateMove() {
-  image(gateL, viewport.x, viewport.y);
+function gateDisplay() {
+  image(gateLImg, gateL.x, gateL.y);
+  image(gateRImg, gateR.x, gateR.y);
+}
+
+//function for the opening movement of the gates
+function gateOpen() {
+  gateL.x -= gateL.speed;
+  if (gateL.x <= gateL.xOpen) {
+    gateL.x = gateL.xOpen;
+  }
+
+  gateR.x += gateR.speed;
+  if (gateR.x >= gateR.xOpen) {
+    gateR.x = gateR.xOpen;
+  }
+}
+
+//function for the opening movement of the gates
+function gateClose() {
+  gateL.x += gateL.speed;
+  if (gateL.x >= gateL.xClose) {
+    gateL.x = gateL.xClose;
+  }
+
+  gateR.x -= gateR.speed;
+  if (gateR.x <= gateR.xClose) {
+    gateR.x = gateR.xClose;
+  }
 }
 
 //DRAWOUTRO -------------------------------------------------------------------
