@@ -42,24 +42,24 @@ let stationarySpiritHBox2 = {
 };
 
 let miniMap = {
-  x: 600,
-  y: 250,
-  boundsXRight: 950,
-  boundsYBottom: 550,
+  x: 400,
+  y: 350,
+  boundsXRight: 750,
+  boundsYBottom: 650,
   width: 350,
   height: 500,
 };
 
 let viewport = {
-  x: 300,
-  y: 300,
+  x: 1200,
+  y: 400,
   width: 525,
   height: 525,
 };
 
 let eyePosition = {
-  x: 750,
-  y: 120,
+  x: 450,
+  y: 150,
   width: 250,
   height: 200,
 };
@@ -125,7 +125,7 @@ function preload() {
 
 //SETUP -----------------------------------------------------------------------
 function setup() {
-  createCanvas(1000, 800);
+  createCanvas(windowWidth, windowHeight);
 
   //The code for the audio object was adapted from my Project 1 code
   let searchingSpirit = new AudioObject(

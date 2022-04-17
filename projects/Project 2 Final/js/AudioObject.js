@@ -6,16 +6,18 @@ class AudioObject {
     this.y = y;
     this.vx = 0;
     this.vy = 0;
-    this.boundsXLeft = 599;
-    this.boundsXRight = 949;
-    this.boundsYLeft = 249;
-    this.boundsYBottom = 749;
+    this.boundsXLeft = 399;
+    this.boundsXRight = 749;
+    this.boundsYLeft = 349;
+    this.boundsYBottom = 849;
     this.sound = sound;
     this.size = 7;
     this.speed = 1;
     this.changeDirection = 0.2;
     this.isPlaying = false;
-    this.isOverlapping = false;
+    this.isOverlapping1 = false;
+    this.isOverlapping2 = false;
+    this.isOverlapping3 = false;
     this.hasSpawned = false;
   }
 
@@ -98,9 +100,6 @@ class AudioObject {
     let d = dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y);
     if (d < stationarySpirit.size / 2 + this.size / 2) {
       console.log("overlap");
-      this.isOverlapping = true;
-    } else {
-      this.isOverlapping = false;
     }
 
     let d2 = dist(
@@ -111,9 +110,6 @@ class AudioObject {
     );
     if (d2 < stationarySpiritHBox1.size / 2 + this.size / 2) {
       console.log("overlap2");
-      this.isOverlapping = true;
-    } else {
-      this.isOverlapping = false;
     }
 
     let d3 = dist(
@@ -135,9 +131,11 @@ class AudioObject {
     fill(255);
     ellipse(this.x, this.y, this.size);
     //an if statement that ensures that the searchingSpirit spawns somewhere not in a hitbox
-    if (this.isOverlapping && !this.hasSpawned) {
+    if (this.isOverlapping === true && this.hasSpawned === false) {
       this.x = random(miniMap.x, miniMap.boundsXRight);
       this.y = random(miniMap.y, miniMap.boundsYBottom);
+    } else if (this.isOverlapping === false && this.hasSpawned === false) {
+      this.hasSpawned = true;
     }
   }
 }
