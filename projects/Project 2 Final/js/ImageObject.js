@@ -9,6 +9,7 @@ class ImageObject {
     this.height = height;
     this.overlap = false;
     this.clickable = clickable;
+    this.gateReady = false;
   }
 
   display() {
@@ -27,6 +28,13 @@ class ImageObject {
       console.log("mouseOverButton");
     } else {
       this.overlap = false;
+    }
+  }
+
+  mousePressed() {
+    this.gateReady = true;
+    if (this.overlap && this.gateReady) {
+      gateOpen();
     }
   }
 }

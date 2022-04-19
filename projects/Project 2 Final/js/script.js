@@ -51,10 +51,10 @@ let miniMap = {
 };
 
 let miniMapFrame = {
-  x: 400,
-  y: 50,
-  width: 750,
-  height: 900,
+  x: 359,
+  y: -16,
+  width: 800,
+  height: 1015,
 };
 
 let viewport = {
@@ -65,8 +65,10 @@ let viewport = {
 };
 
 let viewportFrame = {
-  width: 975,
-  height: 755,
+  x: 1478,
+  y: 315,
+  width: 1057,
+  height: 760,
 };
 
 let eyePosition = {
@@ -108,10 +110,10 @@ let numButtonObjects = 2;
 //defining the gates covering the viewport
 let gateLImg;
 let gateL = {
-  x: 1300,
+  x: 1298,
   y: 300,
-  xClose: 1300,
-  xOpen: 900,
+  xClose: 1298,
+  xOpen: 950,
   speed: 2,
   width: 775,
   height: 725,
@@ -119,10 +121,10 @@ let gateL = {
 
 let gateRImg;
 let gateR = {
-  x: 1700,
+  x: 1701,
   y: 300,
-  xClose: 1700,
-  xOpen: 2100,
+  xClose: 1701,
+  xOpen: 2050,
   speed: 2,
   width: 775,
   height: 725,
@@ -286,6 +288,12 @@ function drawGame() {
     imageObject.display();
   }
 
+  //for layering purposes, darknessImg needs to be here instead of with the other audioObject functions
+  for (let i = 0; i < audioObjects.length; i++) {
+    let audioObject = audioObjects[i];
+    audioObject.darknessImgDisplay();
+  }
+
   //display the gate
   gateDisplay();
 
@@ -300,10 +308,13 @@ function drawGame() {
     let buttonObject = buttonObjects[i];
     buttonObject.display();
     buttonObject.mouseOver();
-    if (buttonObject.overlap && mouseIsPressed) {
-      console.log("pressed");
-      gateOpen();
+    if (buttonObject.overlap) {
+      buttonObject.mousePressed();
     }
+    // if (buttonObject.overlap && mouseIsPressed) {
+    //   console.log("pressed");
+    //   gateOpen();
+    // }
   }
   if (!mouseIsPressed) {
     gateClose();
@@ -317,7 +328,6 @@ function drawGame() {
     audioObject.spatialVolume();
     audioObject.display();
     audioObject.checkOverlap();
-    audioObject.darknessImgDisplay();
   }
   drawHUD();
 }
@@ -407,8 +417,8 @@ function gateClose() {
 function drawHUD() {
   image(
     viewportFrameImg,
-    viewport.x,
-    viewport.y,
+    viewportFrame.x,
+    viewportFrame.y,
     viewportFrame.width,
     viewportFrame.height
   );
