@@ -19,10 +19,10 @@ class ImageObject {
 
   mouseOver() {
     if (
-      mouseX > eyePosition.x - eyePosition.width / 2 &&
-      mouseX < eyePosition.x + eyePosition.width / 2 &&
-      mouseY > eyePosition.y - eyePosition.height / 2 &&
-      mouseY < eyePosition.y + eyePosition.height / 2
+      mouseX > this.x - this.width / 2 &&
+      mouseX < this.x + this.width / 2 &&
+      mouseY > this.y - this.height / 2 &&
+      mouseY < this.y + this.height / 2
     ) {
       this.overlap = true;
       console.log("mouseOverButton");
@@ -33,6 +33,7 @@ class ImageObject {
 
   mousePressed() {
     this.gateReady = true;
+    console.log("clickin");
     if (this.overlap && this.gateReady) {
       gateOpen();
     }
