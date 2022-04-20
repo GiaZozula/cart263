@@ -1,15 +1,13 @@
 class ImageObject {
   //These are the properties of the Image Object class
-  constructor(x, y, image, width, height, clickable) {
+  constructor(x, y, image, width, height, gate) {
     this.x = x;
     this.y = y;
     this.image = image;
-    this.effects = false;
     this.width = width;
     this.height = height;
     this.overlap = false;
-    this.clickable = clickable;
-    this.gateReady = false;
+    this.isGate = gate;
   }
 
   display() {
@@ -32,9 +30,8 @@ class ImageObject {
   }
 
   mousePressed() {
-    this.gateReady = true;
     console.log("clickin");
-    if (this.overlap && this.gateReady) {
+    if (this.overlap && this.isGate) {
       gateOpen();
     }
   }

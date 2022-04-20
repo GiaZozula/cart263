@@ -233,7 +233,7 @@ function setup() {
     earImg,
     earPosition.width,
     earPosition.height,
-    "true"
+    "false"
   );
   buttonObjects.push(earButton);
 
