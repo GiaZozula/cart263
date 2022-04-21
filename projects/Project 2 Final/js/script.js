@@ -42,31 +42,31 @@ let stationarySpiritHBox2 = {
 };
 
 let miniMap = {
-  x: 100,
-  y: 370,
-  boundsXRight: 700,
-  boundsYBottom: 820,
-  width: 600,
+  x: 400,
+  y: 500,
+  boundsXRight: 0,
+  boundsYBottom: 0,
+  width: 500,
   height: 450,
 };
 
 let miniMapFrame = {
-  x: 400,
-  y: 590,
-  width: 820,
-  height: 650,
+  x: 652,
+  y: 705,
+  width: 695,
+  height: 605,
 };
 
 let viewport = {
-  x: 1300,
-  y: 420,
-  width: 400,
-  height: 400,
+  x: 1240,
+  y: 600,
+  width: 280,
+  height: 420,
 };
 
 let viewportFrame = {
-  x: 1300,
-  y: 320,
+  x: 1258,
+  y: 470,
   width: 1300,
   height: 1300,
 };
@@ -83,6 +83,24 @@ let earPosition = {
   y: 600,
   width: 250,
   height: 100,
+};
+
+let hudBgPosition = {
+  x: 275,
+  y: 150,
+  width: 1400,
+  height: 900,
+};
+
+let overlayPosition = {
+  x: 960,
+  y: 600,
+  width: 2800,
+  height: 2600,
+  altWidth: 1920,
+  altHeight: 1080,
+  overlayRate2: 660,
+  overlayRate3: 1500,
 };
 
 //defining audioObjects array and properties
@@ -137,6 +155,10 @@ let voiceSound;
 let viewportFrameImg;
 let miniMapFrameImg;
 let darknessImg;
+let hudBgImg;
+let overlayImg;
+let overlayImg2;
+let overlayImg3;
 let eyeOpenImg;
 let earImg;
 let font;
@@ -156,6 +178,10 @@ function preload() {
   gateRImg = loadImage("assets/images/gateL.png");
   viewportFrameImg = loadImage("assets/images/viewportframe.png");
   miniMapFrameImg = loadImage("assets/images/minimapframe.png");
+  hudBgImg = loadImage("assets/images/hudbg.png");
+  overlayImg = loadImage("assets/images/overlay.png");
+  overlayImg2 = loadImage("assets/images/overlay2.png");
+  overlayImg3 = loadImage("assets/images/overlay3.png");
 
   //preload the fonts
   font = loadFont("assets/fonts/font.ttf");
@@ -177,9 +203,13 @@ function preload() {
 
 //SETUP -----------------------------------------------------------------------
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1920, 1200);
   imageMode(CENTER);
   rectMode(CORNER);
+
+  //this calculates the bounds for minimap so I don't have to do it manually every time I make an adjustment, which was driving me nuts! ;)
+  miniMap.boundsXRight = miniMap.x + miniMap.width;
+  miniMap.boundsYBottom = miniMap.y + miniMap.height;
 
   //The code for the audio object was adapted from my Project 1 code
   let searchingSpirit = new AudioObject(
@@ -245,7 +275,7 @@ function setup() {
 
 //DRAW ------------------------------------------------------------------------
 function draw() {
-  background(0);
+  background(255);
 
   //State switcher
   if (state === "title") {
@@ -261,7 +291,7 @@ function draw() {
 
 //DRAWTITLE -------------------------------------------------------------------
 function drawTitle() {
-  background(0);
+  background(255);
   fill(255);
   textFont(font);
   text(titleText, width / 2, height / 2);
@@ -269,7 +299,7 @@ function drawTitle() {
 
 //DRAWINTRO -------------------------------------------------------------------
 function drawIntro() {
-  background(0);
+  background(255);
   fill(255);
   textFont(font);
   text("intro state", width / 2, height / 2);
@@ -277,7 +307,7 @@ function drawIntro() {
 
 //DRAWGAME --------------------------------------------------------------------
 function drawGame() {
-  background(0);
+  background(255);
 
   //cycle through the background images array, pull one out, and display it!
   for (let i = 0; i < backgroundImageObjects.length; i++) {
@@ -310,18 +340,18 @@ function drawGame() {
   //display the stationarySpirit (although this will be invisible in the final build, just here for testing purposes)
   stationarySpiritDisplay();
 
-  // // go through the buttonObjects array and begin all necessary functions
-  // for (let i = 0; i < buttonObjects.length; i++) {
-  //   let buttonObject = buttonObjects[i];
-  //   buttonObject.display();
-  //   buttonObject.mouseOver();
-  //   if (buttonObject.overlap) {
-  //     buttonObject.mousePressed();
-  //   }
-  // }
-  // if (!mouseIsPressed) {
-  //   gateClose();
-  // }
+  // go through the buttonObjects array and begin all necessary functions
+  for (let i = 0; i < buttonObjects.length; i++) {
+    let buttonObject = buttonObjects[i];
+    buttonObject.display();
+    buttonObject.mouseOver();
+    if (buttonObject.overlap) {
+      buttonObject.mousePressed();
+    }
+  }
+  if (!mouseIsPressed) {
+    gateClose();
+  }
 
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
@@ -333,6 +363,7 @@ function drawGame() {
     audioObject.checkOverlap();
   }
   drawHUD();
+  drawOverlay();
 }
 
 // FUCNTIONS FOR DRAWGAME ----------------------------------------------------
@@ -418,6 +449,16 @@ function gateClose() {
 }
 
 function drawHUD() {
+  push();
+  imageMode(CORNER);
+  image(
+    hudBgImg,
+    hudBgPosition.x,
+    hudBgPosition.y,
+    hudBgPosition.width,
+    hudBgPosition.height
+  );
+  pop();
   image(
     viewportFrameImg,
     viewportFrame.x,
@@ -425,7 +466,7 @@ function drawHUD() {
     viewportFrame.width,
     viewportFrame.height
   );
-
+  //
   image(
     miniMapFrameImg,
     miniMapFrame.x,
@@ -433,6 +474,38 @@ function drawHUD() {
     miniMapFrame.width,
     miniMapFrame.height
   );
+}
+
+function drawOverlay() {
+  image(
+    overlayImg,
+    overlayPosition.x,
+    overlayPosition.y,
+    overlayPosition.width,
+    overlayPosition.height
+  );
+
+  push();
+  tint(255, 255 * sin(millis() / overlayPosition.overlayRate2));
+  image(
+    overlayImg2,
+    overlayPosition.x,
+    overlayPosition.y,
+    overlayPosition.altWidth,
+    overlayPosition.altHeight
+  );
+  pop();
+
+  push();
+  tint(255, 255 * sin(millis() / overlayPosition.overlayRate3));
+  image(
+    overlayImg3,
+    overlayPosition.x,
+    overlayPosition.y,
+    overlayPosition.altWidth,
+    overlayPosition.altHeight
+  );
+  pop();
 }
 
 //DRAWOUTRO -------------------------------------------------------------------

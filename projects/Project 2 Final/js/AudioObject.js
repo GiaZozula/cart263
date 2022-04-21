@@ -6,10 +6,11 @@ class AudioObject {
     this.y = y;
     this.vx = 0;
     this.vy = 0;
-    this.boundsXLeft = 99;
-    this.boundsXRight = 999;
-    this.boundsYLeft = 369;
-    this.boundsYBottom = 819;
+    //this calculates the bounds for minimap so I don't have to do it manually every time I make an adjustment, which was driving me nuts! ;)
+    this.boundsXLeft = miniMap.x + 100;
+    this.boundsXRight = miniMap.boundsXRight - 1;
+    this.boundsYLeft = miniMap.y - 1;
+    this.boundsYBottom = miniMap.boundsYBottom + 1;
     this.sound = sound;
     this.size = 7;
     this.speed = 1;
