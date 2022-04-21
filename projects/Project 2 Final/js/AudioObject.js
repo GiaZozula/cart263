@@ -7,10 +7,10 @@ class AudioObject {
     this.vx = 0;
     this.vy = 0;
     //this calculates the bounds for minimap so I don't have to do it manually every time I make an adjustment, which was driving me nuts! ;)
-    this.boundsXLeft = miniMap.x + 100;
+    this.boundsXLeft = miniMap.x + 1;
     this.boundsXRight = miniMap.boundsXRight - 1;
     this.boundsYLeft = miniMap.y - 1;
-    this.boundsYBottom = miniMap.boundsYBottom + 1;
+    this.boundsYBottom = miniMap.boundsYBottom - 1;
     this.sound = sound;
     this.size = 7;
     this.speed = 3;
@@ -100,10 +100,13 @@ class AudioObject {
   }
 
   //check if the searchingSpirit is overlapping with the stationarySpirit or its wider hitboxes
-  checkOverlap() {
+  checkHboxOverlap() {
     let d = dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y);
     if (d < stationarySpirit.size / 2 + this.size / 2) {
       console.log("overlap");
+      this.isOverlapping1 = true;
+    } else {
+      this.isOverlapping1 = false;
     }
 
     let d2 = dist(
@@ -114,6 +117,9 @@ class AudioObject {
     );
     if (d2 < stationarySpiritHBox1.size / 2 + this.size / 2) {
       console.log("overlap2");
+      this.isOverlapping2 = true;
+    } else {
+      this.isOverlapping2 = false;
     }
 
     let d3 = dist(
@@ -124,9 +130,10 @@ class AudioObject {
     );
     if (d3 < stationarySpiritHBox2.size / 2 + this.size / 2) {
       console.log("overlap3");
-      this.isOverlapping = true;
+      this.isOverlapping3 = true;
+      this.swapViewportImg();
     } else {
-      this.isOverlapping = false;
+      this.isOverlapping3 = false;
     }
   }
 
@@ -135,11 +142,23 @@ class AudioObject {
     fill(255);
     ellipse(this.x, this.y, this.size);
     //an if statement that ensures that the searchingSpirit spawns somewhere not in a hitbox
-    if (this.isOverlapping === true && this.hasSpawned === false) {
+    if (this.isOverlapping3 === true && this.hasSpawned === false) {
       this.x = random(miniMap.x, miniMap.boundsXRight);
       this.y = random(miniMap.y, miniMap.boundsYBottom);
-    } else if (this.isOverlapping === false && this.hasSpawned === false) {
+    } else if (this.isOverlapping3 === false && this.hasSpawned === false) {
       this.hasSpawned = true;
+    }
+  }
+
+  swapViewportImg() {
+    if ((this.isOverlapping3 = true)) {
+      image(
+        backgroundImages[0],
+        viewport.x,
+        viewport.y,
+        viewport.width,
+        viewport.height
+      );
     }
   }
 }

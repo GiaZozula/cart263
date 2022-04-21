@@ -210,12 +210,6 @@ function setup() {
   imageMode(CENTER);
   rectMode(CORNER);
 
-  //set the frame rate
-  frameRate(fr);
-
-  //set the pixelDensity
-  pixelDensity(1);
-
   //this calculates the bounds for minimap so I don't have to do it manually every time I make an adjustment, which was driving me nuts! ;)
   miniMap.boundsXRight = miniMap.x + miniMap.width;
   miniMap.boundsYBottom = miniMap.y + miniMap.height;
@@ -329,7 +323,7 @@ function drawGame() {
     let imageObject = foregroundImageObjects[i];
     push();
     //using a sinwave, this causes fluctuating opacity for the foreground element
-    tint(255, 127 * sin(millis() / 1000));
+    // tint(255, 127 * sin(millis() / 1000));
     imageObject.display();
     pop();
   }
@@ -368,11 +362,11 @@ function drawGame() {
     audioObject.play();
     audioObject.userInput();
     audioObject.spatialVolume();
+    audioObject.checkHboxOverlap();
     audioObject.display();
-    audioObject.checkOverlap();
   }
-  drawHUD();
-  drawOverlay();
+  // drawHUD();
+  // drawOverlay();
 }
 
 // FUCNTIONS FOR DRAWGAME ----------------------------------------------------
@@ -495,7 +489,7 @@ function drawOverlay() {
   );
 
   push();
-  tint(255, 255 * sin(millis() / overlayPosition.overlayRate2));
+  // tint(255, 255 * sin(millis() / overlayPosition.overlayRate2));
   image(
     overlayImg2,
     overlayPosition.x,
@@ -506,7 +500,7 @@ function drawOverlay() {
   pop();
 
   push();
-  tint(255, 255 * sin(millis() / overlayPosition.overlayRate3));
+  // tint(255, 255 * sin(millis() / overlayPosition.overlayRate3));
   image(
     overlayImg3,
     overlayPosition.x,
