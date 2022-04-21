@@ -17,6 +17,9 @@ to the "stationary spirit".
 
 let state = "game";
 
+//setting the frame rate
+let fr = 30;
+
 //this timer will be used to move through the intro title cards
 let timer;
 
@@ -206,6 +209,12 @@ function setup() {
   createCanvas(1920, 1200);
   imageMode(CENTER);
   rectMode(CORNER);
+
+  //set the frame rate
+  frameRate(fr);
+
+  //set the pixelDensity
+  pixelDensity(1);
 
   //this calculates the bounds for minimap so I don't have to do it manually every time I make an adjustment, which was driving me nuts! ;)
   miniMap.boundsXRight = miniMap.x + miniMap.width;

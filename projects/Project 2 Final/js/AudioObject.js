@@ -13,7 +13,7 @@ class AudioObject {
     this.boundsYBottom = miniMap.boundsYBottom + 1;
     this.sound = sound;
     this.size = 7;
-    this.speed = 1;
+    this.speed = 3;
     this.changeDirection = 0.2;
     this.isPlaying = false;
     this.isOverlapping1 = false;
