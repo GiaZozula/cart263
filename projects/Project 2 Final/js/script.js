@@ -15,7 +15,7 @@ to the "stationary spirit".
 
 //GLOBAL VARIABLES ------------------------------------------------------------
 
-let state = "intro";
+let state = "game";
 
 //setting the frame rate
 let fr = 30;
@@ -120,7 +120,7 @@ let overlayPosition = {
 let audioObjects = [];
 let numAudioObjects = 4;
 
-//defining the arrays for foreground images
+// //defining the arrays for foreground images
 let foregroundImages = [];
 let numForegroundImages = 2;
 let foregroundImageObjects = [];
@@ -205,7 +205,7 @@ function preload() {
   //preload the fonts
   font = loadFont("assets/fonts/font.ttf");
 
-  //preload images that will end up in the foreground in an array
+  // //preload images that will end up in the foreground in an array
   for (let i = 0; i < numForegroundImages; i++) {
     foregroundImages[i] = loadImage(
       "assets/images/foregroundImage" + i + ".png"
@@ -248,16 +248,16 @@ function setup() {
   );
   audioObjects.push(searchingSpirit);
 
-  //Go through with a for loop and pick at random an image, place it in the "foreground"
-  //variable, and then pass that on to the ImageObject
+  // //Go through with a for loop and pick at random an image, place it in the "foreground"
+  // //variable, and then pass that on to the ImageObject
   for (let i = 0; i < numForegroundImages; i++) {
     let foreground = foregroundImages[i];
     let foregroundImage = new ImageObject(
-      viewport.x,
-      viewport.y,
+      overlayPosition.x,
+      overlayPosition.y,
       foreground,
-      viewport.width,
-      viewport.height
+      overlayPosition.width,
+      overlayPosition.height
     );
     foregroundImageObjects.push(foregroundImage);
   }
@@ -359,16 +359,6 @@ function drawGame() {
   for (let i = 0; i < backgroundImageObjects.length; i++) {
     let imageObject = backgroundImageObjects[i];
     imageObject.display();
-  }
-
-  // Go through the foregroundImages array and display the image
-  for (let i = 0; i < foregroundImageObjects.length; i++) {
-    let imageObject = foregroundImageObjects[i];
-    push();
-    //using a sinwave, this causes fluctuating opacity for the foreground element
-    // tint(255, 127 * sin(millis() / 1000));
-    imageObject.display();
-    pop();
   }
 
   //for layering purposes, darknessImg needs to be here instead of with the other audioObject functions
@@ -542,7 +532,7 @@ function drawOverlay() {
     );
 
     push();
-
+    tint(255, 255 * sin(millis() / 750));
     image(
       overlayImg2,
       overlayPosition.x,
@@ -553,7 +543,7 @@ function drawOverlay() {
     pop();
 
     push();
-
+    tint(255, 255 * sin(millis() / 900));
     image(
       overlayImg3,
       overlayPosition.x,
@@ -564,6 +554,17 @@ function drawOverlay() {
     pop();
   } else {
     //overlay in the game state
+
+    // // Go through the foregroundImages array and display the image
+    for (let i = 0; i < foregroundImageObjects.length; i++) {
+      let imageObject = foregroundImageObjects[i];
+      push();
+      //using a sinwave, this causes fluctuating opacity for the foreground element
+      // tint(255, 255 * sin(millis() / 1300));
+      imageObject.display();
+      pop();
+    }
+
     image(
       overlayImg,
       overlayPosition.x,
@@ -573,6 +574,7 @@ function drawOverlay() {
     );
 
     push();
+    tint(255, 255 * sin(millis() / 750));
     image(
       overlayImg2,
       overlayPosition.x,
@@ -583,6 +585,7 @@ function drawOverlay() {
     pop();
 
     push();
+    tint(255, 255 * sin(millis() / 900));
     image(
       overlayImg3,
       overlayPosition.x,

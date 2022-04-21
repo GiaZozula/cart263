@@ -13,7 +13,7 @@ class AudioObject {
     this.boundsYBottom = miniMap.boundsYBottom - 1;
     this.sound = sound;
     this.size = 7;
-    this.speed = 0.4;
+    this.speed = 0.7;
     this.isPlaying = false;
     this.spatialBegin = 225;
     this.volMin = 0;
@@ -96,8 +96,9 @@ class AudioObject {
       dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y) -
       this.darknessBegin;
     push();
-    tint(this.darknessTint, opacity);
-    image(darknessImg, viewport.x, viewport.y, viewport.width, viewport.height);
+    rectMode(CENTER);
+    fill(255, 255, 255, opacity);
+    rect(viewport.x, viewport.y, viewport.width, viewport.height);
     pop();
   }
 
