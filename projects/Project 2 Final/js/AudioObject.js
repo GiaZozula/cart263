@@ -13,14 +13,16 @@ class AudioObject {
     this.boundsYBottom = miniMap.boundsYBottom - 1;
     this.sound = sound;
     this.size = 7;
-    this.speed = 3;
-    this.changeDirection = 0.2;
+    this.speed = 0.4;
     this.isPlaying = false;
+    this.spatialBegin = 225;
+    this.volMin = 0;
+    this.volMax = 0.25;
     this.isOverlapping1 = false;
     this.isOverlapping2 = false;
     this.isOverlapping3 = false;
     this.hasSpawned = false;
-    this.darknessBegin = 425;
+    this.darknessBegin = 225;
     this.darknessTint = 225;
   }
 
@@ -80,11 +82,11 @@ class AudioObject {
     let volume = map(
       dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y),
       0,
-      250,
+      this.spatialBegin,
       1,
       0
     );
-    volume = constrain(volume, 0, 1);
+    volume = constrain(volume, this.volMin, this.volMax);
     this.sound.setVolume(volume);
   }
 
@@ -151,14 +153,32 @@ class AudioObject {
   }
 
   swapViewportImg() {
-    if ((this.isOverlapping3 = true)) {
+    if (this.isOverlapping3 === true && this.hasSpawned === true) {
+      oscillator.amp(envelope);
+      oscillator.freq(noteC2);
+      envelope.play();
+
       image(
-        backgroundImages[0],
+        backgroundImages[1],
         viewport.x,
         viewport.y,
         viewport.width,
         viewport.height
       );
+      if (this.isOverlapping2 === true && this.hasSpawned === true) {
+        oscillator.amp(envelope);
+        oscillator.freq(noteE2);
+        envelope.play();
+        image(
+          backgroundImages[0],
+          viewport.x,
+          viewport.y,
+          viewport.width,
+          viewport.height
+        );
+      } else {
+        stopOsc();
+      }
     }
   }
 }

@@ -15,7 +15,7 @@ to the "stationary spirit".
 
 //GLOBAL VARIABLES ------------------------------------------------------------
 
-let state = "game";
+let state = "intro";
 
 //setting the frame rate
 let fr = 30;
@@ -35,13 +35,13 @@ let stationarySpirit = {
 let stationarySpiritHBox1 = {
   x: 0,
   y: 0,
-  size: 150,
+  size: 100,
 };
 
 let stationarySpiritHBox2 = {
   x: 0,
   y: 0,
-  size: 325,
+  size: 225,
 };
 
 let miniMap = {
@@ -63,7 +63,7 @@ let miniMapFrame = {
 let viewport = {
   x: 1240,
   y: 600,
-  width: 280,
+  width: 420,
   height: 420,
 };
 
@@ -98,12 +98,22 @@ let hudBgPosition = {
 let overlayPosition = {
   x: 960,
   y: 600,
+  introW: 1400,
+  introH: 1200,
   width: 2800,
   height: 2600,
   altWidth: 1920,
   altHeight: 1080,
+  altIntroW: 1200,
+  altIntroH: 800,
   overlayRate2: 660,
   overlayRate3: 1500,
+  rectLIntroX: 300,
+  rectLIntroY: 100,
+  rectRIntroX: 1400,
+  rectRIntroY: 100,
+  rectIntroW: 200,
+  rectIntroH: 800,
 };
 
 //defining audioObjects array and properties
@@ -118,9 +128,9 @@ let numForeGroundImageObjects = 2;
 
 //defining the arrays for background images
 let backgroundImages = [];
-let numBackgroundImages = 2;
+let numBackgroundImages = 3;
 let backgroundImageObjects = [];
-let numBackgroundImageObjects = 2;
+let numBackgroundImageObjects = 3;
 
 //defining an array for clickable "buttons" on the GUI
 let buttonImages = [];
@@ -131,28 +141,34 @@ let numButtonObjects = 2;
 //defining the gates covering the viewport
 let gateLImg;
 let gateL = {
-  x: 1298,
-  y: 300,
-  xClose: 1298,
-  xOpen: 950,
+  x: 828,
+  y: 600,
+  xClose: 828,
+  xOpen: 420,
   speed: 2,
-  width: 775,
-  height: 725,
+  width: 500,
+  height: 500,
 };
 
 let gateRImg;
 let gateR = {
-  x: 1701,
-  y: 300,
-  xClose: 1701,
-  xOpen: 2050,
+  x: 1088,
+  y: 600,
+  xClose: 1088,
+  xOpen: 1500,
   speed: 2,
-  width: 775,
-  height: 725,
+  width: 500,
+  height: 500,
 };
 
 //declaring variables for the audio
 let voiceSound;
+let oscillator = {
+  isPlaying: false,
+};
+let envelope;
+let noteC2 = 65.41;
+let noteE2 = 82.41;
 
 //declaring other assets
 let viewportFrameImg;
@@ -209,6 +225,16 @@ function setup() {
   createCanvas(1920, 1200);
   imageMode(CENTER);
   rectMode(CORNER);
+
+  envelope = new p5.Env();
+  envelope.setADSR(0.05, 0.1, 0.1, 1);
+  envelope.setRange(0.1, 0);
+
+  oscillator = new p5.Oscillator();
+  oscillator.setType("sine");
+  oscillator.start();
+  oscillator.amp(envelope);
+  oscillator.freq(440);
 
   //this calculates the bounds for minimap so I don't have to do it manually every time I make an adjustment, which was driving me nuts! ;)
   miniMap.boundsXRight = miniMap.x + miniMap.width;
@@ -306,6 +332,23 @@ function drawIntro() {
   fill(255);
   textFont(font);
   text("intro state", width / 2, height / 2);
+  //display the gate
+  gateDisplay();
+  drawOverlay();
+
+  // go through the buttonObjects array and begin all necessary functions
+  for (let i = 0; i < buttonObjects.length; i++) {
+    let buttonObject = buttonObjects[i];
+    buttonObject.display();
+    buttonObject.mouseOver();
+    if (buttonObject.overlap) {
+      buttonObject.mousePressed();
+    }
+  }
+  if (!mouseIsPressed) {
+    gateClose();
+  }
+  gateFinishCheck();
 }
 
 //DRAWGAME --------------------------------------------------------------------
@@ -334,27 +377,11 @@ function drawGame() {
     audioObject.darknessImgDisplay();
   }
 
-  //display the gate
-  // gateDisplay();
-
   //display the mini map
   miniMapDisplay();
 
   //display the stationarySpirit (although this will be invisible in the final build, just here for testing purposes)
   stationarySpiritDisplay();
-
-  // go through the buttonObjects array and begin all necessary functions
-  for (let i = 0; i < buttonObjects.length; i++) {
-    let buttonObject = buttonObjects[i];
-    buttonObject.display();
-    buttonObject.mouseOver();
-    if (buttonObject.overlap) {
-      buttonObject.mousePressed();
-    }
-  }
-  if (!mouseIsPressed) {
-    gateClose();
-  }
 
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
@@ -365,8 +392,8 @@ function drawGame() {
     audioObject.checkHboxOverlap();
     audioObject.display();
   }
-  // drawHUD();
-  // drawOverlay();
+  drawHUD();
+  drawOverlay();
 }
 
 // FUCNTIONS FOR DRAWGAME ----------------------------------------------------
@@ -384,31 +411,30 @@ function stationarySpiritPosition() {
 //function for the display of the stationarySpirit (this will be made invisible, only here for testing purposes)
 //Also displays all of its hitboxes
 function stationarySpiritDisplay() {
-  push();
-  noStroke();
-  fill(150);
-  ellipse(
-    stationarySpiritHBox2.x,
-    stationarySpiritHBox2.y,
-    stationarySpiritHBox2.size
-  );
-  pop();
-
-  push();
-  noStroke();
-  fill(100);
-  ellipse(
-    stationarySpiritHBox1.x,
-    stationarySpiritHBox1.y,
-    stationarySpiritHBox1.size
-  );
-  pop();
-
-  push();
-  noStroke();
-  fill(0);
-  ellipse(stationarySpirit.x, stationarySpirit.y, stationarySpirit.size);
-  pop();
+  // push();
+  // noStroke();
+  // fill(150);
+  // ellipse(
+  //   stationarySpiritHBox2.x,
+  //   stationarySpiritHBox2.y,
+  //   stationarySpiritHBox2.size
+  // );
+  // pop();
+  //
+  // push();
+  // noStroke();
+  // fill(100);
+  // ellipse(
+  //   stationarySpiritHBox1.x,
+  //   stationarySpiritHBox1.y,
+  //   stationarySpiritHBox1.size
+  // );
+  // pop();
+  // push();
+  // noStroke();
+  // fill(0);
+  // ellipse(stationarySpirit.x, stationarySpirit.y, stationarySpirit.size);
+  // pop();
 }
 
 //function for the display of the miniMap
@@ -451,6 +477,12 @@ function gateClose() {
   }
 }
 
+function gateFinishCheck() {
+  if (gateL.x === gateL.xOpen && gateR.x === gateR.xOpen) {
+    state = "game";
+  }
+}
+
 function drawHUD() {
   push();
   imageMode(CORNER);
@@ -480,35 +512,93 @@ function drawHUD() {
 }
 
 function drawOverlay() {
-  image(
-    overlayImg,
-    overlayPosition.x,
-    overlayPosition.y,
-    overlayPosition.width,
-    overlayPosition.height
-  );
+  if (state === "intro") {
+    //adding extra white coverage for the overlay
+    push();
+    noStroke();
+    fill(255);
+    rectMode(CORNER);
+    rect(
+      overlayPosition.rectLIntroX,
+      overlayPosition.rectLIntroY,
+      overlayPosition.rectIntroW,
+      overlayPosition.rectIntroH
+    );
+    rect(
+      overlayPosition.rectRIntroX,
+      overlayPosition.rectRIntroY,
+      overlayPosition.rectIntroW,
+      overlayPosition.rectIntroH
+    );
+    pop();
 
-  push();
-  // tint(255, 255 * sin(millis() / overlayPosition.overlayRate2));
-  image(
-    overlayImg2,
-    overlayPosition.x,
-    overlayPosition.y,
-    overlayPosition.altWidth,
-    overlayPosition.altHeight
-  );
-  pop();
+    //adding the overlay images
+    image(
+      overlayImg,
+      overlayPosition.x,
+      overlayPosition.y,
+      overlayPosition.introW,
+      overlayPosition.introH
+    );
 
-  push();
-  // tint(255, 255 * sin(millis() / overlayPosition.overlayRate3));
-  image(
-    overlayImg3,
-    overlayPosition.x,
-    overlayPosition.y,
-    overlayPosition.altWidth,
-    overlayPosition.altHeight
-  );
-  pop();
+    push();
+
+    image(
+      overlayImg2,
+      overlayPosition.x,
+      overlayPosition.y,
+      overlayPosition.altIntroW,
+      overlayPosition.altIntroH
+    );
+    pop();
+
+    push();
+
+    image(
+      overlayImg3,
+      overlayPosition.x,
+      overlayPosition.y,
+      overlayPosition.altIntroW,
+      overlayPosition.altIntroH
+    );
+    pop();
+  } else {
+    //overlay in the game state
+    image(
+      overlayImg,
+      overlayPosition.x,
+      overlayPosition.y,
+      overlayPosition.width,
+      overlayPosition.height
+    );
+
+    push();
+    image(
+      overlayImg2,
+      overlayPosition.x,
+      overlayPosition.y,
+      overlayPosition.altWidth,
+      overlayPosition.altHeight
+    );
+    pop();
+
+    push();
+    image(
+      overlayImg3,
+      overlayPosition.x,
+      overlayPosition.y,
+      overlayPosition.altWidth,
+      overlayPosition.altHeight
+    );
+    pop();
+  }
+}
+
+function stopOsc() {
+  {
+    oscillator.amp(0, 1);
+    oscillator.isPlaying = false;
+  }
 }
 
 //DRAWOUTRO -------------------------------------------------------------------
