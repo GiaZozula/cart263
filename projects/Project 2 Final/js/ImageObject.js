@@ -11,7 +11,6 @@ class ImageObject {
   }
 
   display() {
-    imageMode(CENTER);
     image(this.image, this.x, this.y, this.width, this.height);
   }
 

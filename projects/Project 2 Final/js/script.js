@@ -42,33 +42,33 @@ let stationarySpiritHBox2 = {
 };
 
 let miniMap = {
-  x: 500,
-  y: 150,
+  x: 400,
+  y: 600,
   boundsXRight: 1050,
   boundsYBottom: 850,
-  width: 550,
-  height: 700,
+  width: 600,
+  height: 450,
 };
 
 let miniMapFrame = {
-  x: 359,
-  y: -16,
-  width: 800,
-  height: 1015,
+  x: 400,
+  y: 590,
+  width: 820,
+  height: 650,
 };
 
 let viewport = {
-  x: 1500,
-  y: 320,
-  width: 725,
-  height: 525,
+  x: 1300,
+  y: 420,
+  width: 400,
+  height: 400,
 };
 
 let viewportFrame = {
-  x: 1478,
-  y: 315,
-  width: 1057,
-  height: 760,
+  x: 1300,
+  y: 320,
+  width: 1300,
+  height: 1300,
 };
 
 let eyePosition = {
@@ -154,8 +154,8 @@ function preload() {
   earImg = loadImage("assets/images/buttonImage1.jpg");
   gateLImg = loadImage("assets/images/gateL.png");
   gateRImg = loadImage("assets/images/gateL.png");
-  viewportFrameImg = loadImage("assets/images/frametest.png");
-  miniMapFrameImg = loadImage("assets/images/frametest.png");
+  viewportFrameImg = loadImage("assets/images/viewportframe.png");
+  miniMapFrameImg = loadImage("assets/images/minimapframe.png");
 
   //preload the fonts
   font = loadFont("assets/fonts/font.ttf");
@@ -163,14 +163,14 @@ function preload() {
   //preload images that will end up in the foreground in an array
   for (let i = 0; i < numForegroundImages; i++) {
     foregroundImages[i] = loadImage(
-      "assets/images/foregroundImage" + i + ".gif"
+      "assets/images/foregroundImage" + i + ".png"
     );
   }
 
   //preload images that will end up in the background in an array
   for (let i = 0; i < numBackgroundImages; i++) {
     backgroundImages[i] = loadImage(
-      "assets/images/backgroundImage" + i + ".png"
+      "assets/images/backgroundImage" + i + ".gif"
     );
   }
 }
@@ -178,6 +178,8 @@ function preload() {
 //SETUP -----------------------------------------------------------------------
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  imageMode(CENTER);
+  rectMode(CENTER);
 
   //The code for the audio object was adapted from my Project 1 code
   let searchingSpirit = new AudioObject(
@@ -201,8 +203,9 @@ function setup() {
     foregroundImageObjects.push(foregroundImage);
   }
 
-  //Go through with a for loop and pick at random an image, place it in the "background"
-  //variable, and then pass that on to the ImageObject
+  //With a for loop, cycle through the backgroundImages array and place the images in the "background"
+  //variable, pass that on to the ImageObject along with all other desired properties,
+  //and then add to the backgroundImageObjects array
   for (let i = 0; i < numBackgroundImages; i++) {
     let background = backgroundImages[i];
     let backgroundImage = new ImageObject(
@@ -285,7 +288,11 @@ function drawGame() {
   // Go through the foregroundImages array and display the image
   for (let i = 0; i < foregroundImageObjects.length; i++) {
     let imageObject = foregroundImageObjects[i];
+    push();
+    //using a sinwave, this causes fluctuating opacity for the foreground element
+    tint(255, 127 * sin(millis() / 1000));
     imageObject.display();
+    pop();
   }
 
   //for layering purposes, darknessImg needs to be here instead of with the other audioObject functions
@@ -295,7 +302,7 @@ function drawGame() {
   }
 
   //display the gate
-  gateDisplay();
+  // gateDisplay();
 
   //display the mini map
   miniMapDisplay();
@@ -303,22 +310,18 @@ function drawGame() {
   //display the stationarySpirit (although this will be invisible in the final build, just here for testing purposes)
   stationarySpiritDisplay();
 
-  // go through the buttonObjects array and begin all necessary functions
-  for (let i = 0; i < buttonObjects.length; i++) {
-    let buttonObject = buttonObjects[i];
-    buttonObject.display();
-    buttonObject.mouseOver();
-    if (buttonObject.overlap) {
-      buttonObject.mousePressed();
-    }
-    // if (buttonObject.overlap && mouseIsPressed) {
-    //   console.log("pressed");
-    //   gateOpen();
-    // }
-  }
-  if (!mouseIsPressed) {
-    gateClose();
-  }
+  // // go through the buttonObjects array and begin all necessary functions
+  // for (let i = 0; i < buttonObjects.length; i++) {
+  //   let buttonObject = buttonObjects[i];
+  //   buttonObject.display();
+  //   buttonObject.mouseOver();
+  //   if (buttonObject.overlap) {
+  //     buttonObject.mousePressed();
+  //   }
+  // }
+  // if (!mouseIsPressed) {
+  //   gateClose();
+  // }
 
   // Go through the audioObject array and begin all necessary functions
   for (let i = 0; i < audioObjects.length; i++) {
@@ -422,8 +425,7 @@ function drawHUD() {
     viewportFrame.width,
     viewportFrame.height
   );
-  push();
-  imageMode(CORNER);
+
   image(
     miniMapFrameImg,
     miniMapFrame.x,
@@ -431,7 +433,6 @@ function drawHUD() {
     miniMapFrame.width,
     miniMapFrame.height
   );
-  pop();
 }
 
 //DRAWOUTRO -------------------------------------------------------------------
