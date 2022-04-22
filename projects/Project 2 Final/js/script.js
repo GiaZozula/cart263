@@ -15,17 +15,24 @@ to the "stationary spirit".
 
 //GLOBAL VARIABLES ------------------------------------------------------------
 
-let state = "game";
+let state = "tutorial";
 
-//setting the frame rate
-let fr = 30;
+let tutorialTarget = {
+  x: 1500,
+  y: 600,
+  size: 20,
+};
 
-//this timer will be used to move through the intro title cards
-let timer;
+let gearPosition = {
+  x: 400,
+  y: 600,
+  width: 150,
+  height: 150,
+};
 
-//this will be used to switch the controls between the two spirits
+//was initially going to use this to switch the controls between the two spirits
+//but this feature has been put on ice
 let searchingSpiritActive = true;
-let stationarySpiritActive = false;
 
 let stationarySpirit = {
   x: 0,
@@ -72,20 +79,6 @@ let viewportFrame = {
   y: 470,
   width: 1300,
   height: 1300,
-};
-
-let eyePosition = {
-  x: 200,
-  y: 100,
-  width: 250,
-  height: 100,
-};
-
-let earPosition = {
-  x: 200,
-  y: 600,
-  width: 250,
-  height: 100,
 };
 
 let hudBgPosition = {
@@ -161,6 +154,13 @@ let gateR = {
   height: 500,
 };
 
+let arrowPosition = {
+  x: 958,
+  y: 650,
+  width: 100,
+  height: 100,
+};
+
 //declaring variables for the audio
 let voiceSound;
 let oscillator = {
@@ -178,11 +178,13 @@ let hudBgImg;
 let overlayImg;
 let overlayImg2;
 let overlayImg3;
-let eyeOpenImg;
-let earImg;
 let font;
+let arrowImg;
+let gearImg;
+let sandImg;
 
-let titleText = "Reunited At Last";
+let outroText = "Reunited At Last";
+let outroText2 = "by Gia for CART 263";
 
 // PRELOAD --------------------------------------------------------------------
 function preload() {
@@ -190,13 +192,14 @@ function preload() {
   voiceSound = loadSound("assets/sounds/ghostvoice.mp3");
 
   //preload the image assets (that aren't in arrays)
+  gearImg = loadImage("assets/images/gear.png");
+  arrowImg = loadImage("assets/images/arrow.png");
   darknessImg = loadImage("assets/images/darknessImg.gif");
-  eyeOpenImg = loadImage("assets/images/buttonImage0.jpg");
-  earImg = loadImage("assets/images/buttonImage1.jpg");
   gateLImg = loadImage("assets/images/gateL.png");
   gateRImg = loadImage("assets/images/gateL.png");
   viewportFrameImg = loadImage("assets/images/viewportframe.png");
   miniMapFrameImg = loadImage("assets/images/minimapframe.png");
+  sandImg = loadImage("assets/images/sand.png");
   hudBgImg = loadImage("assets/images/hudbg.png");
   overlayImg = loadImage("assets/images/overlay.png");
   overlayImg2 = loadImage("assets/images/overlay2.png");
@@ -225,6 +228,7 @@ function setup() {
   createCanvas(1920, 1200);
   imageMode(CENTER);
   rectMode(CORNER);
+  textFont(font);
 
   envelope = new p5.Env();
   envelope.setADSR(0.05, 0.1, 0.1, 1);
@@ -278,26 +282,15 @@ function setup() {
   }
 
   //take a button image from the buttonImage array, place it in a variable, and add it to the buttonObjects array
-  let eyeButton = new ImageObject(
-    eyePosition.x,
-    eyePosition.y,
-    eyeOpenImg,
-    eyePosition.width,
-    eyePosition.height,
-    "true"
-  );
-  buttonObjects.push(eyeButton);
-
-  //take a button image from the buttonImage array, place it in a variable, and add it to the buttonObjects array
-  let earButton = new ImageObject(
-    earPosition.x,
-    earPosition.y,
-    earImg,
-    earPosition.width,
-    earPosition.height,
+  let gearButton = new ImageObject(
+    gearPosition.x,
+    gearPosition.y,
+    gearImg,
+    gearPosition.width,
+    gearPosition.height,
     "false"
   );
-  buttonObjects.push(earButton);
+  buttonObjects.push(gearButton);
 
   stationarySpiritPosition();
 }
@@ -307,23 +300,52 @@ function draw() {
   background(255);
 
   //State switcher
-  if (state === "title") {
-    drawTitle();
+  if (state === "tutorial") {
+    drawTutorial();
   } else if (state === "intro") {
     drawIntro();
   } else if (state === "game") {
     drawGame();
-  } else if (state === "end") {
-    drawEnd();
+  } else if (state === "outro") {
+    drawOutro();
   }
 }
 
-//DRAWTITLE -------------------------------------------------------------------
-function drawTitle() {
+//DRAWTutorial -------------------------------------------------------------------
+function drawTutorial() {
   background(255);
-  fill(255);
-  textFont(font);
-  text(titleText, width / 2, height / 2);
+
+  spatialVolumeIntro();
+
+  push();
+  noStroke();
+  fill(150);
+  ellipse(tutorialTarget.x, tutorialTarget.y, tutorialTarget.size);
+  pop();
+
+  mouseOver();
+
+  function mouseOver() {
+    let d = dist(mouseX, mouseY, tutorialTarget.x, tutorialTarget.y);
+    if (d < tutorialTarget.size / 2) {
+      state = "intro";
+    }
+  }
+
+  //Pippin's wonderful code that got me started on spatial audio
+  function spatialVolumeIntro() {
+    let volume = map(
+      dist(mouseX, mouseY, tutorialTarget.x, tutorialTarget.y),
+      0,
+      1050,
+      1,
+      0
+    );
+    volume = constrain(volume, 0, 1);
+    oscillator.amp(0.5);
+    oscillator.freq(noteC2);
+    oscillator.amp(volume);
+  }
 }
 
 //DRAWINTRO -------------------------------------------------------------------
@@ -354,6 +376,7 @@ function drawIntro() {
 //DRAWGAME --------------------------------------------------------------------
 function drawGame() {
   background(255);
+  oscillator.amp(0, 5);
 
   //cycle through the background images array, pull one out, and display it!
   for (let i = 0; i < backgroundImageObjects.length; i++) {
@@ -381,6 +404,9 @@ function drawGame() {
     audioObject.spatialVolume();
     audioObject.checkHboxOverlap();
     audioObject.display();
+    audioObject.mouseOver();
+    audioObject.endGameCheck();
+    audioObject.stopSound();
   }
   drawHUD();
   drawOverlay();
@@ -431,7 +457,7 @@ function stationarySpiritDisplay() {
 function miniMapDisplay() {
   push();
   fill(255);
-  rect(miniMap.x, miniMap.y, miniMap.width, miniMap.height);
+  image(sandImg, miniMap.x, miniMap.y, miniMap.width * 2, miniMap.height * 2);
   pop();
 }
 
@@ -469,6 +495,19 @@ function gateClose() {
 
 function gateFinishCheck() {
   if (gateL.x === gateL.xOpen && gateR.x === gateR.xOpen) {
+    image(
+      arrowImg,
+      arrowPosition.x,
+      arrowPosition.y,
+      arrowPosition.width,
+      arrowPosition.height
+    );
+  }
+  if (
+    gateL.x === gateL.xOpen &&
+    gateR.x === gateR.xOpen &&
+    keyIsDown(UP_ARROW)
+  ) {
     state = "game";
   }
 }
@@ -532,7 +571,7 @@ function drawOverlay() {
     );
 
     push();
-    tint(255, 255 * sin(millis() / 750));
+
     image(
       overlayImg2,
       overlayPosition.x,
@@ -543,7 +582,7 @@ function drawOverlay() {
     pop();
 
     push();
-    tint(255, 255 * sin(millis() / 900));
+
     image(
       overlayImg3,
       overlayPosition.x,
@@ -606,8 +645,14 @@ function stopOsc() {
 
 //DRAWOUTRO -------------------------------------------------------------------
 function drawOutro() {
-  background(0);
-  fill(255);
+  push();
+  textSize(60);
+  textAlign(CENTER);
+  background(255);
+  fill(0);
   textFont(font);
-  text("Outro", width / 2, height / 2);
+  text(outroText, windowWidth / 2.5, windowHeight / 2);
+  textSize(40);
+  text(outroText2, windowWidth / 1.5, windowHeight / 1.5);
+  pop();
 }

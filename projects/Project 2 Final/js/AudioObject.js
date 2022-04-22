@@ -13,7 +13,7 @@ class AudioObject {
     this.boundsYBottom = miniMap.boundsYBottom - 1;
     this.sound = sound;
     this.size = 7;
-    this.speed = 0.7;
+    this.speed = 1;
     this.isPlaying = false;
     this.spatialBegin = 225;
     this.volMin = 0;
@@ -36,7 +36,7 @@ class AudioObject {
 
   //adding a stop sound ability for the end state
   stopSound() {
-    if (this.isPlaying) {
+    if (this.isPlaying && state === "outro") {
       this.sound.stop();
       this.isPlaying = false;
     }
@@ -77,7 +77,8 @@ class AudioObject {
       this.y = this.boundsYBottom;
     }
   }
-  //Pippin's wonderful code that got me started on spatial audio
+  //Pippin's wonderful code that got me started on spatial audio, adapted to
+  //reflect the position of the searching spirit in relation to the stationary spirit
   spatialVolume() {
     let volume = map(
       dist(stationarySpirit.x, stationarySpirit.y, this.x, this.y),
@@ -150,6 +151,28 @@ class AudioObject {
       this.y = random(miniMap.y, miniMap.boundsYBottom);
     } else if (this.isOverlapping3 === false && this.hasSpawned === false) {
       this.hasSpawned = true;
+    }
+  }
+
+  //check if the mouse is hovering over the hitboxes
+  mouseOver() {
+    let d = dist(
+      mouseX,
+      mouseY,
+      stationarySpiritHBox2.x,
+      stationarySpiritHBox2.y
+    );
+    if (d < stationarySpiritHBox2.size / 2) {
+      console.log("mouzzz");
+      oscillator.amp(envelope);
+      oscillator.freq(noteC2);
+      envelope.play();
+    }
+  }
+
+  endGameCheck() {
+    if (this.isOverlapping1 === true && this.hasSpawned === true) {
+      state = "outro";
     }
   }
 
