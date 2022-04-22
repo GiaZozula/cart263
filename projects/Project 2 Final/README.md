@@ -1,4 +1,4 @@
-# Template p5 project
+# Artist's Statement
 
 For this program, I really wanted to experiment with how to lead the user in,
 perhaps with counterintuitive, "anti-design" methods. I'm not sure it is entirely
