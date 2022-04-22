@@ -1,4 +1,4 @@
-//This code was taken from my Project 1
+//Some of this code was adapted from my Project 1
 class AudioObject {
   //basic properties of the AudioObject class that will be used for the "Searching Spirit"
   constructor(x, y, sound) {
@@ -12,8 +12,8 @@ class AudioObject {
     this.boundsYLeft = miniMap.y - 1;
     this.boundsYBottom = miniMap.boundsYBottom - 1;
     this.sound = sound;
-    this.size = 7;
-    this.speed = 1;
+    this.size = 10;
+    this.speed = 2;
     this.isPlaying = false;
     this.spatialBegin = 225;
     this.volMin = 0;
@@ -26,7 +26,7 @@ class AudioObject {
     this.darknessTint = 225;
   }
 
-  //check to see if it is playing!
+  //check to see if the sound is playing!
   play() {
     if (!this.isPlaying) {
       this.sound.loop();
@@ -170,12 +170,17 @@ class AudioObject {
     }
   }
 
+  //checks if the searching spirit is overlapping with the stationary spirit.
+  //if so, we need to switch states to the outro!
   endGameCheck() {
     if (this.isOverlapping1 === true && this.hasSpawned === true) {
       state = "outro";
     }
   }
 
+  //this function changes the images that appear in the viewport if the user
+  //overlaps with the stationary spirit's hitboxes. It also plays oscillator
+  //tones based off which hitbox is currently being crossed
   swapViewportImg() {
     if (this.isOverlapping3 === true && this.hasSpawned === true) {
       oscillator.amp(envelope);

@@ -10,10 +10,13 @@ class ImageObject {
     this.isGate = gate;
   }
 
+  //display the object
   display() {
     image(this.image, this.x, this.y, this.width, this.height);
   }
 
+  //this is primarly used to determine if the mouse is overlapping with the gear button
+  //during the intro sequence
   mouseOver() {
     if (
       mouseX > this.x - this.width / 2 &&
@@ -28,6 +31,7 @@ class ImageObject {
     }
   }
 
+  //this is used to open the gate when the gear is clicked
   mousePressed() {
     console.log("clickin");
     if (this.overlap && this.isGate) {

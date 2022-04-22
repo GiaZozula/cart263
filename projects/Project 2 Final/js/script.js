@@ -4,25 +4,37 @@
 █▄─▄▄▀█▄─▄▄─█▄─██─▄█▄─▀█▄─▄█▄─▄█─▄─▄─█▄─▄▄─█▄─▄▄▀████▀▄─██─▄─▄─███▄─▄████▀▄─██─▄▄▄▄█─▄─▄─█
 ██─▄─▄██─▄█▀██─██─███─█▄▀─███─████─████─▄█▀██─██─████─▀─████─██████─██▀██─▀─██▄▄▄▄─███─███
 ▀▄▄▀▄▄▀▄▄▄▄▄▀▀▄▄▄▄▀▀▄▄▄▀▀▄▄▀▄▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀▄▄▄▄▀▀▀▀▄▄▀▄▄▀▀▄▄▄▀▀▀▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▀▄▄▄▀▀
-
 by Gia
 
-Use the regular keyboard controls and attempt to guide the "searching spirit"
-to the "stationary spirit".
+Is the page loading properly? Why is it basically blank?
+What's that horrible distorted drone?
+Why is there an awkwardly placed grey circle?
+Why is the cursor a cross? Is this a spreadsheet or some weird mystical thing?
+Is this program as terrible as it first appears?
+
+These are some of the questions I imagine anyone who engages with this program
+will have at first. Hopefully through the use of ARROW KEYS, the MOUSE,
+LISTENING, and LOOKING, you will be able to reuinte the two spirits.
+
+Good luck!
+
 */
 
 "use strict";
 
 //GLOBAL VARIABLES ------------------------------------------------------------
 
+//sets the current state
 let state = "tutorial";
 
+//the position and size of the target as it appears in the tutorial
 let tutorialTarget = {
   x: 1500,
   y: 600,
   size: 20,
 };
 
+//placement of the gear image in the intro
 let gearPosition = {
   x: 400,
   y: 600,
@@ -34,6 +46,7 @@ let gearPosition = {
 //but this feature has been put on ice
 let searchingSpiritActive = true;
 
+// declaring the variables for the stationary spirit, including its multiple hitboxes
 let stationarySpirit = {
   x: 0,
   y: 0,
@@ -51,6 +64,7 @@ let stationarySpiritHBox2 = {
   size: 225,
 };
 
+// declaring the minimap and its frame
 let miniMap = {
   x: 400,
   y: 500,
@@ -67,6 +81,7 @@ let miniMapFrame = {
   height: 605,
 };
 
+//declaring the viewport and its frame
 let viewport = {
   x: 1240,
   y: 600,
@@ -81,6 +96,7 @@ let viewportFrame = {
   height: 1300,
 };
 
+//declaring the HUD background position
 let hudBgPosition = {
   x: 275,
   y: 150,
@@ -88,6 +104,7 @@ let hudBgPosition = {
   height: 900,
 };
 
+//declaring the overlay variable, which is used for various visual elements
 let overlayPosition = {
   x: 960,
   y: 600,
@@ -109,29 +126,29 @@ let overlayPosition = {
   rectIntroH: 800,
 };
 
-//defining audioObjects array and properties
+//declaring audioObjects array and properties
 let audioObjects = [];
 let numAudioObjects = 4;
 
-// //defining the arrays for foreground images
+//declaring the arrays for foreground images
 let foregroundImages = [];
 let numForegroundImages = 2;
 let foregroundImageObjects = [];
 let numForeGroundImageObjects = 2;
 
-//defining the arrays for background images
+//declaring the arrays for background images
 let backgroundImages = [];
 let numBackgroundImages = 3;
 let backgroundImageObjects = [];
 let numBackgroundImageObjects = 3;
 
-//defining an array for clickable "buttons" on the GUI
+//declaring an array for a clickable "button" on the GUI
 let buttonImages = [];
-let numButtonImages = 2;
+let numButtonImages = 1;
 let buttonObjects = [];
-let numButtonObjects = 2;
+let numButtonObjects = 1;
 
-//defining the gates covering the viewport
+//declaring the gate variables, for Left and Right gates
 let gateLImg;
 let gateL = {
   x: 828,
@@ -154,6 +171,8 @@ let gateR = {
   height: 500,
 };
 
+//declaring the arrow and its position
+let arrowImg;
 let arrowPosition = {
   x: 958,
   y: 650,
@@ -179,16 +198,16 @@ let overlayImg;
 let overlayImg2;
 let overlayImg3;
 let font;
-let arrowImg;
 let gearImg;
 let sandImg;
 
+//defining the outro text
 let outroText = "Reunited At Last";
 let outroText2 = "by Gia for CART 263";
 
 // PRELOAD --------------------------------------------------------------------
 function preload() {
-  //preload the sounds
+  //preload the sound
   voiceSound = loadSound("assets/sounds/ghostvoice.mp3");
 
   //preload the image assets (that aren't in arrays)
@@ -205,7 +224,7 @@ function preload() {
   overlayImg2 = loadImage("assets/images/overlay2.png");
   overlayImg3 = loadImage("assets/images/overlay3.png");
 
-  //preload the fonts
+  //preload the font
   font = loadFont("assets/fonts/font.ttf");
 
   // //preload images that will end up in the foreground in an array
@@ -225,73 +244,20 @@ function preload() {
 
 //SETUP -----------------------------------------------------------------------
 function setup() {
+  //set up the canvas, imagemode, rectmode
   createCanvas(1920, 1200);
   imageMode(CENTER);
   rectMode(CORNER);
-  textFont(font);
 
-  envelope = new p5.Env();
-  envelope.setADSR(0.05, 0.1, 0.1, 1);
-  envelope.setRange(0.1, 0);
+  //begin the p5 sound oscillator and envelope
+  oscBegin();
 
-  oscillator = new p5.Oscillator();
-  oscillator.setType("sine");
-  oscillator.start();
-  oscillator.amp(envelope);
-  oscillator.freq(440);
+  //this calculates the bounds for minimap so I don't have to do it manually
+  //every time I make an adjustment, which was driving me nuts! ;)
+  miniMapCalculator();
 
-  //this calculates the bounds for minimap so I don't have to do it manually every time I make an adjustment, which was driving me nuts! ;)
-  miniMap.boundsXRight = miniMap.x + miniMap.width;
-  miniMap.boundsYBottom = miniMap.y + miniMap.height;
-
-  //The code for the audio object was adapted from my Project 1 code
-  let searchingSpirit = new AudioObject(
-    random(miniMap.x, miniMap.boundsXRight),
-    random(miniMap.y, miniMap.boundsYBottom),
-    voiceSound
-  );
-  audioObjects.push(searchingSpirit);
-
-  // //Go through with a for loop and pick at random an image, place it in the "foreground"
-  // //variable, and then pass that on to the ImageObject
-  for (let i = 0; i < numForegroundImages; i++) {
-    let foreground = foregroundImages[i];
-    let foregroundImage = new ImageObject(
-      overlayPosition.x,
-      overlayPosition.y,
-      foreground,
-      overlayPosition.width,
-      overlayPosition.height
-    );
-    foregroundImageObjects.push(foregroundImage);
-  }
-
-  //With a for loop, cycle through the backgroundImages array and place the images in the "background"
-  //variable, pass that on to the ImageObject along with all other desired properties,
-  //and then add to the backgroundImageObjects array
-  for (let i = 0; i < numBackgroundImages; i++) {
-    let background = backgroundImages[i];
-    let backgroundImage = new ImageObject(
-      viewport.x,
-      viewport.y,
-      background,
-      viewport.width,
-      viewport.height
-    );
-    backgroundImageObjects.push(backgroundImage);
-  }
-
-  //take a button image from the buttonImage array, place it in a variable, and add it to the buttonObjects array
-  let gearButton = new ImageObject(
-    gearPosition.x,
-    gearPosition.y,
-    gearImg,
-    gearPosition.width,
-    gearPosition.height,
-    "false"
-  );
-  buttonObjects.push(gearButton);
-
+  // Using for loops, set up the image and audio arrays
+  setUpArrays();
   stationarySpiritPosition();
 }
 
@@ -315,37 +281,12 @@ function draw() {
 function drawTutorial() {
   background(255);
 
+  //this sets up the spatial volume for the Tutorial and Intro sections, that uses
+  //an oscillator that reacts to distance from the mouse position to a target ellipse
   spatialVolumeIntro();
 
-  push();
-  noStroke();
-  fill(150);
-  ellipse(tutorialTarget.x, tutorialTarget.y, tutorialTarget.size);
-  pop();
-
+  //determines if the mouse if overlapping with the target
   mouseOver();
-
-  function mouseOver() {
-    let d = dist(mouseX, mouseY, tutorialTarget.x, tutorialTarget.y);
-    if (d < tutorialTarget.size / 2) {
-      state = "intro";
-    }
-  }
-
-  //Pippin's wonderful code that got me started on spatial audio
-  function spatialVolumeIntro() {
-    let volume = map(
-      dist(mouseX, mouseY, tutorialTarget.x, tutorialTarget.y),
-      0,
-      1050,
-      1,
-      0
-    );
-    volume = constrain(volume, 0, 1);
-    oscillator.amp(0.5);
-    oscillator.freq(noteC2);
-    oscillator.amp(volume);
-  }
 }
 
 //DRAWINTRO -------------------------------------------------------------------
@@ -356,39 +297,32 @@ function drawIntro() {
   text("intro state", width / 2, height / 2);
   //display the gate
   gateDisplay();
+
+  //add a graphical overlay, mostly to hide the gates so they go "offscreen" :)
   drawOverlay();
 
-  // go through the buttonObjects array and begin all necessary functions
-  for (let i = 0; i < buttonObjects.length; i++) {
-    let buttonObject = buttonObjects[i];
-    buttonObject.display();
-    buttonObject.mouseOver();
-    if (buttonObject.overlap) {
-      buttonObject.mousePressed();
-    }
-  }
-  if (!mouseIsPressed) {
-    gateClose();
-  }
+  //sets up the gear button
+  buttonSetUp();
+
+  //this checks if the gate has reached its fully open value, which then causes an arrow
+  //to appear. If the user no longer holds the mouse button down, the door closes and then
+  //arrow disappears. This is intended to teach the user to also use the arrow keys
   gateFinishCheck();
 }
 
 //DRAWGAME --------------------------------------------------------------------
 function drawGame() {
   background(255);
+  //slowly fade out the oscillator from the previous two scenes
   oscillator.amp(0, 5);
 
   //cycle through the background images array, pull one out, and display it!
-  for (let i = 0; i < backgroundImageObjects.length; i++) {
-    let imageObject = backgroundImageObjects[i];
-    imageObject.display();
-  }
+  bgImgDisplay();
 
-  //for layering purposes, darknessImg needs to be here instead of with the other audioObject functions
-  for (let i = 0; i < audioObjects.length; i++) {
-    let audioObject = audioObjects[i];
-    audioObject.darknessImgDisplay();
-  }
+  //display the "darkness" (that I actually ended changing to pure white!) that
+  //overlays the viewport when the user is too far away from the stationarySpirit.
+  //Meant to indicate that the user has to turn around!
+  darkDisplay();
 
   //display the mini map
   miniMapDisplay();
@@ -397,22 +331,104 @@ function drawGame() {
   stationarySpiritDisplay();
 
   // Go through the audioObject array and begin all necessary functions
-  for (let i = 0; i < audioObjects.length; i++) {
-    let audioObject = audioObjects[i];
-    audioObject.play();
-    audioObject.userInput();
-    audioObject.spatialVolume();
-    audioObject.checkHboxOverlap();
-    audioObject.display();
-    audioObject.mouseOver();
-    audioObject.endGameCheck();
-    audioObject.stopSound();
-  }
+  audioObjectBegin();
+
+  //draw the HUD and overlay effects
   drawHUD();
   drawOverlay();
 }
 
-// FUCNTIONS FOR DRAWGAME ----------------------------------------------------
+//DRAWOUTRO -------------------------------------------------------------------
+function drawOutro() {
+  push();
+  textSize(60);
+  textAlign(CENTER);
+  background(255);
+  fill(0);
+  textFont(font);
+  text(outroText, windowWidth / 2.5, windowHeight / 2);
+  textSize(40);
+  text(outroText2, windowWidth / 1.5, windowHeight / 1.5);
+  pop();
+}
+
+// FUCNTIONS ------------------------------------------------------------------
+
+//Pippin's wonderful code that got me started on spatial audio, adapted
+function spatialVolumeIntro() {
+  let volume = map(
+    dist(mouseX, mouseY, tutorialTarget.x, tutorialTarget.y),
+    0,
+    1050,
+    1,
+    0
+  );
+  volume = constrain(volume, 0, 1);
+  oscillator.amp(0.5);
+  oscillator.freq(noteC2);
+  oscillator.amp(volume);
+
+  push();
+  noStroke();
+  fill(150);
+  ellipse(tutorialTarget.x, tutorialTarget.y, tutorialTarget.size);
+  pop();
+}
+
+//mouseOver function for during the tutorial
+function mouseOver() {
+  let d = dist(mouseX, mouseY, tutorialTarget.x, tutorialTarget.y);
+  if (d < tutorialTarget.size / 2) {
+    state = "intro";
+  }
+}
+
+function setUpArrays() {
+  // Using a for loop, set up the foregroundImageObjects array
+  for (let i = 0; i < numForegroundImages; i++) {
+    let foreground = foregroundImages[i];
+    let foregroundImage = new ImageObject(
+      overlayPosition.x,
+      overlayPosition.y,
+      foreground,
+      overlayPosition.width,
+      overlayPosition.height
+    );
+    foregroundImageObjects.push(foregroundImage);
+  }
+
+  // Using a for loop, set up the background images array
+  for (let i = 0; i < numBackgroundImages; i++) {
+    let background = backgroundImages[i];
+    let backgroundImage = new ImageObject(
+      viewport.x,
+      viewport.y,
+      background,
+      viewport.width,
+      viewport.height
+    );
+    backgroundImageObjects.push(backgroundImage);
+  }
+
+  // Using a for loop, set up the gearButton
+  let gearButton = new ImageObject(
+    gearPosition.x,
+    gearPosition.y,
+    gearImg,
+    gearPosition.width,
+    gearPosition.height,
+    "false"
+  );
+  buttonObjects.push(gearButton);
+
+  //The code for the audio object was adapted from my Project 1 code
+  let searchingSpirit = new AudioObject(
+    random(miniMap.x, miniMap.boundsXRight),
+    random(miniMap.y, miniMap.boundsYBottom),
+    voiceSound
+  );
+  audioObjects.push(searchingSpirit);
+}
 
 //place the stationarySpirit at a random starting location, along with its two wider hitboxes
 function stationarySpiritPosition() {
@@ -453,12 +469,59 @@ function stationarySpiritDisplay() {
   // pop();
 }
 
+//cycle through the background images array, pull one out, and display it!
+function bgImgDisplay() {
+  for (let i = 0; i < backgroundImageObjects.length; i++) {
+    let imageObject = backgroundImageObjects[i];
+    imageObject.display();
+  }
+}
+
+//for layering purposes, darknessImg needs to be here instead of with the other audioObject functions
+function darkDisplay() {
+  for (let i = 0; i < audioObjects.length; i++) {
+    let audioObject = audioObjects[i];
+    audioObject.darknessImgDisplay();
+  }
+}
+
+// Go through the audioObject array and begin all necessary functions
+function audioObjectBegin() {
+  for (let i = 0; i < audioObjects.length; i++) {
+    let audioObject = audioObjects[i];
+    audioObject.play();
+    audioObject.userInput();
+    audioObject.spatialVolume();
+    audioObject.checkHboxOverlap();
+    audioObject.display();
+    audioObject.mouseOver();
+    audioObject.endGameCheck();
+    audioObject.stopSound();
+  }
+}
+
 //function for the display of the miniMap
 function miniMapDisplay() {
   push();
   fill(255);
   image(sandImg, miniMap.x, miniMap.y, miniMap.width * 2, miniMap.height * 2);
   pop();
+}
+
+//function for the button/gear during the intro state
+function buttonSetUp() {
+  // go through the buttonObjects array and begin all necessary functions
+  for (let i = 0; i < buttonObjects.length; i++) {
+    let buttonObject = buttonObjects[i];
+    buttonObject.display();
+    buttonObject.mouseOver();
+    if (buttonObject.overlap) {
+      buttonObject.mousePressed();
+    }
+  }
+  if (!mouseIsPressed) {
+    gateClose();
+  }
 }
 
 //display the Gates
@@ -493,6 +556,7 @@ function gateClose() {
   }
 }
 
+//this function handles the arrow being displayed and possible state switch
 function gateFinishCheck() {
   if (gateL.x === gateL.xOpen && gateR.x === gateR.xOpen) {
     image(
@@ -512,6 +576,7 @@ function gateFinishCheck() {
   }
 }
 
+//draw the HUD!!
 function drawHUD() {
   push();
   imageMode(CORNER);
@@ -540,6 +605,8 @@ function drawHUD() {
   );
 }
 
+//displays the overlay image and effects, with slight differences depending on state
+//VERY long function
 function drawOverlay() {
   if (state === "intro") {
     //adding extra white coverage for the overlay
@@ -571,7 +638,6 @@ function drawOverlay() {
     );
 
     push();
-
     image(
       overlayImg2,
       overlayPosition.x,
@@ -582,7 +648,6 @@ function drawOverlay() {
     pop();
 
     push();
-
     image(
       overlayImg3,
       overlayPosition.x,
@@ -636,6 +701,21 @@ function drawOverlay() {
   }
 }
 
+//this gets the synth waves going in the set up! uses an oscillator and envelope.
+//I brushed up on this topic by looking at the reference and watching a Code Train video
+function oscBegin() {
+  envelope = new p5.Env();
+  envelope.setADSR(0.05, 0.1, 0.1, 1);
+  envelope.setRange(0.1, 0);
+
+  oscillator = new p5.Oscillator();
+  oscillator.setType("sine");
+  oscillator.start();
+  oscillator.amp(envelope);
+  oscillator.freq(noteC2);
+}
+
+//doesn't actually stop the oscillator, just turns it down :)
 function stopOsc() {
   {
     oscillator.amp(0, 1);
@@ -643,16 +723,8 @@ function stopOsc() {
   }
 }
 
-//DRAWOUTRO -------------------------------------------------------------------
-function drawOutro() {
-  push();
-  textSize(60);
-  textAlign(CENTER);
-  background(255);
-  fill(0);
-  textFont(font);
-  text(outroText, windowWidth / 2.5, windowHeight / 2);
-  textSize(40);
-  text(outroText2, windowWidth / 1.5, windowHeight / 1.5);
-  pop();
+//a little basic math to keep me sane
+function miniMapCalculator() {
+  miniMap.boundsXRight = miniMap.x + miniMap.width;
+  miniMap.boundsYBottom = miniMap.y + miniMap.height;
 }
